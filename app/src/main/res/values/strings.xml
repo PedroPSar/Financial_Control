@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Financial control</string>
+    <string name="action_add_expense_revenue_title">Add</string>
+    <string name="savings_page_title">Savings Page</string>
+    <string name="home_page_title">Home Page</string>
+    <string name="graphics_page_title">Graphics Page</string>
+    <string name="lbl_expense">Expenses</string>
+    <string name="lbl_incomes">Incomes</string>
+    <string name="lbl_accounts_balance">Accounts balance</string>
 </resources>

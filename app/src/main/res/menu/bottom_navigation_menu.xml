@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/savings_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_savings_page_icon_24"
+        android:title="@string/savings_page_title"/>
+    <item
+        android:id="@+id/home_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_page_24dp"
+        android:title="@string/home_page_title"/>
+
+    <item
+        android:id="@+id/graphics_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_graphics_24"
+        android:title="@string/graphics_page_title"/>
+</menu>
