@@ -3,17 +3,13 @@ package com.development.pega.financialcontrol.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
-@Entity(tableName = "Expenses")
-class Expense {
+@Entity(tableName = "Incomes")
+class Income() {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id = 0
-
-    @ColumnInfo(name = "type")
-    var type = 0
 
     @ColumnInfo(name = "date")
     var date = ""

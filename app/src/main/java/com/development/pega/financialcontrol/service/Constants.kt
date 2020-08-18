@@ -14,4 +14,9 @@ class Constants private constructor() {
         const val FIXED_MONTHLY = 2
     }
 
+    object SAVINGS_MONEY {
+        const val DEPOSIT = 1
+        const val WITHDRAW = 2
+    }
+
 }
