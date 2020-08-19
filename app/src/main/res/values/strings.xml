@@ -7,4 +7,7 @@
     <string name="lbl_expense">Expenses</string>
     <string name="lbl_incomes">Incomes</string>
     <string name="lbl_accounts_balance">Accounts balance</string>
+    <string name="menu_main">Home</string>
+    <string name="menu_savings">Savings</string>
+    <string name="menu_charts">Charts</string>
 </resources>

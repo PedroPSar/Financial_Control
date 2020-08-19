@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_savings"
+        android:name="com.development.pega.financialcontrol.views.SavingsFragment"
+        android:label="@string/menu_savings"
+        tools:layout="@layout/savings_fragment" />
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.development.pega.financialcontrol.views.HomeFragment"
+        android:label="@string/menu_main"
+        tools:layout="@layout/home_fragment" />
+
+    <fragment
+        android:id="@+id/nav_chart"
+        android:name="com.development.pega.financialcontrol.views.ChartFragment"
+        android:label="@string/menu_charts"
+        tools:layout="@layout/chart_fragment" />
+
+</navigation>

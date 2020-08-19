@@ -15,7 +15,7 @@ interface IncomeDAO {
     @Delete
     fun delete(income: Income)
 
-    @Query("SELECT * FROM Expenses WHERE id = :id")
+    @Query("SELECT * FROM Incomes WHERE id = :id")
     fun get(id: Int): Income
 
     @Query("SELECT * FROM Incomes")
