@@ -10,4 +10,8 @@
     <string name="menu_main">Home</string>
     <string name="menu_savings">Savings</string>
     <string name="menu_charts">Charts</string>
+    <string name="label_total">Total</string>
+
+    <!-- Savings Fragment -->
+    <string name="lbl_balance">Balance</string>
 </resources>

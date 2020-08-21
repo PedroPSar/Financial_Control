@@ -7,115 +7,100 @@
     android:padding="16dp"
     tools:context=".views.HomeFragment">
 
-    <TextView
-        android:id="@+id/lbl_month_name"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_months"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Janeiro"
-        android:textSize="@dimen/month_txt_size"
-        android:textColor="@color/month_name_color"
-        android:layout_marginBottom="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/lbl_accounts_balance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lbl_accounts_balance"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_month_name" />
+        app:layout_constraintTop_toBottomOf="@id/rv_months"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <TextView
-        android:id="@+id/txt_accounts_balance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="R$5,00"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_accounts_balance" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_incomes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/cl_expenses"
-        app:layout_constraintTop_toBottomOf="@id/txt_accounts_balance"
-        app:layout_constraintHorizontal_weight="1">
-
-        <ImageView
-            android:id="@+id/arrow_incomes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_baseline_arrow_upward_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/lbl_incomes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lbl_incomes"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintStart_toEndOf="@id/arrow_incomes"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <TextView
-            android:id="@+id/txt_incomes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="R$20,00"
-            android:textColor="@color/colorIncomes"
-            app:layout_constraintStart_toEndOf="@id/arrow_incomes"
-            app:layout_constraintTop_toBottomOf="@id/lbl_incomes"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_expenses"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:layout_constraintStart_toEndOf="@id/cl_incomes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_accounts_balance"
-        app:layout_constraintHorizontal_weight="1">
-
-        <ImageView
-            android:id="@+id/arrow_expenses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_baseline_arrow_downward_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/lbl_expense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lbl_expense"
-            app:layout_constraintStart_toEndOf="@id/arrow_expenses"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/label_income"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/lbl_incomes"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txt_expense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="R$15,00"
-            android:textColor="@color/colorExpenses"
-            app:layout_constraintStart_toEndOf="@id/arrow_expenses"
-            app:layout_constraintTop_toBottomOf="@id/lbl_expense" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_incomes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/label_income"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/label_total_incomes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_total"
+                app:layout_constraintTop_toBottomOf="@id/rv_incomes"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/num_total_incomes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R$200,00"
+                app:layout_constraintTop_toBottomOf="@id/rv_incomes"
+                app:layout_constraintStart_toEndOf="@id/label_total_incomes"/>
+
+            <TextView
+                android:id="@+id/label_expense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/lbl_expense"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_total_incomes" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_expenses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/label_expense"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/label_total_expenses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_total"
+                app:layout_constraintTop_toBottomOf="@id/rv_expenses"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/num_total_expenses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R$200,00"
+                app:layout_constraintTop_toBottomOf="@id/rv_expenses"
+                app:layout_constraintStart_toEndOf="@id/label_total_expenses"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
