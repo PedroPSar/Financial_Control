@@ -2,4 +2,5 @@
 <resources>
     <dimen name="month_txt_size">32sp</dimen>
     <dimen name="lbl_main_size">16sp</dimen>
+    <dimen name="add_acitivity_lbl_size">16sp</dimen>
 </resources>

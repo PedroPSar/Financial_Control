@@ -2,8 +2,12 @@ package com.development.pega.financialcontrol.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavController
@@ -15,10 +19,12 @@ import com.development.pega.financialcontrol.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+        PopupMenu.OnMenuItemClickListener{
 
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var popupMenu: PopupMenu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +32,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        //Initialize popup menu
+        val button = toolbar.getChildAt(0)
+        popupMenu = PopupMenu(this, button)
+
         setNavController()
+        setOnClicks()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -36,7 +48,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
         R.id.add_expense_or_revenue -> {
-
+            setAddMenu()
             true
         }
 
@@ -65,10 +77,32 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return true
     }
 
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        when(item!!.itemId) {
+            R.id.add_income -> {
+
+            }
+
+            R.id.add_expense -> {
+
+            }
+        }
+        return true
+    }
+
+    private fun setOnClicks() {
+        popupMenu.setOnMenuItemClickListener(this)
+    }
+
     private fun setNavController() {
         navController = findNavController(R.id.nav_host_fragment)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setupWithNavController(navController)
+    }
+
+    private fun setAddMenu() {
+        popupMenu.inflate(R.menu.add_menu)
+        popupMenu.show()
     }
 
 }

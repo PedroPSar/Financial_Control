@@ -14,4 +14,23 @@
 
     <!-- Savings Fragment -->
     <string name="lbl_balance">Balance</string>
+    <string name="lbl_inputs">Inputs</string>
+    <string name="lbl_outputs">Outputs</string>
+
+    <!-- menu add -->
+    <string name="add_income">Add income</string>
+    <string name="add_expense">Add expense</string>
+
+    <!-- activity add income -->
+    <string name="lbl_description">Description</string>
+    <string name="lbl_value">Value</string>
+    <string name="btn_change_date_txt">Change date</string>
+    <string name="lbl_date">Date</string>
+    <string name="lbl_recurrence">Recurrence</string>
+
+    <string-array name="spinner_recurrence_options">
+        <item>None</item>
+        <item>Installment</item>
+        <item>Fixed monthly</item>
+    </string-array>
 </resources>
