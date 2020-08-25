@@ -3,8 +3,8 @@ package com.development.pega.financialcontrol.service
 class Constants private constructor() {
 
     object TYPE {
-        const val REQUIRED = 1
         const val NOT_REQUIRED = 0
+        const val REQUIRED = 1
         const val INVESTMENT = 2
     }
 

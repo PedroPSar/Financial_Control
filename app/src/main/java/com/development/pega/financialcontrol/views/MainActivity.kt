@@ -1,23 +1,17 @@
 package com.development.pega.financialcontrol.views
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.Button
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.development.pega.financialcontrol.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
         PopupMenu.OnMenuItemClickListener{
@@ -80,11 +74,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when(item!!.itemId) {
             R.id.add_income -> {
-
+                val intent = Intent(this, AddIncomeActivity::class.java)
+                startActivity(intent)
             }
 
             R.id.add_expense -> {
-
+                val intent = Intent(this, AddExpenseActivity::class.java)
+                startActivity(intent)
             }
         }
         return true

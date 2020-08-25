@@ -27,10 +27,21 @@
     <string name="btn_change_date_txt">Change date</string>
     <string name="lbl_date">Date</string>
     <string name="lbl_recurrence">Recurrence</string>
+    <string name="lbl_type">Type</string>
+    <string name="btn_add_txt">Add</string>
+    <string name="save_success_message">Saved successfully</string>
+    <string name="save_failed_message">\"Save failed\" error</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>
         <item>Installment</item>
         <item>Fixed monthly</item>
     </string-array>
+
+    <string-array name="spinner_type_options">
+        <item>Not Required</item>
+        <item>Required</item>
+        <item>Investment</item>
+    </string-array>
+
 </resources>

@@ -5,17 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context=".views.AddIncomeActivity">
+    tools:context=".views.AddExpenseActivity">
+
+    <TextView
+        android:id="@+id/lbl_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_type"
+        android:textSize="@dimen/lbl_main_size"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lbl_type"/>
 
     <TextView
         android:id="@+id/lbl_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/lbl_description"
-        android:textSize="@dimen/add_acitivity_lbl_size"
         android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/add_acitivity_lbl_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/spinner_type" />
 
     <EditText
         android:id="@+id/edit_description"
