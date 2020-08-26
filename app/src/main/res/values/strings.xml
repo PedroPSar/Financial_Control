@@ -6,7 +6,7 @@
     <string name="graphics_page_title">Graphics Page</string>
     <string name="lbl_expense">Expenses</string>
     <string name="lbl_incomes">Incomes</string>
-    <string name="lbl_accounts_balance">Accounts balance</string>
+    <string name="lbl_account_balance">Account balance</string>
     <string name="menu_main">Home</string>
     <string name="menu_savings">Savings</string>
     <string name="menu_charts">Charts</string>
@@ -42,6 +42,21 @@
         <item>Not Required</item>
         <item>Required</item>
         <item>Investment</item>
+    </string-array>
+
+    <string-array name="months_array">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
     </string-array>
 
 </resources>

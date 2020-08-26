@@ -1,5 +1,9 @@
 package com.development.pega.financialcontrol.service
 
+import android.content.res.Resources
+import android.content.res.Resources.*
+import com.development.pega.financialcontrol.R
+
 class Constants private constructor() {
 
     object TYPE {
@@ -19,4 +23,7 @@ class Constants private constructor() {
         const val WITHDRAW = 2
     }
 
+    object MONTHS {
+        val MONTHS = getSystem().getStringArray(R.array.months_array)
+    }
 }

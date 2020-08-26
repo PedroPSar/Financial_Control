@@ -2,7 +2,6 @@ package com.development.pega.financialcontrol.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -10,7 +9,7 @@ import android.widget.Spinner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.development.pega.financialcontrol.R
-import com.development.pega.financialcontrol.control.appControl
+import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.AddIncomeViewModel
@@ -44,17 +43,19 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         } else if(v.id == R.id.btn_add) {
             val mIncome = Income()
 
-            mIncome.description = edit_description.text.toString()
-            mIncome.value = edit_value.text.toString().toFloat()
-            mIncome.date = txt_date.text.toString()
+            mIncome.description = edit_income_description.text.toString()
+            mIncome.value = edit_income_value.text.toString().toFloat()
+            mIncome.date = txt_income_date.text.toString()
             mIncome.recurrence = recurrenceOption
 
             mViewModel.saveIncome(mIncome)
         }
     }
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        recurrenceOption = appControl.getRecurrence(position)
+    override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+        if(view.id == R.id.spinner_recurrence) {
+            recurrenceOption = AppControl.getRecurrence(position)
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -78,7 +79,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
 
     private fun observers() {
         mViewModel.currentTime.observe(this, androidx.lifecycle.Observer {
-            txt_date.text = it
+            txt_income_date.text = it
         })
 
         mViewModel.datePickerDialog.observe(this, androidx.lifecycle.Observer {
@@ -88,9 +89,11 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
 
         mViewModel.addIncome.observe(this, Observer {
             if(it) {
-                appControl.showToast(this, getString(R.string.save_success_message))
+                AppControl.showToast(this, getString(R.string.save_success_message))
+                finish()
             } else {
-                appControl.showToast(this, getString(R.string.save_failed_message))
+                AppControl.showToast(this, getString(R.string.save_failed_message))
+                finish()
             }
         })
     }

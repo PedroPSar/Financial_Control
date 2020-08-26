@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-        android:id="@+id/edit_description"
+        android:id="@+id/edit_income_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
@@ -34,10 +34,10 @@
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/add_acitivity_lbl_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_description" />
+        app:layout_constraintTop_toBottomOf="@id/edit_income_description" />
 
     <EditText
-        android:id="@+id/edit_value"
+        android:id="@+id/edit_income_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -53,7 +53,7 @@
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/add_acitivity_lbl_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_value" />
+        app:layout_constraintTop_toBottomOf="@id/edit_income_value" />
 
     <Button
         android:id="@+id/btn_change_date"
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@id/lbl_date"/>
 
     <TextView
-        android:id="@+id/txt_date"
+        android:id="@+id/txt_income_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

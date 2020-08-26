@@ -5,7 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import com.development.pega.financialcontrol.service.Constants
 
-abstract class appControl {
+abstract class AppControl {
 
     companion object {
         fun showToast(context: Context, text: String) {
@@ -18,6 +18,15 @@ abstract class appControl {
                 Constants.RECURRENCE.INSTALLMENT -> {Constants.RECURRENCE.INSTALLMENT}
                 Constants.RECURRENCE.FIXED_MONTHLY -> {Constants.RECURRENCE.FIXED_MONTHLY}
                 else -> {Constants.RECURRENCE.NONE}
+            }
+        }
+
+        fun getType(pos: Int): Int {
+            return when(pos) {
+                Constants.TYPE.NOT_REQUIRED -> {Constants.TYPE.NOT_REQUIRED}
+                Constants.TYPE.REQUIRED -> {Constants.TYPE.REQUIRED}
+                Constants.TYPE.INVESTMENT -> {Constants.TYPE.INVESTMENT}
+                else -> {Constants.TYPE.NOT_REQUIRED}
             }
         }
     }
