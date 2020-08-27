@@ -23,7 +23,8 @@ class Constants private constructor() {
         const val WITHDRAW = 2
     }
 
-    object MONTHS {
-        val MONTHS = getSystem().getStringArray(R.array.months_array)
+    object PATTERNS {
+        const val DATE_PATTERN = "dd/MM/yyyy"
     }
+
 }

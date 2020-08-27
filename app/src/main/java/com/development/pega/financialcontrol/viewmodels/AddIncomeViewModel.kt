@@ -3,11 +3,13 @@ package com.development.pega.financialcontrol.viewmodels
 import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Context
+import android.provider.SyncStateContract
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.development.pega.financialcontrol.model.Income
+import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
 import kotlinx.android.synthetic.main.activity_add_income.*
 import java.text.SimpleDateFormat
@@ -27,7 +29,7 @@ class AddIncomeViewModel(application: Application): AndroidViewModel(application
     val addIncome: LiveData<Boolean> = mAddIncome
 
     fun getCurrentDate() {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
         mCurrentTime.value =  sdf.format(Date())
     }
 
@@ -38,7 +40,7 @@ class AddIncomeViewModel(application: Application): AndroidViewModel(application
         val mYear = c.get(Calendar.YEAR)
 
         mDatePickerDialog.value = DatePickerDialog(context, { view, year, month, dayOfMonth ->
-            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
             c.set(year, month, dayOfMonth)
             mCurrentTime.value = sdf.format(c.time)
         }, mYear, mMonth, mDay)

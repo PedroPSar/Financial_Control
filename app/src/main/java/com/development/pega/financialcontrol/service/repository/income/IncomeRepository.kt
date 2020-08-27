@@ -15,6 +15,10 @@ class IncomeRepository(context: Context) {
         return mDatabase.get(id)
     }
 
+    fun getIncomesFromMonth(month: Int): List<Income> {
+        return mDatabase.getIncomesFromMonth(month)
+    }
+
     fun save(income: Income): Boolean {
         return mDatabase.save(income) > 0
     }

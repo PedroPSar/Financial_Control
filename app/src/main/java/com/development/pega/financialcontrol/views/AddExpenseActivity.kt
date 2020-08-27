@@ -16,6 +16,7 @@ import com.development.pega.financialcontrol.viewmodels.AddExpenseViewModel
 import kotlinx.android.synthetic.main.activity_add_expense.*
 import kotlinx.android.synthetic.main.activity_add_income.btn_add
 import kotlinx.android.synthetic.main.activity_add_income.btn_change_date
+import java.util.*
 
 class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -27,6 +28,11 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
     private var typeOptions = Constants.TYPE.NOT_REQUIRED
     private var recurrenceOptions = Constants.RECURRENCE.NONE
+
+    private var selectedDay = 0
+    private var selectedMonth = 0
+    private var selectedYear = 0
+    private lateinit var calendar: Calendar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +52,16 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         if(v.id == R.id.btn_change_date) {
             mViewModel.showDatePickerDialog(this)
         }else if(v.id == R.id.btn_add) {
+            calendar = AppControl.calendarSetTime(txt_expense_date.text.toString())
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+            val month = calendar.get(Calendar.MONTH)
+            val year = calendar.get(Calendar.YEAR)
+
             val expense = Expense()
             expense.type = typeOptions
-            expense.date = txt_expense_date.text.toString()
+            expense.day = day
+            expense.month = month
+            expense.year = year
             expense.value = edit_expense_value.text.toString().toFloat()
             expense.description = edit_expense_description.text.toString()
             expense.recurrence = recurrenceOptions

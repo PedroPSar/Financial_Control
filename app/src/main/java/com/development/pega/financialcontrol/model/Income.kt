@@ -11,8 +11,14 @@ class Income() {
     @ColumnInfo(name = "id")
     var id = 0
 
-    @ColumnInfo(name = "date")
-    var date = ""
+    @ColumnInfo(name = "day")
+    var day = 0
+
+    @ColumnInfo(name = "month")
+    var month = 0
+
+    @ColumnInfo(name = "year")
+    var year = 0
 
     @ColumnInfo(name = "value")
     var value = 0.0f

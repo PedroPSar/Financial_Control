@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.development.pega.financialcontrol.service.Constants
+import java.text.SimpleDateFormat
+import java.util.*
 
 abstract class AppControl {
 
@@ -28,6 +30,13 @@ abstract class AppControl {
                 Constants.TYPE.INVESTMENT -> {Constants.TYPE.INVESTMENT}
                 else -> {Constants.TYPE.NOT_REQUIRED}
             }
+        }
+
+        fun calendarSetTime(date: String): Calendar {
+            val c = Calendar.getInstance()
+            val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
+            c.time = sdf.parse(date)
+            return c
         }
     }
 

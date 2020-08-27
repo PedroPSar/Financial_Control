@@ -5,12 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.development.pega.financialcontrol.R
-import com.development.pega.financialcontrol.adapter.MonthRecyclerViewAdapter
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
-import kotlinx.android.synthetic.main.home_fragment.*
 
 class HomeFragment : Fragment() {
 
@@ -19,26 +18,56 @@ class HomeFragment : Fragment() {
     }
 
     private lateinit var viewModel: HomeViewModel
-    private lateinit var adapter: MonthRecyclerViewAdapter
+    private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
+    private lateinit var root: View
+    private lateinit var tvLblMonth: TextView
+    private lateinit var tvYear: TextView
+    private lateinit var tvIncomes: TextView
+    private lateinit var tvExpenses: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.home_fragment, container, false)
+        root = inflater.inflate(R.layout.home_fragment, container, false)
+        return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        setMonthsRecyclerView()
+        val application = requireActivity().application
+        mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        tvLblMonth = root.findViewById(R.id.lbl_month_name)
+        tvYear = root.findViewById(R.id.tv_year)
+        tvIncomes = root.findViewById(R.id.txt_incomes)
+        tvExpenses = root.findViewById(R.id.txt_expenses)
+
+        observer()
     }
 
-    private fun setMonthsRecyclerView() {
-        rv_months.layoutManager = LinearLayoutManager(context)
-        rv_months.adapter = adapter
+    override fun onResume() {
+        super.onResume()
+        viewModel.setCurrentMonth()
+        viewModel.setYear()
+        viewModel.setIncomesOfMonth()
+        viewModel.setExpensesOfmMonth()
     }
 
     private fun observer() {
+        viewModel.month.observe(viewLifecycleOwner, Observer {
+            tvLblMonth.text = it
+        })
 
+        viewModel.year.observe(viewLifecycleOwner, Observer {
+            tvYear.text = it.toString()
+        })
+
+        viewModel.incomes.observe(viewLifecycleOwner, Observer {
+            tvIncomes.text = it.toString()
+        })
+
+        viewModel.expenses.observe(viewLifecycleOwner, Observer {
+            tvExpenses.text = it.toString()
+        })
     }
 
 }

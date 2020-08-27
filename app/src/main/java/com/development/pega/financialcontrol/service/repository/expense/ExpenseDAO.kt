@@ -2,6 +2,7 @@ package com.development.pega.financialcontrol.service.repository.expense
 
 import androidx.room.*
 import com.development.pega.financialcontrol.model.Expense
+import com.development.pega.financialcontrol.model.Income
 
 @Dao
 interface ExpenseDAO {
@@ -17,6 +18,9 @@ interface ExpenseDAO {
 
     @Query("SELECT * FROM Expenses WHERE id = :id")
     fun get(id: Int): Expense
+
+    @Query("SELECT * FROM Expenses WHERE month = :month")
+    fun getExpensesFromMonth(month: Int): List<Expense>
 
     @Query("SELECT * FROM Expenses")
     fun getExpenses(): List<Expense>

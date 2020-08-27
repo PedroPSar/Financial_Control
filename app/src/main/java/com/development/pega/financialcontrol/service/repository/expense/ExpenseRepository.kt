@@ -2,6 +2,7 @@ package com.development.pega.financialcontrol.service.repository.expense
 
 import android.content.Context
 import com.development.pega.financialcontrol.model.Expense
+import com.development.pega.financialcontrol.model.Income
 
 class ExpenseRepository(context: Context) {
     private val mDatabase = ExpenseDatabase.getDatabase(context).expenseDao()
@@ -24,6 +25,10 @@ class ExpenseRepository(context: Context) {
 
     fun get(id: Int): Expense {
         return mDatabase.get(id)
+    }
+
+    fun getExpensesFromMonth(month: Int): List<Expense> {
+        return mDatabase.getExpensesFromMonth(month)
     }
 
     fun save(expense: Expense): Boolean {
