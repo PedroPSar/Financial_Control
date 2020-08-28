@@ -31,6 +31,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val mExpenses = MutableLiveData<Float>()
     var expenses: LiveData<Float> = mExpenses
 
+    private val mRecyclerViewIncomes = MutableLiveData<List<Income>>()
+    var recyclerViewIncomes: LiveData<List<Income>> = mRecyclerViewIncomes
+
     fun setCurrentMonth() {
         val c = Calendar.getInstance()
         val month = c.get(Calendar.MONTH)
@@ -53,6 +56,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun setExpensesOfmMonth() {
         val expensesList = expenseRepository.getExpensesFromMonth(selectedMonth)
         mExpenses.value = sumExpenses(expensesList)
+    }
+
+    fun setIncomesInRecyclerView() {
+        mRecyclerViewIncomes.value = incomeRepository.getIncomesFromMonth(selectedMonth)
     }
 
     private fun sumIncomes(list: List<Income>): Float {

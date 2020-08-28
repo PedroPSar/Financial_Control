@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.adapter.IncomesRecyclerViewAdapter
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 
 class HomeFragment : Fragment() {
@@ -24,6 +27,8 @@ class HomeFragment : Fragment() {
     private lateinit var tvYear: TextView
     private lateinit var tvIncomes: TextView
     private lateinit var tvExpenses: TextView
+
+    private val mIncomesAdapter: IncomesRecyclerViewAdapter = IncomesRecyclerViewAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.home_fragment, container, false)
@@ -41,6 +46,7 @@ class HomeFragment : Fragment() {
         tvIncomes = root.findViewById(R.id.txt_incomes)
         tvExpenses = root.findViewById(R.id.txt_expenses)
 
+        adapters()
         observer()
     }
 
@@ -50,6 +56,7 @@ class HomeFragment : Fragment() {
         viewModel.setYear()
         viewModel.setIncomesOfMonth()
         viewModel.setExpensesOfmMonth()
+        viewModel.setIncomesInRecyclerView()
     }
 
     private fun observer() {
@@ -68,6 +75,20 @@ class HomeFragment : Fragment() {
         viewModel.expenses.observe(viewLifecycleOwner, Observer {
             tvExpenses.text = it.toString()
         })
+
+        viewModel.recyclerViewIncomes.observe(viewLifecycleOwner, Observer {
+            mIncomesAdapter.updateIncomesList(it)
+        })
+    }
+
+    private fun adapters() {
+        setInfoIncomesRecyclerView()
+    }
+
+    private fun setInfoIncomesRecyclerView() {
+        val incomesRV = root.findViewById<RecyclerView>(R.id.rv_incomes)
+        incomesRV.layoutManager = LinearLayoutManager(context)
+        incomesRV.adapter = mIncomesAdapter
     }
 
 }

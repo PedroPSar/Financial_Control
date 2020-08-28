@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.development.pega.financialcontrol.model.Expense
+import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,7 +26,7 @@ class AddExpenseViewModel(application: Application): AndroidViewModel(applicatio
     val saveExpense: LiveData<Boolean> = mSaveExpense
 
     fun getCurrentDate() {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
         mCurrentTime.value =  sdf.format(Date())
     }
 
@@ -36,7 +37,7 @@ class AddExpenseViewModel(application: Application): AndroidViewModel(applicatio
         val mYear = c.get(Calendar.YEAR)
 
         mDatePickerDialog.value = DatePickerDialog(context, DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
             c.set(year, month, dayOfMonth)
             mCurrentTime.value = sdf.format(c.time)
         }, mYear, mMonth, mDay)
