@@ -23,6 +23,9 @@ class Income() {
     @ColumnInfo(name = "value")
     var value = 0.0f
 
+    @ColumnInfo(name = "name")
+    var name = ""
+
     @ColumnInfo(name = "description")
     var description = ""
 

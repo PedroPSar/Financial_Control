@@ -11,12 +11,10 @@ class IncomesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     fun bind(income: Income) {
         val txtDate = "${income.day}/${income.month}/${income.year}"
         val txtValue = income.value
-        val txtRecurrence = income.recurrence
-        val txtDescription = income.description
+        val txtName = income.name
 
+        itemView.findViewById<TextView>(R.id.tv_txt_name).text = txtName
         itemView.findViewById<TextView>(R.id.tv_txt_date).text = txtDate
         itemView.findViewById<TextView>(R.id.tv_txt_value).text = txtValue.toString()
-        itemView.findViewById<TextView>(R.id.tv_txt_recurrence).text = txtRecurrence.toString()
-        itemView.findViewById<TextView>(R.id.tv_txt_description).text = txtDescription
     }
 }

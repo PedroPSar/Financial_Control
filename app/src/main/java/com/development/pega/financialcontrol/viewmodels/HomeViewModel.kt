@@ -41,13 +41,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         mMonth.value = months[month]
     }
 
-    fun setYear() {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-
-        mYear.value = year
-    }
-
     fun setIncomesOfMonth() {
         val incomesList = incomeRepository.getIncomesFromMonth(selectedMonth)
         mIncomes.value = sumIncomes(incomesList)

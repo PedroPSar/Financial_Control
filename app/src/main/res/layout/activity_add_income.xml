@@ -8,14 +8,32 @@
     tools:context=".views.AddIncomeActivity">
 
     <TextView
-        android:id="@+id/lbl_description"
+        android:id="@+id/lbl_income_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lbl_description"
-        android:textSize="@dimen/add_acitivity_lbl_size"
+        android:text="@string/lbl_name"
+        android:textSize="@dimen/lbl_main_size"
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/edit_income_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lbl_income_name" />
+
+    <TextView
+        android:id="@+id/lbl_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/lbl_description"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/add_acitivity_lbl_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_income_name" />
 
     <EditText
         android:id="@+id/edit_income_description"

@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.listener.MainListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
         PopupMenu.OnMenuItemClickListener{
@@ -19,20 +22,31 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var popupMenu: PopupMenu
+    private lateinit var tvYear: TextView
+    private lateinit var toolbar: Toolbar
+    private lateinit var mMainListener: MainListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         //Initialize popup menu
         val button = toolbar.getChildAt(0)
         popupMenu = PopupMenu(this, button)
 
+        setCurrentYear()
         setNavController()
         setOnClicks()
+
+        mMainListener = object: MainListener {
+            override fun onSetYear(year: String) {
+                tvYear.text = year
+            }
+
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,6 +74,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
             R.id.nav_home -> {
                 val homeFragment = HomeFragment()
+                homeFragment.attachListener(mMainListener)
                 supportFragmentManager.beginTransaction().add(R.id.nav_host_fragment, homeFragment).commit()
             }
 
@@ -99,6 +114,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun setAddMenu() {
         popupMenu.inflate(R.menu.add_menu)
         popupMenu.show()
+    }
+
+    private fun setCurrentYear() {
+        val c = Calendar.getInstance()
+        tvYear = toolbar.findViewById(R.id.tv_year)
+        tvYear.text = c.get(Calendar.YEAR).toString()
+
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
 }

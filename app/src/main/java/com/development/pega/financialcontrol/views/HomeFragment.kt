@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.adapter.IncomesRecyclerViewAdapter
+import com.development.pega.financialcontrol.listener.MainListener
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment() : Fragment() {
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -27,6 +28,7 @@ class HomeFragment : Fragment() {
     private lateinit var tvYear: TextView
     private lateinit var tvIncomes: TextView
     private lateinit var tvExpenses: TextView
+    private lateinit var mMainListener: MainListener
 
     private val mIncomesAdapter: IncomesRecyclerViewAdapter = IncomesRecyclerViewAdapter()
 
@@ -42,7 +44,6 @@ class HomeFragment : Fragment() {
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         tvLblMonth = root.findViewById(R.id.lbl_month_name)
-        tvYear = root.findViewById(R.id.tv_year)
         tvIncomes = root.findViewById(R.id.txt_incomes)
         tvExpenses = root.findViewById(R.id.txt_expenses)
 
@@ -53,7 +54,6 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.setCurrentMonth()
-        viewModel.setYear()
         viewModel.setIncomesOfMonth()
         viewModel.setExpensesOfmMonth()
         viewModel.setIncomesInRecyclerView()
@@ -62,10 +62,6 @@ class HomeFragment : Fragment() {
     private fun observer() {
         viewModel.month.observe(viewLifecycleOwner, Observer {
             tvLblMonth.text = it
-        })
-
-        viewModel.year.observe(viewLifecycleOwner, Observer {
-            tvYear.text = it.toString()
         })
 
         viewModel.incomes.observe(viewLifecycleOwner, Observer {
@@ -89,6 +85,10 @@ class HomeFragment : Fragment() {
         val incomesRV = root.findViewById<RecyclerView>(R.id.rv_incomes)
         incomesRV.layoutManager = LinearLayoutManager(context)
         incomesRV.adapter = mIncomesAdapter
+    }
+
+    fun attachListener(mainListener: MainListener) {
+        mMainListener = mainListener
     }
 
 }

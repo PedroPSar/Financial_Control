@@ -63,6 +63,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             expense.month = month
             expense.year = year
             expense.value = edit_expense_value.text.toString().toFloat()
+            expense.name = edit_expense_name.text.toString()
             expense.description = edit_expense_description.text.toString()
             expense.recurrence = recurrenceOptions
 
