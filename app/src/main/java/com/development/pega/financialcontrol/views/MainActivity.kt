@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var toolbar: Toolbar
     private lateinit var mMainListener: MainListener
 
+    private lateinit var homeFragment: HomeFragment
+    private lateinit var savingsFragment: SavingsFragment
+    private lateinit var chartFragment: ChartFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,8 +49,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             override fun onSetYear(year: String) {
                 tvYear.text = year
             }
-
         }
+
+        instantiateFragments()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,18 +73,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.nav_savings -> {
-                val savingsFragment = SavingsFragment()
                 supportFragmentManager.beginTransaction().add(R.id.nav_host_fragment, savingsFragment).commit()
             }
 
             R.id.nav_home -> {
-                val homeFragment = HomeFragment()
                 homeFragment.attachListener(mMainListener)
                 supportFragmentManager.beginTransaction().add(R.id.nav_host_fragment, homeFragment).commit()
             }
 
             R.id.nav_chart -> {
-                val chartFragment = ChartFragment()
                 supportFragmentManager.beginTransaction().add(R.id.nav_host_fragment, chartFragment).commit()
             }
         }
@@ -99,6 +101,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
         }
         return true
+    }
+
+    private fun instantiateFragments() {
+        homeFragment = HomeFragment()
+        homeFragment.attachListener(mMainListener)
+        savingsFragment = SavingsFragment()
+        chartFragment = ChartFragment()
     }
 
     private fun setOnClicks() {

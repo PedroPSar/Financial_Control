@@ -207,23 +207,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
-                <TextView
-                    android:id="@+id/label_total_incomes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_total"
-                    android:textColor="@color/colorPrimary"
-                    app:layout_constraintTop_toBottomOf="@id/rv_incomes"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <TextView
-                    android:id="@+id/num_total_incomes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="R$200,00"
-                    app:layout_constraintTop_toBottomOf="@id/rv_incomes"
-                    app:layout_constraintStart_toEndOf="@id/label_total_incomes"/>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -255,23 +238,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/label_expense" />
-
-                <TextView
-                    android:id="@+id/label_total_expenses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_total"
-                    android:textColor="@color/colorPrimary"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_expenses" />
-
-                <TextView
-                    android:id="@+id/num_total_expenses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="R$200,00"
-                    app:layout_constraintStart_toEndOf="@id/label_total_expenses"
-                    app:layout_constraintTop_toBottomOf="@id/rv_expenses" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

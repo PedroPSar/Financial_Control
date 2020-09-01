@@ -49,6 +49,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
             val day = calendar.get(Calendar.DAY_OF_MONTH)
             val month = calendar.get(Calendar.MONTH) + 1
             val year = calendar.get(Calendar.YEAR)
+
             val mIncome = Income()
             mIncome.name = edit_income_name.text.toString()
             mIncome.description = edit_income_description.text.toString()

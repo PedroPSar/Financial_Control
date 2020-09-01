@@ -11,11 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.adapter.ExpensesRecyclerViewAdapter
 import com.development.pega.financialcontrol.adapter.IncomesRecyclerViewAdapter
 import com.development.pega.financialcontrol.listener.MainListener
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
+import kotlinx.android.synthetic.main.home_fragment.*
 
-class HomeFragment() : Fragment() {
+class HomeFragment() : Fragment(), View.OnClickListener {
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -25,12 +27,12 @@ class HomeFragment() : Fragment() {
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private lateinit var root: View
     private lateinit var tvLblMonth: TextView
-    private lateinit var tvYear: TextView
     private lateinit var tvIncomes: TextView
     private lateinit var tvExpenses: TextView
     private lateinit var mMainListener: MainListener
 
     private val mIncomesAdapter: IncomesRecyclerViewAdapter = IncomesRecyclerViewAdapter()
+    private val mExpensesAdapter: ExpensesRecyclerViewAdapter = ExpensesRecyclerViewAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.home_fragment, container, false)
@@ -47,16 +49,36 @@ class HomeFragment() : Fragment() {
         tvIncomes = root.findViewById(R.id.txt_incomes)
         tvExpenses = root.findViewById(R.id.txt_expenses)
 
+        viewModel.setCurrentDate()
+        setOnClick()
         adapters()
         observer()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.setCurrentMonth()
         viewModel.setIncomesOfMonth()
-        viewModel.setExpensesOfmMonth()
+        viewModel.setExpensesOfMonth()
         viewModel.setIncomesInRecyclerView()
+        viewModel.setExpensesInRecyclerView()
+        viewModel.calcBalance()
+    }
+
+    override fun onClick(v: View) {
+        when(v.id) {
+            R.id.btn_img_before -> {
+                viewModel.btnBeforeClick()
+            }
+
+            R.id.btn_img_next -> {
+                viewModel.btnNextClick()
+            }
+        }
+    }
+
+    private fun setOnClick() {
+        btn_img_before.setOnClickListener(this)
+        btn_img_next.setOnClickListener(this)
     }
 
     private fun observer() {
@@ -75,16 +97,37 @@ class HomeFragment() : Fragment() {
         viewModel.recyclerViewIncomes.observe(viewLifecycleOwner, Observer {
             mIncomesAdapter.updateIncomesList(it)
         })
+
+        viewModel.recyclerViewExpenses.observe(viewLifecycleOwner, Observer {
+            mExpensesAdapter.updateExpensesList(it)
+        })
+
+        viewModel.balance.observe(viewLifecycleOwner, Observer {
+            txt_account_balance.text = it.toString()
+        })
+
+        viewModel.year.observe(viewLifecycleOwner, Observer {
+            if(::mMainListener.isInitialized) {
+                mMainListener.onSetYear(it.toString())
+            }
+        })
     }
 
     private fun adapters() {
         setInfoIncomesRecyclerView()
+        setInfoExpensesRecyclerView()
     }
 
     private fun setInfoIncomesRecyclerView() {
         val incomesRV = root.findViewById<RecyclerView>(R.id.rv_incomes)
         incomesRV.layoutManager = LinearLayoutManager(context)
         incomesRV.adapter = mIncomesAdapter
+    }
+
+    private fun setInfoExpensesRecyclerView() {
+        val expensesRV = root.findViewById<RecyclerView>(R.id.rv_expenses)
+        expensesRV.layoutManager = LinearLayoutManager(context)
+        expensesRV.adapter = mExpensesAdapter
     }
 
     fun attachListener(mainListener: MainListener) {

@@ -43,18 +43,18 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
         mViewModel.getCurrentDate()
 
+        setSpinners()
         observers()
         setListeners()
-        setSpinners()
     }
 
     override fun onClick(v: View) {
         if(v.id == R.id.btn_change_date) {
             mViewModel.showDatePickerDialog(this)
-        }else if(v.id == R.id.btn_add) {
+        } else if(v.id == R.id.btn_add) {
             calendar = AppControl.calendarSetTime(txt_expense_date.text.toString())
             val day = calendar.get(Calendar.DAY_OF_MONTH)
-            val month = calendar.get(Calendar.MONTH)
+            val month = calendar.get(Calendar.MONTH) + 1
             val year = calendar.get(Calendar.YEAR)
 
             val expense = Expense()
@@ -91,14 +91,14 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     }
 
     private fun setSpinners() {
-        val spinnerRecurrence: Spinner = findViewById(R.id.spinner_recurrence)
+        spinnerRecurrence = findViewById(R.id.spinner_recurrence)
         ArrayAdapter.createFromResource(this, R.array.spinner_recurrence_options, android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerRecurrence.adapter = adapter
         }
 
-        val spinnerType: Spinner = findViewById(R.id.spinner_type)
+        spinnerType = findViewById(R.id.spinner_type)
         ArrayAdapter.createFromResource(this, R.array.spinner_type_options, android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -126,7 +126,5 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             }
         })
     }
-
-
 
 }
