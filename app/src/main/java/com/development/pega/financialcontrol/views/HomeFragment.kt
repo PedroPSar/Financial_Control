@@ -1,6 +1,7 @@
 package com.development.pega.financialcontrol.views
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -107,7 +108,9 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         })
 
         viewModel.year.observe(viewLifecycleOwner, Observer {
+            Log.d("teste", "year: $it")
             if(::mMainListener.isInitialized) {
+
                 mMainListener.onSetYear(it.toString())
             }
         })

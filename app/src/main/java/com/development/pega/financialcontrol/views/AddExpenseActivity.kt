@@ -71,10 +71,10 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         }
     }
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-        if(view.id == R.id.spinner_type) {
+    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        if(parent.id == R.id.spinner_type) {
             typeOptions = AppControl.getType(position)
-        }else if(view.id == R.id.spinner_recurrence) {
+        }else if(parent.id == R.id.spinner_expense_recurrence) {
             recurrenceOptions = AppControl.getRecurrence(position)
         }
     }
@@ -91,7 +91,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     }
 
     private fun setSpinners() {
-        spinnerRecurrence = findViewById(R.id.spinner_recurrence)
+        spinnerRecurrence = findViewById(R.id.spinner_expense_recurrence)
         ArrayAdapter.createFromResource(this, R.array.spinner_recurrence_options, android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

@@ -1,12 +1,11 @@
 package com.development.pega.financialcontrol.viewmodels
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
+import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
 import java.util.*
@@ -56,45 +55,66 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun setIncomesOfMonth() {
-        val incomesList = incomeRepository.getIncomesFromMonth(selectedMonth)
+        val incomesList = incomeRepository.getAll()
         mIncomes.value = sumIncomes(incomesList)
     }
 
     fun setExpensesOfMonth() {
-        val expensesList = expenseRepository.getExpensesFromMonth(selectedMonth)
+        val expensesList = expenseRepository.getAll()
         mExpenses.value = sumExpenses(expensesList)
     }
 
     fun setIncomesInRecyclerView() {
-        mRecyclerViewIncomes.value = incomeRepository.getIncomesFromMonth(selectedMonth)
-        val list = incomeRepository.getIncomesFromMonth(selectedMonth)
+        val list = incomeRepository.getAll()
+        var currentMonthList = mutableListOf<Income>()
+
+        for(income in list) {
+            if(checkIfIncomeHasToBeOnTheList(income)) {
+                income.month = selectedMonth
+                currentMonthList.add(income)
+            }
+        }
+        mRecyclerViewIncomes.value = currentMonthList
     }
 
     fun setExpensesInRecyclerView() {
-        mRecyclerViewExpenses.value = expenseRepository.getExpensesFromMonth(selectedMonth)
-        val list = expenseRepository.getExpensesFromMonth(selectedMonth)
+        val list = expenseRepository.getAll()
+        var currentMonthList = mutableListOf<Expense>()
+
+        for(expense in list) {
+            if(checkIfExpenseHasToBeOnTheList(expense)) {
+                expense.month = selectedMonth
+                currentMonthList.add(expense)
+            }
+        }
+        mRecyclerViewExpenses.value = currentMonthList
     }
 
     fun btnBeforeClick() {
         selectedMonth--
         selectedMonth = checkMonthNumber(selectedMonth)
+        downYearIfNecessary(selectedMonth)
         updateInfo()
     }
 
     fun btnNextClick() {
         selectedMonth++
         selectedMonth = checkMonthNumber(selectedMonth)
+        upYearIfNecessary(selectedMonth)
         updateInfo()
+
     }
 
-    fun setYear() {
+    private fun setYear() {
         mYear.value = selectedYear
     }
 
     private fun sumIncomes(list: List<Income>): Float {
         var total = 0f
         for(income in list) {
-            total += income.value
+            if(income.month == selectedMonth || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.month < selectedMonth) {
+                total += income.value
+            }
         }
         return total
     }
@@ -102,9 +122,27 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun sumExpenses(list: List<Expense>): Float {
         var total = 0f
         for(expense in list) {
-            total += expense.value
+            if(expense.month == selectedMonth || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.month < selectedMonth) {
+                total += expense.value
+            }
         }
         return total
+    }
+
+    private fun sumFixedIncomes(income: Income): Float {
+        var sum = 0f
+            if(income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY) {
+                sum += income.value * (selectedMonth - income.month)
+            }
+        return sum
+    }
+
+    private fun sumFixedExpenses(expense: Expense): Float {
+        var sum = 0f
+        if(expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY) {
+            sum += expense.value * (selectedMonth - expense.month)
+        }
+        return sum
     }
 
     private fun setMonth() {
@@ -125,6 +163,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         setIncomesInRecyclerView()
         setExpensesInRecyclerView()
         setMonth()
+        setYear()
         calcBalance()
     }
 
@@ -133,6 +172,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         val allExpenses = expenseRepository.getAll()
         var incomeSum = 0f
         var expenseSum = 0f
+        var total = 0f
+        var fixedMonthsSum = 0f
 
         for(income in allIncomes) {
             if(income.year <= selectedYear && income.month <= selectedMonth)
@@ -145,7 +186,44 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
+        total = incomeSum - expenseSum
+        fixedMonthsSum = calcFixedMonths(allIncomes, allExpenses)
+
+        return total + fixedMonthsSum
+    }
+
+    private fun calcFixedMonths(incomes: List<Income>, expenses: List<Expense>): Float {
+        var incomeSum = 0f
+        var expenseSum = 0f
+
+        for(income in incomes) {
+            incomeSum += sumFixedIncomes(income)
+        }
+
+        for(expense in expenses) {
+            expenseSum += sumFixedExpenses(expense)
+        }
+
         return incomeSum - expenseSum
     }
 
+    private fun checkIfIncomeHasToBeOnTheList(income: Income): Boolean {
+        return (income.month == selectedMonth || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.month < selectedMonth)
+    }
+
+    private fun checkIfExpenseHasToBeOnTheList(expense: Expense): Boolean {
+        return (expense.month == selectedMonth || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.month < selectedMonth)
+    }
+
+    private fun upYearIfNecessary(month: Int) {
+        if(month == 1) {
+            selectedYear++
+        }
+    }
+
+    private fun downYearIfNecessary(month: Int) {
+        if(month == 12) {
+            selectedYear--
+        }
+    }
 }
