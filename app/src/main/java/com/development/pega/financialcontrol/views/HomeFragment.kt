@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,20 +21,24 @@ import kotlinx.android.synthetic.main.home_fragment.*
 
 class HomeFragment() : Fragment(), View.OnClickListener {
 
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
-
     private lateinit var viewModel: HomeViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private lateinit var root: View
     private lateinit var tvLblMonth: TextView
     private lateinit var tvIncomes: TextView
     private lateinit var tvExpenses: TextView
-    private lateinit var mMainListener: MainListener
 
     private val mIncomesAdapter: IncomesRecyclerViewAdapter = IncomesRecyclerViewAdapter()
     private val mExpensesAdapter: ExpensesRecyclerViewAdapter = ExpensesRecyclerViewAdapter()
+
+    companion object {
+        private lateinit var mMainListener: MainListener
+
+        fun newInstance(mainListener: MainListener): HomeFragment{
+            mMainListener = mainListener
+            return HomeFragment()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.home_fragment, container, false)
@@ -49,7 +54,6 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         tvLblMonth = root.findViewById(R.id.lbl_month_name)
         tvIncomes = root.findViewById(R.id.txt_incomes)
         tvExpenses = root.findViewById(R.id.txt_expenses)
-
         viewModel.setCurrentDate()
         setOnClick()
         adapters()
@@ -108,11 +112,7 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         })
 
         viewModel.year.observe(viewLifecycleOwner, Observer {
-            Log.d("teste", "year: $it")
-            if(::mMainListener.isInitialized) {
-
-                mMainListener.onSetYear(it.toString())
-            }
+            mMainListener.onSetYear(it.toString())
         })
     }
 
@@ -131,10 +131,6 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         val expensesRV = root.findViewById<RecyclerView>(R.id.rv_expenses)
         expensesRV.layoutManager = LinearLayoutManager(context)
         expensesRV.adapter = mExpensesAdapter
-    }
-
-    fun attachListener(mainListener: MainListener) {
-        mMainListener = mainListener
     }
 
 }

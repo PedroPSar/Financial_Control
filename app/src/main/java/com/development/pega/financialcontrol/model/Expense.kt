@@ -35,4 +35,7 @@ class Expense {
 
     @ColumnInfo(name = "recurrence")
     var recurrence = 0
+
+    @ColumnInfo(name = "numInstallmentMonths")
+    var numInstallmentMonths = 0
 }

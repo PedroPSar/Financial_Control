@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
 
             R.id.nav_home -> {
-                homeFragment.attachListener(mMainListener)
                 supportFragmentManager.beginTransaction().add(R.id.nav_host_fragment, homeFragment).commit()
             }
 
@@ -104,8 +103,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun instantiateFragments() {
-        homeFragment = HomeFragment()
-        homeFragment.attachListener(mMainListener)
+        homeFragment = HomeFragment.newInstance(mMainListener)
         savingsFragment = SavingsFragment()
         chartFragment = ChartFragment()
     }
