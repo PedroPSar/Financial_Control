@@ -22,8 +22,10 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
     private lateinit var mViewModel: AddIncomeViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private var recurrenceOption = Constants.RECURRENCE.NONE
+    private var everyMonth = 1
 
     private lateinit var spinner: Spinner
+    private lateinit var spinnerEveryMonth: Spinner
 
     private lateinit var calendar: Calendar
 
@@ -58,6 +60,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
             mIncome.month = month
             mIncome.year = year
             mIncome.recurrence = recurrenceOption
+            mIncome.payFrequency = everyMonth
 
             mViewModel.saveIncome(mIncome)
         }
@@ -66,6 +69,9 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         if(parent.id == R.id.spinner_income_recurrence) {
             recurrenceOption = AppControl.getRecurrence(position)
+
+        } else if(parent.id == R.id.spinner_income_every_months) {
+            everyMonth = position + 1
         }
     }
 
@@ -77,6 +83,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         btn_change_date.setOnClickListener(this)
         btn_add.setOnClickListener(this)
         spinner.onItemSelectedListener = this
+        spinnerEveryMonth.onItemSelectedListener = this
     }
 
     private fun setSpinner() {
@@ -85,6 +92,13 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
+        }
+
+        spinnerEveryMonth = findViewById(R.id.spinner_income_every_months)
+        ArrayAdapter.createFromResource(this, R.array.every_month_array, android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerEveryMonth.adapter = adapter
         }
     }
 

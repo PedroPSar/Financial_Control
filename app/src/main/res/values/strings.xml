@@ -32,6 +32,9 @@
     <string name="save_success_message">Saved successfully</string>
     <string name="save_failed_message">\"Save failed\" error</string>
     <string name="lbl_name">Name</string>
+    <string name="edit_many_times_hint">2</string>
+    <string name="lbl_number">Number</string>
+    <string name="lbl_every">Every</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>
@@ -58,6 +61,21 @@
         <item>October</item>
         <item>November</item>
         <item>December</item>
+    </string-array>
+
+    <string-array name="every_month_array">
+        <item>01 month</item>
+        <item>02 months</item>
+        <item>03 months</item>
+        <item>04 months</item>
+        <item>05 months</item>
+        <item>06 months</item>
+        <item>07 months</item>
+        <item>08 months</item>
+        <item>09 months</item>
+        <item>10 months</item>
+        <item>11 months</item>
+        <item>12 months</item>
     </string-array>
 
 </resources>

@@ -38,4 +38,7 @@ class Expense {
 
     @ColumnInfo(name = "numInstallmentMonths")
     var numInstallmentMonths = 0
+
+    @ColumnInfo(name = "payFrequency")
+    var payFrequency = 0
 }
