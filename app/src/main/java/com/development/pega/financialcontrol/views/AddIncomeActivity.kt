@@ -2,14 +2,18 @@ package com.development.pega.financialcontrol.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.Fade
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.R.*
 import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
@@ -31,7 +35,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_income)
+        setContentView(layout.activity_add_income)
 
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
         mViewModel = ViewModelProvider(this, mViewModelFactory).get(AddIncomeViewModel::class.java)
@@ -44,9 +48,9 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
     }
 
     override fun onClick(v: View) {
-        if(v.id == R.id.btn_change_date) {
+        if(v.id == id.btn_change_date) {
             mViewModel.showDatePickerDialog(this)
-        } else if(v.id == R.id.btn_add) {
+        } else if(v.id == id.btn_add) {
             calendar = AppControl.calendarSetTime(txt_income_date.text.toString())
             val day = calendar.get(Calendar.DAY_OF_MONTH)
             val month = calendar.get(Calendar.MONTH) + 1
@@ -61,6 +65,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
             mIncome.year = year
             mIncome.recurrence = recurrenceOption
             mIncome.payFrequency = everyMonth
+            mIncome.numInstallmentMonths = edit_many_times.text.toString().toInt()
 
             mViewModel.saveIncome(mIncome)
         }
@@ -69,6 +74,22 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         if(parent.id == R.id.spinner_income_recurrence) {
             recurrenceOption = AppControl.getRecurrence(position)
+
+            if(recurrenceOption == Constants.RECURRENCE.INSTALLMENT) {
+                val transition: Transition = Fade()
+                transition.duration = 3000
+                transition.addTarget(R.id.cl_pay_installment_income)
+
+                TransitionManager.beginDelayedTransition(parent, transition)
+                cl_pay_installment_income.visibility = View.VISIBLE
+            }else {
+                val transition: Transition = Fade()
+                transition.duration = 3000
+                transition.addTarget(R.id.cl_pay_installment_income)
+
+                TransitionManager.beginDelayedTransition(parent, transition)
+                cl_pay_installment_income.visibility = View.GONE
+            }
 
         } else if(parent.id == R.id.spinner_income_every_months) {
             everyMonth = position + 1
@@ -87,15 +108,15 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
     }
 
     private fun setSpinner() {
-        spinner = findViewById(R.id.spinner_income_recurrence)
-        ArrayAdapter.createFromResource(this, R.array.spinner_recurrence_options, android.R.layout.simple_spinner_item
+        spinner = findViewById(id.spinner_income_recurrence)
+        ArrayAdapter.createFromResource(this, array.spinner_recurrence_options, android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
 
-        spinnerEveryMonth = findViewById(R.id.spinner_income_every_months)
-        ArrayAdapter.createFromResource(this, R.array.every_month_array, android.R.layout.simple_spinner_item
+        spinnerEveryMonth = findViewById(id.spinner_income_every_months)
+        ArrayAdapter.createFromResource(this, array.every_month_array, android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerEveryMonth.adapter = adapter
@@ -114,10 +135,10 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
 
         mViewModel.addIncome.observe(this, Observer {
             if(it) {
-                AppControl.showToast(this, getString(R.string.save_success_message))
+                AppControl.showToast(this, getString(string.save_success_message))
                 finish()
             } else {
-                AppControl.showToast(this, getString(R.string.save_failed_message))
+                AppControl.showToast(this, getString(string.save_failed_message))
                 finish()
             }
         })

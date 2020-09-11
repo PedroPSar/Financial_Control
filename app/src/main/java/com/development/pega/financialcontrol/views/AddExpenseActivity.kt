@@ -8,14 +8,16 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.Fade
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.AddExpenseViewModel
 import kotlinx.android.synthetic.main.activity_add_expense.*
-import kotlinx.android.synthetic.main.activity_add_income.btn_add
-import kotlinx.android.synthetic.main.activity_add_income.btn_change_date
+import kotlinx.android.synthetic.main.activity_add_expense.edit_many_times
 import java.util.*
 
 class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -25,13 +27,12 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
     private lateinit var spinnerRecurrence: Spinner
     private lateinit var spinnerType: Spinner
+    private lateinit var spinnerEveryMonth: Spinner
 
     private var typeOptions = Constants.TYPE.NOT_REQUIRED
     private var recurrenceOptions = Constants.RECURRENCE.NONE
+    private var everyMonth = 1
 
-    private var selectedDay = 0
-    private var selectedMonth = 0
-    private var selectedYear = 0
     private lateinit var calendar: Calendar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +44,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
         mViewModel.getCurrentDate()
 
-        setSpinners()
         observers()
+        setSpinners()
         setListeners()
     }
 
@@ -66,6 +67,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             expense.name = edit_expense_name.text.toString()
             expense.description = edit_expense_description.text.toString()
             expense.recurrence = recurrenceOptions
+            expense.payFrequency = everyMonth
+            expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
 
             mViewModel.addExpense(expense)
         }
@@ -76,6 +79,24 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             typeOptions = AppControl.getType(position)
         }else if(parent.id == R.id.spinner_expense_recurrence) {
             recurrenceOptions = AppControl.getRecurrence(position)
+
+            if(recurrenceOptions == Constants.RECURRENCE.INSTALLMENT) {
+                val transition: Transition = Fade()
+                transition.duration = 3000
+                transition.addTarget(R.id.cl_pay_installment_expense)
+
+                TransitionManager.beginDelayedTransition(parent, transition)
+                cl_pay_installment_expense.visibility = View.VISIBLE
+            }else {
+                val transition: Transition = Fade()
+                transition.duration = 3000
+                transition.addTarget(R.id.cl_pay_installment_expense)
+
+                TransitionManager.beginDelayedTransition(parent, transition)
+                cl_pay_installment_expense.visibility = View.GONE
+            }
+        }else if(parent.id == R.id.spinner_expense_every_months) {
+            everyMonth = position + 1
         }
     }
 
@@ -88,6 +109,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         btn_add.setOnClickListener(this)
         spinnerRecurrence.onItemSelectedListener = this
         spinnerType.onItemSelectedListener = this
+        spinnerEveryMonth.onItemSelectedListener = this
     }
 
     private fun setSpinners() {
@@ -103,6 +125,13 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerType.adapter = adapter
+        }
+
+        spinnerEveryMonth = findViewById(R.id.spinner_expense_every_months)
+        ArrayAdapter.createFromResource(this, R.array.every_month_array, android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerEveryMonth.adapter = adapter
         }
     }
 

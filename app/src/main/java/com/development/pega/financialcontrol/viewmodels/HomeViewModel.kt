@@ -1,7 +1,6 @@
 package com.development.pega.financialcontrol.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.model.Expense
@@ -142,14 +141,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 if(income.year < selectedYear) {
                     var otherYearsDifference = selectedYear - income.year
                     otherYearsDifference = calcOtherYears(otherYearsDifference)
-                    Log.d("teste", "difference: $otherYearsDifference differenceMonth: ${12 - income.month}")
                     sum += income.value * ( otherYearsDifference + (12 - income.month) )
 
                 }else if(income.month < selectedMonth && income.year == selectedYear) {
                     sum += income.value * (selectedMonth - income.month)
                 }
             }
-        Log.d("teste", "sum: $sum")
         return sum
     }
 
@@ -205,25 +202,37 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         val allExpenses = expenseRepository.getAll()
         var incomeSum = 0f
         var expenseSum = 0f
+        var incomeInstallmentSum = 0f
+        var expenseInstallmentSum = 0f
         var total = 0f
         var fixedMonthsSum = 0f
+        var installmentSum = 0f
 
         for(income in allIncomes) {
-            if(income.year == selectedYear && income.month <= selectedMonth || income.year < selectedYear)
-            incomeSum += income.value
+            if(income.year == selectedYear && income.month <= selectedMonth || income.year < selectedYear){
+                if(income.recurrence == Constants.RECURRENCE.INSTALLMENT) {
+                    incomeInstallmentSum += calcInstallmentIncome(income)
+                }else {
+                    incomeSum += income.value
+                }
+            }
         }
 
         for(expense in allExpenses) {
             if(expense.year == selectedYear && expense.month <= selectedMonth || expense.year < selectedYear) {
-                expenseSum += expense.value
+                if(expense.recurrence == Constants.RECURRENCE.INSTALLMENT) {
+                    expenseInstallmentSum += calcInstallmentExpense(expense)
+                }else {
+                    expenseSum += expense.value
+                }
             }
         }
 
+        installmentSum = incomeInstallmentSum - expenseInstallmentSum
         total = incomeSum - expenseSum
         fixedMonthsSum = calcFixedMonths(allIncomes, allExpenses)
-        Log.d("teste", "total: $total")
-        Log.d("teste", "fixedMonthsSum: $fixedMonthsSum")
-        return total + fixedMonthsSum
+
+        return total + fixedMonthsSum + installmentSum
     }
 
     private fun calcFixedMonths(incomes: List<Income>, expenses: List<Expense>): Float {
@@ -263,5 +272,51 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         if(month == 12) {
             selectedYear--
         }
+    }
+
+    private fun calcInstallmentIncome(income: Income):Float {
+        var otherYearMonths = 0
+        var numMonths = 0
+        if(income.year < selectedYear) {
+            otherYearMonths =  calcOtherYears(selectedYear - income.year)
+            numMonths = otherYearMonths + (12 - income.month) + 1 // +1 for first month installment
+        }else if(income.year == selectedYear) {
+            numMonths = selectedMonth - income.month + 1 // +1 for first month installment
+        }
+
+        var paidInstallments = 0
+        var sum = 0f
+
+        for(i in 1..numMonths step income.payFrequency) {
+            if(paidInstallments < income.numInstallmentMonths) {
+                sum += income.value
+                paidInstallments++
+            }
+        }
+
+        return sum
+    }
+
+    private fun calcInstallmentExpense(expense: Expense):Float {
+        var otherYearMonths = 0
+        var numMonths = 0
+        if(expense.year < selectedYear) {
+            otherYearMonths =  calcOtherYears(selectedYear - expense.year)
+            numMonths = otherYearMonths + (12 - expense.month) + 1 // +1 for first month installment
+        }else if(expense.year == selectedYear) {
+            numMonths = selectedMonth - expense.month + 1 // +1 for first month installment
+        }
+
+        var paidInstallments = 0
+        var sum = 0f
+
+        for(i in 1..numMonths step expense.payFrequency) {
+            if(paidInstallments < expense.numInstallmentMonths) {
+                sum += expense.value
+                paidInstallments++
+            }
+        }
+
+        return sum
     }
 }

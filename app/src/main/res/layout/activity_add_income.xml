@@ -5,161 +5,180 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
+    android:id="@+id/cl_add_income"
     tools:context=".views.AddIncomeActivity">
 
-    <TextView
-        android:id="@+id/lbl_income_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lbl_name"
-        android:textSize="@dimen/lbl_main_size"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <EditText
-        android:id="@+id/edit_income_name"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_add"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_income_name" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/lbl_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/lbl_description"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/add_acitivity_lbl_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_income_name" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edit_income_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_description" />
+            <TextView
+                android:id="@+id/lbl_income_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_name"
+                android:textSize="@dimen/lbl_main_size"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/lbl_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/lbl_value"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/add_acitivity_lbl_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_income_description" />
+            <EditText
+                android:id="@+id/edit_income_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lbl_income_name" />
 
-    <EditText
-        android:id="@+id/edit_income_value"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_value" />
+            <TextView
+                android:id="@+id/lbl_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_description"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/add_acitivity_lbl_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_income_name" />
 
-    <TextView
-        android:id="@+id/lbl_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/lbl_date"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/add_acitivity_lbl_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_income_value" />
+            <EditText
+                android:id="@+id/edit_income_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lbl_description" />
 
-    <Button
-        android:id="@+id/btn_change_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_change_date_txt"
-        style="@style/ButtonStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_date"/>
+            <TextView
+                android:id="@+id/lbl_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_value"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/add_acitivity_lbl_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_income_description" />
 
-    <TextView
-        android:id="@+id/txt_income_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="12/12/1993"
-        android:textSize="@dimen/lbl_main_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_date" />
+            <EditText
+                android:id="@+id/edit_income_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lbl_value" />
 
-    <TextView
-        android:id="@+id/lbl_recurrence"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/lbl_recurrence"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/lbl_main_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_change_date" />
+            <TextView
+                android:id="@+id/lbl_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_date"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/add_acitivity_lbl_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_income_value" />
 
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinner_income_recurrence"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbl_recurrence"/>
+            <Button
+                android:id="@+id/btn_change_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_change_date_txt"
+                style="@style/ButtonStyle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lbl_date"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner_income_recurrence">
+            <TextView
+                android:id="@+id/txt_income_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="12/12/1993"
+                android:textSize="@dimen/lbl_main_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lbl_date" />
 
-        <TextView
-            android:id="@+id/lbl_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/lbl_number"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/add_acitivity_lbl_size"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/lbl_recurrence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_recurrence"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/lbl_main_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_change_date" />
 
-        <EditText
-            android:id="@+id/edit_many_times"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/edit_many_times_hint"
-            android:inputType="number"
-            android:minWidth="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lbl_number" />
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner_income_recurrence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lbl_recurrence"/>
 
-        <TextView
-            android:id="@+id/lbl_every"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/lbl_every"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/add_acitivity_lbl_size"
-            app:layout_constraintStart_toEndOf="@id/lbl_number"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_pay_installment_income"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinner_income_recurrence">
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spinner_income_every_months"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            app:layout_constraintStart_toEndOf="@id/lbl_number"
-            app:layout_constraintTop_toBottomOf="@id/lbl_every" />
+                <TextView
+                    android:id="@+id/lbl_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/lbl_number"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/add_acitivity_lbl_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <EditText
+                    android:id="@+id/edit_many_times"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/edit_many_times_hint"
+                    android:inputType="number"
+                    android:minWidth="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lbl_number" />
+
+                <TextView
+                    android:id="@+id/lbl_every"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/lbl_every"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/add_acitivity_lbl_size"
+                    app:layout_constraintStart_toEndOf="@id/lbl_number"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_income_every_months"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    app:layout_constraintStart_toEndOf="@id/lbl_number"
+                    app:layout_constraintTop_toBottomOf="@id/lbl_every" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_add"
