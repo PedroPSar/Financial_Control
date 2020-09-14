@@ -18,7 +18,11 @@ import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.AddIncomeViewModel
+import kotlinx.android.synthetic.main.activity_add_expense.*
 import kotlinx.android.synthetic.main.activity_add_income.*
+import kotlinx.android.synthetic.main.activity_add_income.btn_add
+import kotlinx.android.synthetic.main.activity_add_income.btn_change_date
+import kotlinx.android.synthetic.main.activity_add_income.edit_many_times
 import java.util.*
 
 class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -27,6 +31,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private var recurrenceOption = Constants.RECURRENCE.NONE
     private var everyMonth = 1
+    private var numInstallmentMonths = 0
 
     private lateinit var spinner: Spinner
     private lateinit var spinnerEveryMonth: Spinner
@@ -65,7 +70,10 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
             mIncome.year = year
             mIncome.recurrence = recurrenceOption
             mIncome.payFrequency = everyMonth
-            mIncome.numInstallmentMonths = edit_many_times.text.toString().toInt()
+
+            if(edit_many_times.text.toString() != "") {
+                mIncome.numInstallmentMonths = edit_many_times.text.toString().toInt()
+            }
 
             mViewModel.saveIncome(mIncome)
         }

@@ -32,6 +32,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     private var typeOptions = Constants.TYPE.NOT_REQUIRED
     private var recurrenceOptions = Constants.RECURRENCE.NONE
     private var everyMonth = 1
+    private var numInstallmentMonths = 0
 
     private lateinit var calendar: Calendar
 
@@ -68,7 +69,11 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             expense.description = edit_expense_description.text.toString()
             expense.recurrence = recurrenceOptions
             expense.payFrequency = everyMonth
-            expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
+
+            if(edit_many_times.text.toString() != "") {
+                expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
+            }
+
 
             mViewModel.addExpense(expense)
         }

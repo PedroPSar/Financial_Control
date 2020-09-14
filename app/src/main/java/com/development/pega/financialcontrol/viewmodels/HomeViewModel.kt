@@ -116,7 +116,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         for(income in list) {
             if(income.month == selectedMonth
                 || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year == selectedYear && income.month < selectedMonth
-                || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < selectedYear) {
+                || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < selectedYear
+                || thisInstallmentIncomeIsFromThisMonth(income)) {
                 total += income.value
             }
         }
@@ -128,11 +129,50 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         for(expense in list) {
             if(expense.month == selectedMonth
                 || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year == selectedYear && expense.month < selectedMonth
-                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < selectedYear)  {
+                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < selectedYear
+                || thisInstallmentExpenseIsFromThisMonth(expense))  {
                 total += expense.value
             }
         }
         return total
+    }
+
+    private fun thisInstallmentIncomeIsFromThisMonth(income: Income): Boolean{
+        var result = false
+
+        if(income.recurrence == Constants.RECURRENCE.INSTALLMENT) {
+
+            var month = income.month
+            for(i in 2 .. income.numInstallmentMonths) {
+                month += income.payFrequency
+                if(month > 12) month-= 12
+
+                if(selectedMonth == month) {
+                    result = true
+                    break
+                }
+            }
+        }
+        return result
+    }
+
+    private fun thisInstallmentExpenseIsFromThisMonth(expense: Expense): Boolean{
+        var result = false
+
+        if(expense.recurrence == Constants.RECURRENCE.INSTALLMENT) {
+
+            var month = expense.month
+            for(i in 2 .. expense.numInstallmentMonths) {
+                month += expense.payFrequency
+                if(month > 12) month-= 12
+
+                if(selectedMonth == month) {
+                    result = true
+                    break
+                }
+            }
+        }
+        return result
     }
 
     private fun sumFixedIncomes(income: Income): Float {
@@ -253,13 +293,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun checkIfIncomeHasToBeOnTheList(income: Income): Boolean {
         return (income.month == selectedMonth ||
                 income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year == selectedYear && income.month < selectedMonth ||
-                income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < selectedYear)
+                income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < selectedYear
+                || thisInstallmentIncomeIsFromThisMonth(income))
     }
 
     private fun checkIfExpenseHasToBeOnTheList(expense: Expense): Boolean {
         return (expense.month == selectedMonth ||
                 expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year == selectedYear && expense.month < selectedMonth ||
-                expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < selectedYear)
+                expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < selectedYear
+                || thisInstallmentExpenseIsFromThisMonth(expense))
     }
 
     private fun upYearIfNecessary(month: Int) {
@@ -316,7 +358,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 paidInstallments++
             }
         }
-
         return sum
     }
 }
