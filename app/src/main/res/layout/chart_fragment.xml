@@ -5,9 +5,31 @@
     android:layout_height="match_parent"
     tools:context=".views.ChartFragment">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/line_chart_year_months"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/lbl_balance_year_months_chart"
+                android:text="@string/lbl_balance_year_months_chart_label"
+                android:textSize="@dimen/lbl_main_size"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_year_months"
+                android:layout_width="match_parent"
+                android:layout_height="320dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

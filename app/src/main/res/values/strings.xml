@@ -35,6 +35,7 @@
     <string name="edit_many_times_hint">2</string>
     <string name="lbl_number">Number</string>
     <string name="lbl_every">Every</string>
+    <string name="lbl_balance_year_months_chart_label">Monthly Balance</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>
