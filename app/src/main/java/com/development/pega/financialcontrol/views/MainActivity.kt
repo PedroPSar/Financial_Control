@@ -3,6 +3,7 @@ package com.development.pega.financialcontrol.views
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -103,9 +104,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun instantiateFragments() {
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        var width = displayMetrics.widthPixels / resources.displayMetrics.density
         homeFragment = HomeFragment.newInstance(mMainListener)
         savingsFragment = SavingsFragment()
-        chartFragment = ChartFragment()
+        chartFragment = ChartFragment.newInstance(width)
     }
 
     private fun setOnClicks() {
