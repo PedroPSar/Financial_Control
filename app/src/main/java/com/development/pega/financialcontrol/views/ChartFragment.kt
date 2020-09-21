@@ -1,5 +1,6 @@
 package com.development.pega.financialcontrol.views
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -67,18 +68,22 @@ class ChartFragment : Fragment() {
 
             val yAxisLeft = mYearMonthsLineChart.axisLeft
             yAxisLeft.setDrawZeroLine(true)
-            yAxisLeft.zeroLineWidth = 8f
-            yAxisLeft.zeroLineColor = R.color.colorPrimary
             yAxisLeft.setDrawGridLines(false)
 
             val xAxis = mYearMonthsLineChart.xAxis
-            xAxis.position = XAxis.XAxisPosition.BOTTOM;
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.textSize = 10f
-            xAxis.textColor = R.color.colorPrimary;
+
+            if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                xAxis.textColor = requireContext().getColor(R.color.colorPrimary)
+            }else {
+                xAxis.textColor = requireContext().resources.getColor(R.color.colorPrimary)
+            }
+
             xAxis.setDrawAxisLine(false)
             xAxis.setDrawGridLines(false)
-            mYearMonthsLineChart.measure(0, 0);
-            xAxis.valueFormatter = MonthsNamesFormatter()
+            mYearMonthsLineChart.measure(0, 0)
+            xAxis.valueFormatter = MonthsNamesFormatter(context)
 
             mYearMonthsLineChart.zoom(1.5f, 1f, 1f, 1f)
             mYearMonthsLineChart.invalidate()
@@ -86,8 +91,8 @@ class ChartFragment : Fragment() {
     }
 
 
-    class MonthsNamesFormatter() : ValueFormatter() {
-        private val days = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec")
+    class MonthsNamesFormatter(context: Context?) : ValueFormatter() {
+        private val days = context!!.resources.getStringArray(R.array.month_abbreviations)
 
         override fun getFormattedValue(value: Float): String {
             return value.toString()

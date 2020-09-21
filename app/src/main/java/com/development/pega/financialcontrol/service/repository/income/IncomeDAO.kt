@@ -24,4 +24,7 @@ interface IncomeDAO {
     @Query("SELECT * FROM Incomes WHERE month = :month")
     fun getIncomesFromMonth(month: Int): List<Income>
 
+    @Query("SELECT * FROM Incomes WHERE year = :year")
+    fun getIncomesFromYear(year: Int): List<Income>
+
 }

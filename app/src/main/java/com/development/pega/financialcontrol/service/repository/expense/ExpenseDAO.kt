@@ -34,4 +34,7 @@ interface ExpenseDAO {
     @Query("SELECT * FROM Expenses WHERE type = 2")
     fun getInvestment(): List<Expense>
 
+    @Query("SELECT * FROM Expenses WHERE year = :year")
+    fun getExpensesFromYear(year: Int): List<Expense>
+
 }

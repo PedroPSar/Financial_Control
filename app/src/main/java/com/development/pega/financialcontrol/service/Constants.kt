@@ -27,4 +27,9 @@ class Constants private constructor() {
         const val DATE_PATTERN = "dd/MM/yyyy"
     }
 
+    object LINE {
+        const val LINE_WIDTH = 3f
+        const val LINE_TEXT_SIZE = 8f
+    }
+
 }

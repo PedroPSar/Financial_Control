@@ -6,6 +6,7 @@ import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
+import com.development.pega.financialcontrol.service.Data
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
 import java.util.*
@@ -16,8 +17,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val months = mContext.resources.getStringArray(R.array.months_array)
     private val incomeRepository = IncomeRepository(mContext)
     private val expenseRepository = ExpenseRepository(mContext)
-    private var selectedMonth = 0
-    private var selectedYear = 0
 
     private val mMonth = MutableLiveData<String>()
     var month: LiveData<String> = mMonth
@@ -48,8 +47,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         val c = Calendar.getInstance()
         val month = c.get(Calendar.MONTH)
         val year = c.get(Calendar.YEAR)
-        selectedMonth = month + 1
-        selectedYear = year
+        Data.selectedMonth = month + 1
+        Data.selectedYear = year
         mMonth.value = months[month]
         mYear.value = year
     }
@@ -70,8 +69,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
         for(income in list) {
             if(checkIfIncomeHasToBeOnTheList(income)) {
-                income.month = selectedMonth
-                income.year = selectedYear
+                income.month = Data.selectedMonth
+                income.year = Data.selectedYear
                 currentMonthList.add(income)
             }
         }
@@ -84,8 +83,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
         for(expense in list) {
             if(checkIfExpenseHasToBeOnTheList(expense)) {
-                expense.month = selectedMonth
-                expense.year = selectedYear
+                expense.month = Data.selectedMonth
+                expense.year = Data.selectedYear
                 currentMonthList.add(expense)
             }
         }
@@ -93,30 +92,30 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun btnBeforeClick() {
-        selectedMonth--
-        selectedMonth = checkMonthNumber(selectedMonth)
-        downYearIfNecessary(selectedMonth)
+        Data.selectedMonth--
+        Data.selectedMonth = checkMonthNumber(Data.selectedMonth)
+        downYearIfNecessary(Data.selectedMonth)
         updateInfo()
     }
 
     fun btnNextClick() {
-        selectedMonth++
-        selectedMonth = checkMonthNumber(selectedMonth)
-        upYearIfNecessary(selectedMonth)
+        Data.selectedMonth++
+        Data.selectedMonth = checkMonthNumber(Data.selectedMonth)
+        upYearIfNecessary(Data.selectedMonth)
         updateInfo()
 
     }
 
     private fun setYear() {
-        mYear.value = selectedYear
+        mYear.value = Data.selectedYear
     }
 
     private fun sumIncomes(list: List<Income>): Float {
         var total = 0f
         for(income in list) {
-            if(income.month == selectedMonth
-                || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year == selectedYear && income.month < selectedMonth
-                || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < selectedYear
+            if(income.month == Data.selectedMonth
+                || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year == Data.selectedYear && income.month < Data.selectedMonth
+                || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < Data.selectedYear
                 || thisInstallmentIncomeIsFromThisMonth(income)) {
                 total += income.value
             }
@@ -127,9 +126,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun sumExpenses(list: List<Expense>): Float {
         var total = 0f
         for(expense in list) {
-            if(expense.month == selectedMonth
-                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year == selectedYear && expense.month < selectedMonth
-                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < selectedYear
+            if(expense.month == Data.selectedMonth
+                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year == Data.selectedYear && expense.month < Data.selectedMonth
+                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < Data.selectedYear
                 || thisInstallmentExpenseIsFromThisMonth(expense))  {
                 total += expense.value
             }
@@ -147,7 +146,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 month += income.payFrequency
                 if(month > 12) month-= 12
 
-                if(selectedMonth == month) {
+                if(Data.selectedMonth == month) {
                     result = true
                     break
                 }
@@ -166,7 +165,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 month += expense.payFrequency
                 if(month > 12) month-= 12
 
-                if(selectedMonth == month) {
+                if(Data.selectedMonth == month) {
                     result = true
                     break
                 }
@@ -178,13 +177,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun sumFixedIncomes(income: Income): Float {
         var sum = 0f
             if(income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY) {
-                if(income.year < selectedYear) {
-                    var otherYearsDifference = selectedYear - income.year
+                if(income.year < Data.selectedYear) {
+                    var otherYearsDifference = Data.selectedYear - income.year
                     otherYearsDifference = calcOtherYears(otherYearsDifference)
                     sum += income.value * ( otherYearsDifference + (12 - income.month) )
 
-                }else if(income.month < selectedMonth && income.year == selectedYear) {
-                    sum += income.value * (selectedMonth - income.month)
+                }else if(income.month < Data.selectedMonth && income.year == Data.selectedYear) {
+                    sum += income.value * (Data.selectedMonth - income.month)
                 }
             }
         return sum
@@ -193,13 +192,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun sumFixedExpenses(expense: Expense): Float {
         var sum = 0f
         if(expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY) {
-            if(expense.year < selectedYear) {
-                var otherYearsDifference = selectedYear - expense.year
+            if(expense.year < Data.selectedYear) {
+                var otherYearsDifference = Data.selectedYear - expense.year
                 otherYearsDifference = calcOtherYears(otherYearsDifference)
                 sum += expense.value * ( otherYearsDifference + (12 - expense.month) )
 
-            }else if(expense.month < selectedMonth && expense.year == selectedYear) {
-                sum += expense.value * (selectedMonth - expense.month)
+            }else if(expense.month < Data.selectedMonth && expense.year == Data.selectedYear) {
+                sum += expense.value * (Data.selectedMonth - expense.month)
             }
         }
         return sum
@@ -209,14 +208,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         var difference = yearDifference
         return if(yearDifference > 1) {
             difference--
-            (difference * 12) + selectedMonth
+            (difference * 12) + Data.selectedMonth
         }else {
-            selectedMonth
+            Data.selectedMonth
         }
     }
 
     private fun setMonth() {
-        mMonth.value = months[selectedMonth - 1]
+        mMonth.value = months[Data.selectedMonth - 1]
     }
 
     private fun checkMonthNumber(num: Int): Int {
@@ -249,7 +248,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         var installmentSum = 0f
 
         for(income in allIncomes) {
-            if(income.year == selectedYear && income.month <= selectedMonth || income.year < selectedYear){
+            if(income.year == Data.selectedYear && income.month <= Data.selectedMonth || income.year < Data.selectedYear){
                 if(income.recurrence == Constants.RECURRENCE.INSTALLMENT) {
                     incomeInstallmentSum += calcInstallmentIncome(income)
                 }else {
@@ -259,7 +258,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         for(expense in allExpenses) {
-            if(expense.year == selectedYear && expense.month <= selectedMonth || expense.year < selectedYear) {
+            if(expense.year == Data.selectedYear && expense.month <= Data.selectedMonth || expense.year < Data.selectedYear) {
                 if(expense.recurrence == Constants.RECURRENCE.INSTALLMENT) {
                     expenseInstallmentSum += calcInstallmentExpense(expense)
                 }else {
@@ -291,39 +290,39 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun checkIfIncomeHasToBeOnTheList(income: Income): Boolean {
-        return (income.month == selectedMonth ||
-                income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year == selectedYear && income.month < selectedMonth ||
-                income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < selectedYear
+        return (income.month == Data.selectedMonth ||
+                income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year == Data.selectedYear && income.month < Data.selectedMonth ||
+                income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < Data.selectedYear
                 || thisInstallmentIncomeIsFromThisMonth(income))
     }
 
     private fun checkIfExpenseHasToBeOnTheList(expense: Expense): Boolean {
-        return (expense.month == selectedMonth ||
-                expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year == selectedYear && expense.month < selectedMonth ||
-                expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < selectedYear
+        return (expense.month == Data.selectedMonth ||
+                expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year == Data.selectedYear && expense.month < Data.selectedMonth ||
+                expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < Data.selectedYear
                 || thisInstallmentExpenseIsFromThisMonth(expense))
     }
 
     private fun upYearIfNecessary(month: Int) {
         if(month == 1) {
-            selectedYear++
+            Data.selectedYear++
         }
     }
 
     private fun downYearIfNecessary(month: Int) {
         if(month == 12) {
-            selectedYear--
+            Data.selectedYear--
         }
     }
 
     private fun calcInstallmentIncome(income: Income):Float {
         var otherYearMonths = 0
         var numMonths = 0
-        if(income.year < selectedYear) {
-            otherYearMonths =  calcOtherYears(selectedYear - income.year)
+        if(income.year < Data.selectedYear) {
+            otherYearMonths =  calcOtherYears(Data.selectedYear - income.year)
             numMonths = otherYearMonths + (12 - income.month) + 1 // +1 for first month installment
-        }else if(income.year == selectedYear) {
-            numMonths = selectedMonth - income.month + 1 // +1 for first month installment
+        }else if(income.year == Data.selectedYear) {
+            numMonths = Data.selectedMonth - income.month + 1 // +1 for first month installment
         }
 
         var paidInstallments = 0
@@ -342,11 +341,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun calcInstallmentExpense(expense: Expense):Float {
         var otherYearMonths = 0
         var numMonths = 0
-        if(expense.year < selectedYear) {
-            otherYearMonths =  calcOtherYears(selectedYear - expense.year)
+        if(expense.year < Data.selectedYear) {
+            otherYearMonths =  calcOtherYears(Data.selectedYear - expense.year)
             numMonths = otherYearMonths + (12 - expense.month) + 1 // +1 for first month installment
-        }else if(expense.year == selectedYear) {
-            numMonths = selectedMonth - expense.month + 1 // +1 for first month installment
+        }else if(expense.year == Data.selectedYear) {
+            numMonths = Data.selectedMonth - expense.month + 1 // +1 for first month installment
         }
 
         var paidInstallments = 0

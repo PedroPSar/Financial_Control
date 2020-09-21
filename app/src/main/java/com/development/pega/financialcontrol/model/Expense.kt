@@ -41,4 +41,5 @@ class Expense {
 
     @ColumnInfo(name = "payFrequency")
     var payFrequency = 0
+
 }

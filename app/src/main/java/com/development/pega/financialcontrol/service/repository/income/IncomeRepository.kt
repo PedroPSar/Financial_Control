@@ -19,6 +19,10 @@ class IncomeRepository(context: Context) {
         return mDatabase.getIncomesFromMonth(month)
     }
 
+    fun getIncomesFromYear(year: Int): List<Income> {
+        return mDatabase.getIncomesFromYear(year)
+    }
+
     fun save(income: Income): Boolean {
         return mDatabase.save(income) > 0
     }
@@ -30,4 +34,5 @@ class IncomeRepository(context: Context) {
     fun delete(income: Income) {
         mDatabase.delete(income)
     }
+
 }
