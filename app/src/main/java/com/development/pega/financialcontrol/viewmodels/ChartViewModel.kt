@@ -1,6 +1,7 @@
 package com.development.pega.financialcontrol.viewmodels
 
 import android.app.Application
+import android.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,9 +12,7 @@ import com.development.pega.financialcontrol.service.Data
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
 import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 class ChartViewModel(application: Application) : AndroidViewModel(application) {
@@ -30,6 +29,10 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     private val mYearMonthsChart = MutableLiveData<LineData>()
     var yearMonthsChart: LiveData<LineData> = mYearMonthsChart
 
+    private val mExpensesTypePieChart = MutableLiveData<PieData>()
+    var expensesTypePiechart: LiveData<PieData> = mExpensesTypePieChart
+
+    //MonthsLineChart
     fun setDataInYearMonthsLineChart() {
 
         createYearMonthsLines()
@@ -181,7 +184,25 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
             balanceLine.color = mContext.resources.getColor(R.color.colorIncomes)
             balanceLine.color = mContext.resources.getColor(R.color.colorExpenses)
         }
+    }
 
+    //ExpensesTypePieChart
+    fun setExpensesTypePieChartData() {
+        mExpensesTypePieChart.value = createMonthExpensesTypePieChartData()
+    }
 
+    private fun createMonthExpensesTypePieChartData(): PieData {
+        val typeNames = mContext.resources.getStringArray(R.array.spinner_type_options)
+        val colors = arrayListOf(Color.GREEN, Color.BLUE, Color.YELLOW)
+
+        var expensesType = arrayListOf<PieEntry>()
+        expensesType.add(PieEntry(500f, typeNames[0]))
+        expensesType.add(PieEntry(300f, typeNames[1]))
+        expensesType.add(PieEntry(450f, typeNames[2]))
+
+        val pieDataSet = PieDataSet(expensesType, mContext.getString(R.string.expenses_type_pie_chart_name))
+        pieDataSet.colors = colors
+
+        return PieData(pieDataSet)
     }
 }

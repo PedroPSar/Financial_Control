@@ -37,6 +37,10 @@
     <string name="lbl_every">Every</string>
     <string name="lbl_balance_year_months_chart_label">Monthly Balance</string>
 
+    <!-- Chart Fragment-->
+    <string name="lbl_expenses_type_month_pizza_chart">Expenses type</string>
+    <string name="expenses_type_pie_chart_name">Expenses type</string>
+
     <string-array name="spinner_recurrence_options">
         <item>None</item>
         <item>Installment</item>

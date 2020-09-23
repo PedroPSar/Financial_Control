@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var popupMenu: PopupMenu
+    private var popupMenuIsInflated = false;
     private lateinit var tvYear: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var mMainListener: MainListener
@@ -104,13 +105,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun instantiateFragments() {
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-        var width = displayMetrics.widthPixels / resources.displayMetrics.density
         homeFragment = HomeFragment.newInstance(mMainListener)
         savingsFragment = SavingsFragment()
-        chartFragment = ChartFragment.newInstance(width)
+        chartFragment = ChartFragment()
     }
 
     private fun setOnClicks() {
@@ -124,7 +121,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun setAddMenu() {
-        popupMenu.inflate(R.menu.add_menu)
+        if(!popupMenuIsInflated) {
+            popupMenu.inflate(R.menu.add_menu)
+            popupMenuIsInflated = true
+        }
         popupMenu.show()
     }
 

@@ -5,4 +5,5 @@
     <dimen name="add_acitivity_lbl_size">16sp</dimen>
     <dimen name="home_year_tv_size">12sp</dimen>
     <dimen name="margin_bottom_card_view_row">4dp</dimen>
+    <dimen name="charts_height">320dp</dimen>
 </resources>

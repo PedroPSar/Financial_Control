@@ -26,7 +26,20 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/line_chart_year_months"
                 android:layout_width="match_parent"
-                android:layout_height="320dp" />
+                android:layout_height="@dimen/charts_height" />
+
+            <TextView
+                android:id="@+id/lbl_expenses_month_pie_chart"
+                android:text="@string/lbl_expenses_type_month_pizza_chart"
+                android:textSize="@dimen/lbl_main_size"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie_chart_month_expenses_type"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/charts_height"/>
 
         </LinearLayout>
 
