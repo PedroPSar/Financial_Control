@@ -35,6 +35,10 @@ class ExpenseRepository(context: Context) {
         return mDatabase.getExpensesFromYear(year)
     }
 
+    fun getExpensesFromYearAndMonth(year: Int, month: Int): List<Expense> {
+        return mDatabase.getExpensesFromYearAndMonth(year, month)
+    }
+
     fun save(expense: Expense): Boolean {
         return mDatabase.save(expense) > 0
     }

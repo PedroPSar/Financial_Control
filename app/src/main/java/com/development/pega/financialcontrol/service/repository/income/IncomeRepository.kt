@@ -23,6 +23,10 @@ class IncomeRepository(context: Context) {
         return mDatabase.getIncomesFromYear(year)
     }
 
+    fun getIncomesFromYearAndMonth(year: Int, month: Int): List<Income> {
+        return mDatabase.getIncomesFromYearAndMonth(year, month)
+    }
+
     fun save(income: Income): Boolean {
         return mDatabase.save(income) > 0
     }

@@ -32,4 +32,8 @@ class Constants private constructor() {
         const val LINE_TEXT_SIZE = 8f
     }
 
+    object PIE {
+        const val PIE_VALUE_TEXT_SIZE = 8f
+    }
+
 }

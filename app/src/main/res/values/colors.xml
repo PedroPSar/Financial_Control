@@ -12,5 +12,6 @@
     <color name="description_bg">#FAFAFA</color>
     <color name="card_view_color_bg">#FFFFFF</color>
     <color name="home_part_bg_color">#FFFFFF</color>
+    <color name="colorSelectedMonth">#625D6E</color>
 
 </resources>

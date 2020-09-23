@@ -40,6 +40,8 @@
     <!-- Chart Fragment-->
     <string name="lbl_expenses_type_month_pizza_chart">Expenses type</string>
     <string name="expenses_type_pie_chart_name">Expenses type</string>
+    <string name="lbl_expenses_recurrence_month_pizza_chart">Expenses recurrence</string>
+    <string name="lbl_incomes_recurrence_month_pizza_chart">Incomes recurrence</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>

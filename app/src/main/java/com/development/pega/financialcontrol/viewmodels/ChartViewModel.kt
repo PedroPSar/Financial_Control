@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.MonthForSum
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.Data
@@ -26,11 +27,24 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var incomesLine: LineDataSet
     private lateinit var expensesLine: LineDataSet
 
+    private val mSelectedMonthTextView = MutableLiveData<String>()
+    var selectedMonthTextView: LiveData<String> = mSelectedMonthTextView
+
     private val mYearMonthsChart = MutableLiveData<LineData>()
     var yearMonthsChart: LiveData<LineData> = mYearMonthsChart
 
     private val mExpensesTypePieChart = MutableLiveData<PieData>()
-    var expensesTypePiechart: LiveData<PieData> = mExpensesTypePieChart
+    var expensesTypePieChart: LiveData<PieData> = mExpensesTypePieChart
+
+    private val mExpensesRecurrencePieChart = MutableLiveData<PieData>()
+    var expensesRecurrencePieChart: LiveData<PieData> = mExpensesRecurrencePieChart
+
+    private val mIncomesRecurrencePieChart = MutableLiveData<PieData>()
+    var incomesRecurrencePieChart: LiveData<PieData> = mIncomesRecurrencePieChart
+
+    fun setSelectedMonthTextView() {
+        mSelectedMonthTextView.value = months[Data.selectedMonth]
+    }
 
     //MonthsLineChart
     fun setDataInYearMonthsLineChart() {
@@ -195,14 +209,120 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         val typeNames = mContext.resources.getStringArray(R.array.spinner_type_options)
         val colors = arrayListOf(Color.GREEN, Color.BLUE, Color.YELLOW)
 
+        //0 = not required; 1 = required; 2 = investment
+        val expensesSeparateType = getExpensesTypeInYearAndMonth()
+
         var expensesType = arrayListOf<PieEntry>()
-        expensesType.add(PieEntry(500f, typeNames[0]))
-        expensesType.add(PieEntry(300f, typeNames[1]))
-        expensesType.add(PieEntry(450f, typeNames[2]))
+        expensesType.add(PieEntry(expensesSeparateType[0], typeNames[0]))
+        expensesType.add(PieEntry(expensesSeparateType[1], typeNames[1]))
+        expensesType.add(PieEntry(expensesSeparateType[2], typeNames[2]))
 
         val pieDataSet = PieDataSet(expensesType, mContext.getString(R.string.expenses_type_pie_chart_name))
         pieDataSet.colors = colors
+        pieDataSet.valueTextColor = Color.BLACK
+        pieDataSet.valueTextSize = Constants.PIE.PIE_VALUE_TEXT_SIZE
 
         return PieData(pieDataSet)
+    }
+
+    private fun getExpensesTypeInYearAndMonth(): List<Float> {
+        val expenses = expenseRepository.getExpensesFromYearAndMonth(Data.selectedYear, Data.selectedMonth)
+        var notRequiredSum = 0f
+        var requiredSum = 0f
+        var investmentSum = 0f
+
+        for(expense in expenses) {
+            when(expense.type) {
+                Constants.TYPE.NOT_REQUIRED -> notRequiredSum += expense.value
+                Constants.TYPE.REQUIRED -> requiredSum += expense.value
+                Constants.TYPE.INVESTMENT -> investmentSum += expense.value
+            }
+        }
+
+        return arrayListOf(notRequiredSum, requiredSum, investmentSum)
+    }
+
+    //ExpensesRecurrencePieChart
+    fun setExpensesRecurrencePieChartData() {
+        mExpensesRecurrencePieChart.value = createMonthExpensesRecurrencePieChartData()
+    }
+
+    private fun createMonthExpensesRecurrencePieChartData(): PieData {
+        val typeNames = mContext.resources.getStringArray(R.array.spinner_recurrence_options)
+        val colors = arrayListOf(Color.GREEN, Color.BLUE, Color.YELLOW)
+
+        //0 = not required; 1 = required; 2 = investment
+        val expensesSeparateRecurrence = getExpensesRecurrenceInYearAndMonth()
+
+        var expensesRecurrence = arrayListOf<PieEntry>()
+        expensesRecurrence.add(PieEntry(expensesSeparateRecurrence[0], typeNames[0]))
+        expensesRecurrence.add(PieEntry(expensesSeparateRecurrence[1], typeNames[1]))
+        expensesRecurrence.add(PieEntry(expensesSeparateRecurrence[2], typeNames[2]))
+
+        val pieDataSet = PieDataSet(expensesRecurrence, mContext.getString(R.string.lbl_expenses_recurrence_month_pizza_chart))
+        pieDataSet.colors = colors
+        pieDataSet.valueTextColor = Color.BLACK
+        pieDataSet.valueTextSize = Constants.PIE.PIE_VALUE_TEXT_SIZE
+
+        return PieData(pieDataSet)
+    }
+
+    private fun getExpensesRecurrenceInYearAndMonth(): List<Float> {
+        val expenses = expenseRepository.getExpensesFromYearAndMonth(Data.selectedYear, Data.selectedMonth)
+        var noneSum = 0f
+        var installmentSum = 0f
+        var fixedMonthlySum = 0f
+
+        for(expense in expenses) {
+            when(expense.recurrence) {
+                Constants.RECURRENCE.NONE -> noneSum += expense.value
+                Constants.RECURRENCE.INSTALLMENT -> installmentSum += expense.value
+                Constants.RECURRENCE.FIXED_MONTHLY -> fixedMonthlySum += expense.value
+            }
+        }
+
+        return arrayListOf(noneSum, installmentSum, fixedMonthlySum)
+    }
+
+    //IncomesRecurrencePieChart
+    fun setIncomesRecurrencePieChartData() {
+        mIncomesRecurrencePieChart.value = createMonthIncomesRecurrencePieChartData()
+    }
+
+    private fun createMonthIncomesRecurrencePieChartData(): PieData {
+        val typeNames = mContext.resources.getStringArray(R.array.spinner_recurrence_options)
+        val colors = arrayListOf(Color.GREEN, Color.BLUE, Color.YELLOW)
+
+        //0 = not required; 1 = required; 2 = investment
+        val incomesSeparateType = getIncomesRecurrenceInYearAndMonth()
+
+        var incomesRecurrence = arrayListOf<PieEntry>()
+        incomesRecurrence.add(PieEntry(incomesSeparateType[0], typeNames[0]))
+        incomesRecurrence.add(PieEntry(incomesSeparateType[1], typeNames[1]))
+        incomesRecurrence.add(PieEntry(incomesSeparateType[2], typeNames[2]))
+
+        val pieDataSet = PieDataSet(incomesRecurrence, mContext.getString(R.string.lbl_expenses_recurrence_month_pizza_chart))
+        pieDataSet.colors = colors
+        pieDataSet.valueTextColor = Color.BLACK
+        pieDataSet.valueTextSize = Constants.PIE.PIE_VALUE_TEXT_SIZE
+
+        return PieData(pieDataSet)
+    }
+
+    private fun getIncomesRecurrenceInYearAndMonth(): List<Float> {
+        val incomes = incomeRepository.getIncomesFromYearAndMonth(Data.selectedYear, Data.selectedMonth)
+        var noneSum = 0f
+        var installmentSum = 0f
+        var fixedMonthlySum = 0f
+
+        for(income in incomes) {
+            when(income.recurrence) {
+                Constants.RECURRENCE.NONE -> noneSum += income.value
+                Constants.RECURRENCE.INSTALLMENT -> installmentSum += income.value
+                Constants.RECURRENCE.FIXED_MONTHLY -> fixedMonthlySum += income.value
+            }
+        }
+
+        return arrayListOf(noneSum, installmentSum, fixedMonthlySum)
     }
 }

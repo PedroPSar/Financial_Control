@@ -28,18 +28,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/charts_height" />
 
-            <TextView
-                android:id="@+id/lbl_expenses_month_pie_chart"
-                android:text="@string/lbl_expenses_type_month_pizza_chart"
-                android:textSize="@dimen/lbl_main_size"
-                android:textColor="@color/colorPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie_chart_month_expenses_type"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/charts_height"/>
+                android:layout_height="wrap_content"
+                android:background="@drawable/rv_card_view_shape">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lbl_selected_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorSelectedMonth"
+                    android:textSize="@dimen/lbl_main_size"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:id="@+id/lbl_expenses_type_month_pie_chart"
+                    android:text="@string/lbl_expenses_type_month_pizza_chart"
+                    android:textSize="@dimen/lbl_main_size"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart_month_expenses_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/charts_height"/>
+
+                <TextView
+                    android:id="@+id/lbl_expenses_recurrence_month_pie_chart"
+                    android:text="@string/lbl_expenses_recurrence_month_pizza_chart"
+                    android:textSize="@dimen/lbl_main_size"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart_month_expenses_recurrence"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/charts_height"/>
+
+                <TextView
+                    android:id="@+id/lbl_incomes_recurrence_month_pie_chart"
+                    android:text="@string/lbl_incomes_recurrence_month_pizza_chart"
+                    android:textSize="@dimen/lbl_main_size"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart_month_incomes_recurrence"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/charts_height"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
