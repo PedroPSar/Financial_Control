@@ -44,7 +44,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/lbl_description"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/add_acitivity_lbl_size"
+                android:textSize="@dimen/add_activity_lbl_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edit_income_name" />
 
@@ -63,7 +63,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/lbl_value"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/add_acitivity_lbl_size"
+                android:textSize="@dimen/add_activity_lbl_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edit_income_description" />
 
@@ -82,7 +82,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/lbl_date"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/add_acitivity_lbl_size"
+                android:textSize="@dimen/add_activity_lbl_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edit_income_value" />
 
@@ -140,7 +140,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/lbl_number"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/add_acitivity_lbl_size"
+                    android:textSize="@dimen/add_activity_lbl_size"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -162,7 +162,7 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/lbl_every"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/add_acitivity_lbl_size"
+                    android:textSize="@dimen/add_activity_lbl_size"
                     app:layout_constraintStart_toEndOf="@id/lbl_number"
                     app:layout_constraintTop_toTopOf="parent" />
 

@@ -8,108 +8,137 @@
     tools:context=".views.SavingsFragment">
 
     <TextView
-        android:id="@+id/lbl_balance"
+        android:id="@+id/lbl_savings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lbl_balance"
+        android:text="@string/lbl_savings"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/lbl_savings_size"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/num_balance"
+        android:id="@+id/savings_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="R$300,00"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/lbl_balance"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:textSize="@dimen/savings_amount_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/num_balance"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/lbl_savings"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_deposit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/savings_amount">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/lbl_inputs"
+                android:id="@+id/lbl_deposits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/lbl_inputs"
+                android:text="@string/lbl_deposits"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/lbl_main_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_inputs"
+                android:id="@+id/rv_deposits"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/lbl_inputs"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/lbl_deposits" />
 
             <TextView
-                android:id="@+id/lbl_total_inputs"
+                android:id="@+id/lbl_total_deposits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_total"
-                app:layout_constraintTop_toBottomOf="@id/rv_inputs"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_deposits" />
 
             <TextView
                 android:id="@+id/num_total_inputs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="R$300,00"
                 android:layout_marginStart="8dp"
-                app:layout_constraintTop_toBottomOf="@id/rv_inputs"
-                app:layout_constraintStart_toEndOf="@id/lbl_total_inputs"/>
+                android:text="R$300,00"
+                app:layout_constraintStart_toEndOf="@id/lbl_total_deposits"
+                app:layout_constraintTop_toBottomOf="@id/rv_deposits" />
 
             <TextView
-                android:id="@+id/lbl_outputs"
+                android:id="@+id/lbl_withdrawals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/lbl_outputs"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/lbl_main_size"
+                android:text="@string/lbl_withdrawals"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_inputs" />
+                app:layout_constraintTop_toBottomOf="@id/rv_deposits" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_outputs"
+                android:id="@+id/rv_withdrawals"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/lbl_outputs"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/lbl_withdrawals" />
 
             <TextView
-                android:id="@+id/lbl_total_outputs"
+                android:id="@+id/lbl_total_withdrawals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_total"
-                app:layout_constraintTop_toBottomOf="@id/rv_outputs"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_withdrawals" />
 
             <TextView
                 android:id="@+id/num_total_outputs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="R$300,00"
                 android:layout_marginStart="8dp"
-                app:layout_constraintTop_toBottomOf="@id/rv_outputs"
-                app:layout_constraintStart_toEndOf="@id/lbl_total_outputs"/>
+                android:text="R$300,00"
+                app:layout_constraintStart_toEndOf="@id/lbl_total_withdrawals"
+                app:layout_constraintTop_toBottomOf="@id/rv_withdrawals" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/btn_deposit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_deposit_txt"
+        android:background="@color/colorExpenses"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_withdraw"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <Button
+        android:id="@+id/btn_withdraw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_withdraw_txt"
+        android:background="@color/colorIncomes"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@id/btn_deposit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

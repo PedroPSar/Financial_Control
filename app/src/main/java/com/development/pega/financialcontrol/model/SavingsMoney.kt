@@ -14,12 +14,19 @@ class SavingsMoney() {
     @ColumnInfo(name = "money")
     var money = 0.0f
 
-    @ColumnInfo(name = "date")
-    var date = ""
+    @ColumnInfo(name = "day")
+    var day = 0
+
+    @ColumnInfo(name = "month")
+    var month = 0
+
+    @ColumnInfo(name = "year")
+    var year = 0
 
     @ColumnInfo(name = "description")
     var description = ""
 
+    // type 1 deposit, 2 withdraw
     @ColumnInfo(name = "type")
     var type = 0
 }

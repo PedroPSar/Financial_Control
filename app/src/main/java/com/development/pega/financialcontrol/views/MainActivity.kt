@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         //Initialize popup menu
         val button = toolbar.getChildAt(0)
@@ -132,8 +133,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val c = Calendar.getInstance()
         tvYear = toolbar.findViewById(R.id.tv_year)
         tvYear.text = c.get(Calendar.YEAR).toString()
-
-        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
 }

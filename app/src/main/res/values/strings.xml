@@ -14,8 +14,8 @@
 
     <!-- Savings Fragment -->
     <string name="lbl_balance">Balance</string>
-    <string name="lbl_inputs">Inputs</string>
-    <string name="lbl_outputs">Outputs</string>
+    <string name="lbl_deposits">Deposits</string>
+    <string name="lbl_withdrawals">Withdrawals</string>
 
     <!-- menu add -->
     <string name="add_income">Add income</string>
@@ -37,11 +37,20 @@
     <string name="lbl_every">Every</string>
     <string name="lbl_balance_year_months_chart_label">Monthly Balance</string>
 
-    <!-- Chart Fragment-->
+    <!--Chart Fragment-->
     <string name="lbl_expenses_type_month_pizza_chart">Expenses type</string>
     <string name="expenses_type_pie_chart_name">Expenses type</string>
     <string name="lbl_expenses_recurrence_month_pizza_chart">Expenses recurrence</string>
     <string name="lbl_incomes_recurrence_month_pizza_chart">Incomes recurrence</string>
+
+    <!--Savings Fragment-->
+    <string name="lbl_savings">Savings</string>
+    <string name="btn_deposit_txt">Deposit</string>
+    <string name="btn_withdraw_txt">Withdraw</string>
+
+    <!-- DepositOrWithdraw Activity -->
+    <string name="deposit_name">Savings Deposit</string>
+    <string name="withdraw_name">Savings Withdrawal</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>
