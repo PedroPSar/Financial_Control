@@ -1,6 +1,8 @@
 package com.development.pega.financialcontrol.views
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.provider.SyncStateContract
@@ -9,8 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.adapter.DepositOrWithdrawRecyclerViewAdapter
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 import com.development.pega.financialcontrol.viewmodels.SavingsViewModel
@@ -22,12 +28,16 @@ class SavingsFragment : Fragment(), View.OnClickListener {
         fun newInstance() = SavingsFragment()
     }
 
-    private lateinit var viewModel: SavingsViewModel
+    private lateinit var mViewModel: SavingsViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
 
     private lateinit var root: View
     private lateinit var btnDeposit: Button
     private lateinit var btnWithdraw: Button
+    private val mDepositAdapter = DepositOrWithdrawRecyclerViewAdapter()
+    private val mWithdrawalsAdapter = DepositOrWithdrawRecyclerViewAdapter()
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.savings_fragment, container, false)
@@ -38,12 +48,26 @@ class SavingsFragment : Fragment(), View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         val application = requireActivity().application
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
-        viewModel = ViewModelProvider(this).get(SavingsViewModel::class.java)
+        mViewModel = ViewModelProvider(this).get(SavingsViewModel::class.java)
 
         btnDeposit = root.findViewById(R.id.btn_deposit)
         btnWithdraw = root.findViewById(R.id.btn_withdraw)
 
+        sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)!!
+
         setListeners()
+        adapters()
+        observers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel.setDepositRecyclerViewInfo()
+        mViewModel.setWithdrawalsRecyclerViewInfo()
+        mViewModel.setDepositsTotal()
+        mViewModel.setWithdrawalsTotal()
+        mViewModel.setObjectiveValue()
+        mViewModel.setObjectiveDescription()
     }
 
     override fun onClick(v: View) {
@@ -56,12 +80,65 @@ class SavingsFragment : Fragment(), View.OnClickListener {
     private fun setListeners() {
         btn_deposit.setOnClickListener(this)
         btn_withdraw.setOnClickListener(this)
+        btn_objective.setOnClickListener(this)
+        btn_objective_description.setOnClickListener(this)
     }
 
     private fun setDepositWithdrawIntent(type: Int) {
         val intent = Intent(context, DepositOrWithdrawActivity::class.java)
         intent.putExtra("type", type)
         startActivity(intent)
+    }
+
+    private fun adapters() {
+        setInfoInDepositRecyclerView()
+        setInfoInWithdrawRecyclerView()
+    }
+
+    private fun setInfoInDepositRecyclerView() {
+        val depositRV = root.findViewById<RecyclerView>(R.id.rv_deposits)
+        depositRV.layoutManager = LinearLayoutManager(context)
+        depositRV.adapter = mDepositAdapter
+    }
+
+    private fun setInfoInWithdrawRecyclerView() {
+        val withdrawRV = root.findViewById<RecyclerView>(R.id.rv_withdrawals)
+        withdrawRV.layoutManager = LinearLayoutManager(context)
+        withdrawRV.adapter = mWithdrawalsAdapter
+    }
+
+    private fun editObjectiveValue() {
+        // abrir um dialog com um edittext
+    }
+
+    private fun editObjectiveDescription() {
+        // abrir um dialog com um edittext
+    }
+
+    private fun observers() {
+        mViewModel.depositRecyclerViewInfo.observe(viewLifecycleOwner, Observer {
+            mDepositAdapter.updateSavingsMoneyList(it)
+        })
+
+        mViewModel.withdrawalsRecyclerViewInfo.observe(viewLifecycleOwner, Observer {
+            mWithdrawalsAdapter.updateSavingsMoneyList(it)
+        })
+
+        mViewModel.depositsTotal.observe(viewLifecycleOwner, Observer {
+            num_total_deposits.text = it.toString()
+        })
+
+        mViewModel.depositsTotal.observe(viewLifecycleOwner, Observer {
+            num_total_withdrawals.text = it.toString()
+        })
+
+        mViewModel.objectiveValue.observe(viewLifecycleOwner, Observer {
+            tv_objective_value.text = it
+        })
+
+        mViewModel.objectiveDescription.observe(viewLifecycleOwner, Observer {
+            tv_objective_description.text = it
+        })
     }
 
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_lbl_deposit_withdraw_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_value"
+        android:textSize="@dimen/lbl_main_size"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_txt_deposit_withdraw_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="300"
+        android:textSize="@dimen/lbl_main_size"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/tv_lbl_deposit_withdraw_value"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_lbl_deposit_withdraw_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_date"
+        android:textSize="@dimen/lbl_main_size"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@id/tv_txt_deposit_withdraw_date"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_txt_deposit_withdraw_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12/12/1993"
+        android:textSize="@dimen/lbl_main_size"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_lbl_deposit_withdraw_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/lbl_description"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/lbl_main_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_deposit_withdraw_date" />
+
+    <TextView
+        android:id="@+id/tv_txt_deposit_withdraw_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_deposit_withdraw_description"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

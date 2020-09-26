@@ -1,6 +1,7 @@
 package com.development.pega.financialcontrol.control
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import com.development.pega.financialcontrol.service.Constants
@@ -10,6 +11,7 @@ import java.util.*
 abstract class AppControl {
 
     companion object {
+
         fun showToast(context: Context, text: String) {
             Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
         }

@@ -12,6 +12,10 @@
     <string name="menu_charts">Charts</string>
     <string name="label_total">Total</string>
 
+    <!-- Shared Preferences -->
+    <string name="objective_value_default">00,00</string>
+    <string name="objective_description_default">Nothing</string>
+
     <!-- Savings Fragment -->
     <string name="lbl_balance">Balance</string>
     <string name="lbl_deposits">Deposits</string>
@@ -37,16 +41,18 @@
     <string name="lbl_every">Every</string>
     <string name="lbl_balance_year_months_chart_label">Monthly Balance</string>
 
-    <!--Chart Fragment-->
+    <!-- Chart Fragment -->
     <string name="lbl_expenses_type_month_pizza_chart">Expenses type</string>
     <string name="expenses_type_pie_chart_name">Expenses type</string>
     <string name="lbl_expenses_recurrence_month_pizza_chart">Expenses recurrence</string>
     <string name="lbl_incomes_recurrence_month_pizza_chart">Incomes recurrence</string>
 
-    <!--Savings Fragment-->
+    <!-- Savings Fragment -->
     <string name="lbl_savings">Savings</string>
     <string name="btn_deposit_txt">Deposit</string>
     <string name="btn_withdraw_txt">Withdraw</string>
+    <string name="lbl_objective">Objective</string>
+    <string name="lbl_objective_description">Objective description</string>
 
     <!-- DepositOrWithdraw Activity -->
     <string name="deposit_name">Savings Deposit</string>
