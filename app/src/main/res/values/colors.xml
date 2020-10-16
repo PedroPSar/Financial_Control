@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#007FFF</color>
+    <color name="colorPrimaryDark">#0047ab</color>
+    <color name="colorAccent">#00a86b</color>
     <color name="bottom_bar_color">#CDCDCD</color>
     <color name="title_action_bar_color">#FFFFFF</color>
     <color name="colorIncomes">#00E676</color>
@@ -13,5 +13,9 @@
     <color name="card_view_color_bg">#FFFFFF</color>
     <color name="home_part_bg_color">#FFFFFF</color>
     <color name="colorSelectedMonth">#625D6E</color>
+    <color name="button_bg">#ffffff</color>
+
+    <color name="background_start_color">#f7f7f7</color>
+    <color name="background_end_color">#f0f9ff</color>
 
 </resources>

@@ -12,5 +12,9 @@
         <item name="android:background">@drawable/button_shape</item>
     </style>
 
-    <color name="button_bg">#ffffff</color>
+    <style name="ContainerStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="elevation">@dimen/containers_elevation</item>
+        <item name="android:background">@drawable/container_shape</item>
+    </style>
+
 </resources>

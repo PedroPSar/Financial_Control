@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,8 +33,8 @@ class SavingsFragment : Fragment(), View.OnClickListener {
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
 
     private lateinit var root: View
-    private lateinit var btnDeposit: Button
-    private lateinit var btnWithdraw: Button
+    private lateinit var btnDeposit: ImageView
+    private lateinit var btnWithdraw: ImageView
     private val mDepositAdapter = DepositOrWithdrawRecyclerViewAdapter()
     private val mWithdrawalsAdapter = DepositOrWithdrawRecyclerViewAdapter()
 
@@ -133,7 +134,8 @@ class SavingsFragment : Fragment(), View.OnClickListener {
         })
 
         mViewModel.objectiveValue.observe(viewLifecycleOwner, Observer {
-            tv_objective_value.text = it
+            val txt = "R$300,00 / $it"
+            tv_savings_amount.text = txt
         })
 
         mViewModel.objectiveDescription.observe(viewLifecycleOwner, Observer {
