@@ -139,8 +139,10 @@
                     android:id="@+id/num_total_deposits"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="R$300,00"
-                    android:layout_below="@id/lbl_total_deposits" />
+                    android:layout_toRightOf="@id/lbl_total_deposits"
+                    android:layout_alignBottom="@id/lbl_total_deposits"
+                    android:layout_marginStart="8dp"
+                    android:text="R$300,00"/>
 
             </RelativeLayout>
 
@@ -187,7 +189,9 @@
                     android:id="@+id/num_total_withdrawals"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/lbl_total_withdrawals"
+                    android:layout_toRightOf="@id/lbl_total_withdrawals"
+                    android:layout_alignBottom="@id/lbl_total_withdrawals"
+                    android:layout_marginStart="8dp"
                     android:text="R$300,00" />
 
             </RelativeLayout>

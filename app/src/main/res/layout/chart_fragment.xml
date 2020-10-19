@@ -15,30 +15,39 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <TextView
-                android:id="@+id/lbl_balance_year_months_chart"
-                android:text="@string/lbl_balance_year_months_chart_label"
-                android:textSize="@dimen/lbl_main_size"
-                android:textColor="@color/colorPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/line_chart_year_months"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/charts_height" />
-
-            <androidx.cardview.widget.CardView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rv_card_view_shape">
+                style="@style/ContainerStyle">
+
+                <TextView
+                    android:id="@+id/lbl_balance_year_months_chart"
+                    android:text="@string/lbl_balance_year_months_chart_label"
+                    android:textSize="@dimen/lbl_main_size"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/line_chart_year_months"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/charts_height"
+                    android:layout_below="@id/lbl_balance_year_months_chart"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ContainerStyle"
+                android:layout_marginTop="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <TextView
+                <Spinner
                     android:id="@+id/lbl_selected_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -87,7 +96,7 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </RelativeLayout>
 
         </LinearLayout>
 

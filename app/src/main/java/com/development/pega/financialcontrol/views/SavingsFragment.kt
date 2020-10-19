@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,11 +20,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.adapter.DepositOrWithdrawRecyclerViewAdapter
 import com.development.pega.financialcontrol.service.Constants
+import com.development.pega.financialcontrol.service.dialog.ObjectiveDescriptionDialogFragment
+import com.development.pega.financialcontrol.service.dialog.ObjectiveValueDialogFragment
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 import com.development.pega.financialcontrol.viewmodels.SavingsViewModel
 import kotlinx.android.synthetic.main.savings_fragment.*
 
-class SavingsFragment : Fragment(), View.OnClickListener {
+class SavingsFragment : Fragment(), View.OnClickListener, ObjectiveValueDialogFragment.ObjectiveValueDialogListener {
 
     companion object {
         fun newInstance() = SavingsFragment()
@@ -67,7 +70,7 @@ class SavingsFragment : Fragment(), View.OnClickListener {
         mViewModel.setWithdrawalsRecyclerViewInfo()
         mViewModel.setDepositsTotal()
         mViewModel.setWithdrawalsTotal()
-        mViewModel.setObjectiveValue()
+        mViewModel.setSavingsAmount()
         mViewModel.setObjectiveDescription()
     }
 
@@ -75,7 +78,13 @@ class SavingsFragment : Fragment(), View.OnClickListener {
         when(v.id) {
             R.id.btn_deposit -> setDepositWithdrawIntent(Constants.SAVINGS_MONEY.DEPOSIT)
             R.id.btn_withdraw -> setDepositWithdrawIntent(Constants.SAVINGS_MONEY.WITHDRAW)
+            R.id.btn_objective -> editObjectiveValue()
         }
+    }
+
+    override fun onObjValueDialogPositiveClick(dialog: DialogFragment, value: String) {
+        mViewModel.saveObjectiveValue(value)
+        mViewModel.setSavingsAmount()
     }
 
     private fun setListeners() {
@@ -109,11 +118,13 @@ class SavingsFragment : Fragment(), View.OnClickListener {
     }
 
     private fun editObjectiveValue() {
-        // abrir um dialog com um edittext
+        val objValueDialog = ObjectiveValueDialogFragment()
+        objValueDialog.show(requireActivity().supportFragmentManager, "ObjectiveValueDialog")
     }
 
     private fun editObjectiveDescription() {
-        // abrir um dialog com um edittext
+        val objDescriptionDialog = ObjectiveDescriptionDialogFragment()
+        objDescriptionDialog.show(requireActivity().supportFragmentManager, "ObjectiveDescriptionDialog")
     }
 
     private fun observers() {
@@ -129,13 +140,16 @@ class SavingsFragment : Fragment(), View.OnClickListener {
             num_total_deposits.text = it.toString()
         })
 
-        mViewModel.depositsTotal.observe(viewLifecycleOwner, Observer {
+        mViewModel.withdrawalsTotal.observe(viewLifecycleOwner, Observer {
             num_total_withdrawals.text = it.toString()
         })
 
-        mViewModel.objectiveValue.observe(viewLifecycleOwner, Observer {
-            val txt = "R$300,00 / $it"
-            tv_savings_amount.text = txt
+        mViewModel.savingsAmount.observe(viewLifecycleOwner, Observer {
+            tv_savings_amount.text = it
+        })
+
+        mViewModel.amountPercent.observe(viewLifecycleOwner, Observer {
+            tv_amount_percent.text = it
         })
 
         mViewModel.objectiveDescription.observe(viewLifecycleOwner, Observer {

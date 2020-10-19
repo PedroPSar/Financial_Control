@@ -13,7 +13,7 @@
     <string name="label_total">Total</string>
 
     <!-- Shared Preferences -->
-    <string name="objective_value_default">00,00</string>
+    <string name="objective_value_default">00.00</string>
     <string name="objective_description_default">Nothing</string>
 
     <!-- Savings Fragment -->
@@ -57,6 +57,16 @@
     <!-- DepositOrWithdraw Activity -->
     <string name="deposit_name">Savings Deposit</string>
     <string name="withdraw_name">Savings Withdrawal</string>
+
+    <!-- Dialog Objective Value -->
+    <string name="lbl_dialog_objective_value">Enter your objective value</string>
+    <string name="dialog_value_hint">1200,00</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_confirm">Confirm</string>
+
+    <!-- Dialog Objective Description -->
+    <string name="lbl_dialog_objective_description">Enter your objective description</string>
+    <string name="dialog_description_hint">Your description here</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>

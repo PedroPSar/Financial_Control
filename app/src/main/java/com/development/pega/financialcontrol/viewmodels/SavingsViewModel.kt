@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.service.repository.savingsmoney.SavingsMoneyRepository
+import kotlin.math.roundToInt
 
 class SavingsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -26,8 +27,11 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
     private val mWithdrawalsTotal = MutableLiveData<Float>()
     var withdrawalsTotal: LiveData<Float> = mWithdrawalsTotal
 
-    private val mObjectiveValue = MutableLiveData<String>()
-    var objectiveValue: LiveData<String> = mObjectiveValue
+    private val mSavingsAmount = MutableLiveData<String>()
+    var savingsAmount: LiveData<String> = mSavingsAmount
+
+    private val mAmountPercent = MutableLiveData<String>()
+    var amountPercent: LiveData<String> = mAmountPercent
 
     private val mObjectiveDescription = MutableLiveData<String>()
     var objectiveDescription: LiveData<String> = mObjectiveDescription
@@ -54,8 +58,37 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun setObjectiveValue() {
-        mObjectiveValue.value = prefs.objectiveValue
+    fun setSavingsAmount() {
+        val deposits = mDepositsTotal.value
+        val withdrawals = mWithdrawalsTotal.value
+        var amountValue = ""
+
+        if(deposits != null && withdrawals != null) {
+            amountValue = (deposits - withdrawals).toString()
+        }else if(deposits == null && withdrawals == null) {
+            amountValue = 0f.toString()
+        }else if(withdrawals == null) {
+            amountValue = deposits.toString()
+        }else if(deposits == null) {
+            amountValue = (0f - withdrawals).toString()
+        }
+
+        mSavingsAmount.value = "$amountValue / ${getObjectiveValue()}"
+
+        setAmountPercent(amountValue.toFloat(), getObjectiveValue().toFloat())
+    }
+
+    private fun getObjectiveValue(): String {
+        return prefs.objectiveValue
+    }
+
+    private fun setAmountPercent(amountValue: Float, objectiveValue: Float) {
+        var percent = (amountValue / objectiveValue) * 100f
+        if(percent > 100f){
+            percent = 100f
+        }
+
+        mAmountPercent.value = percent.roundToInt().toString() + "%"
     }
 
     fun setObjectiveDescription() {
@@ -69,4 +102,13 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
         }
         return total
     }
+
+    fun saveObjectiveValue(value: String) {
+        prefs.objectiveValue = value
+    }
+
+    fun saveObjectiveDescription(description: String) {
+        prefs.objectiveDescription = description
+    }
+
 }
