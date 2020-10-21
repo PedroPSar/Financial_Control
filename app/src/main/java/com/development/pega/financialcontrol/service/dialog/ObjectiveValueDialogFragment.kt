@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.development.pega.financialcontrol.R
@@ -12,7 +14,7 @@ import kotlinx.android.synthetic.main.dialog_objective_value.*
 
 class ObjectiveValueDialogFragment: DialogFragment() {
 
-    internal lateinit var listener: ObjectiveValueDialogListener
+    private lateinit var listener: ObjectiveValueDialogListener
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -20,10 +22,11 @@ class ObjectiveValueDialogFragment: DialogFragment() {
             // Get the layout inflater
             val inflater = requireActivity().layoutInflater;
             val view = inflater.inflate(R.layout.dialog_objective_value, null)
+            val editValue = view.findViewById<EditText>(R.id.edit_objective_value)
 
             builder.setView(view)
                 .setPositiveButton(R.string.btn_confirm, DialogInterface.OnClickListener { dialog, id ->
-                    listener.onObjValueDialogPositiveClick(this, edit_objective_value.text.toString())
+                    listener.onObjValueDialogPositiveClick(this, editValue.text.toString())
                 })
 
                 .setNegativeButton(R.string.btn_cancel, DialogInterface.OnClickListener { dialog, id ->
@@ -34,16 +37,8 @@ class ObjectiveValueDialogFragment: DialogFragment() {
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        try {
-            listener = context as ObjectiveValueDialogListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException((context.toString() +
-                    " must implement ObjectiveValueDialogListener"))
-        }
+    fun onAttach(objValueDialogListener: ObjectiveValueDialogListener) {
+        listener = objValueDialogListener
     }
 
     interface ObjectiveValueDialogListener {

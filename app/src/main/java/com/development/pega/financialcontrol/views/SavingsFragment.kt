@@ -3,14 +3,11 @@ package com.development.pega.financialcontrol.views
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.provider.SyncStateContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -22,11 +19,10 @@ import com.development.pega.financialcontrol.adapter.DepositOrWithdrawRecyclerVi
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.dialog.ObjectiveDescriptionDialogFragment
 import com.development.pega.financialcontrol.service.dialog.ObjectiveValueDialogFragment
-import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 import com.development.pega.financialcontrol.viewmodels.SavingsViewModel
 import kotlinx.android.synthetic.main.savings_fragment.*
 
-class SavingsFragment : Fragment(), View.OnClickListener, ObjectiveValueDialogFragment.ObjectiveValueDialogListener {
+class SavingsFragment : Fragment(), View.OnClickListener{
 
     companion object {
         fun newInstance() = SavingsFragment()
@@ -42,6 +38,9 @@ class SavingsFragment : Fragment(), View.OnClickListener, ObjectiveValueDialogFr
     private val mWithdrawalsAdapter = DepositOrWithdrawRecyclerViewAdapter()
 
     private lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var valueDialogListener: ObjectiveValueDialogFragment.ObjectiveValueDialogListener
+    private lateinit var descriptionDialogListener: ObjectiveDescriptionDialogFragment.ObjectiveDescriptionDialogListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.savings_fragment, container, false)
@@ -79,12 +78,8 @@ class SavingsFragment : Fragment(), View.OnClickListener, ObjectiveValueDialogFr
             R.id.btn_deposit -> setDepositWithdrawIntent(Constants.SAVINGS_MONEY.DEPOSIT)
             R.id.btn_withdraw -> setDepositWithdrawIntent(Constants.SAVINGS_MONEY.WITHDRAW)
             R.id.btn_objective -> editObjectiveValue()
+            R.id.btn_objective_description -> editObjectiveDescription()
         }
-    }
-
-    override fun onObjValueDialogPositiveClick(dialog: DialogFragment, value: String) {
-        mViewModel.saveObjectiveValue(value)
-        mViewModel.setSavingsAmount()
     }
 
     private fun setListeners() {
@@ -92,6 +87,20 @@ class SavingsFragment : Fragment(), View.OnClickListener, ObjectiveValueDialogFr
         btn_withdraw.setOnClickListener(this)
         btn_objective.setOnClickListener(this)
         btn_objective_description.setOnClickListener(this)
+
+        valueDialogListener = object : ObjectiveValueDialogFragment.ObjectiveValueDialogListener {
+            override fun onObjValueDialogPositiveClick(dialog: DialogFragment, value: String) {
+                mViewModel.saveObjectiveValue(value)
+                mViewModel.setSavingsAmount()
+            }
+        }
+
+        descriptionDialogListener = object : ObjectiveDescriptionDialogFragment.ObjectiveDescriptionDialogListener {
+            override fun onObjDescriptionDialogPositiveClick(dialog: DialogFragment, description: String) {
+                mViewModel.saveObjectiveDescription(description)
+                mViewModel.setObjectiveDescription()
+            }
+        }
     }
 
     private fun setDepositWithdrawIntent(type: Int) {
@@ -119,11 +128,13 @@ class SavingsFragment : Fragment(), View.OnClickListener, ObjectiveValueDialogFr
 
     private fun editObjectiveValue() {
         val objValueDialog = ObjectiveValueDialogFragment()
+        objValueDialog.onAttach(valueDialogListener)
         objValueDialog.show(requireActivity().supportFragmentManager, "ObjectiveValueDialog")
     }
 
     private fun editObjectiveDescription() {
         val objDescriptionDialog = ObjectiveDescriptionDialogFragment()
+        objDescriptionDialog.onAttach(descriptionDialogListener)
         objDescriptionDialog.show(requireActivity().supportFragmentManager, "ObjectiveDescriptionDialog")
     }
 

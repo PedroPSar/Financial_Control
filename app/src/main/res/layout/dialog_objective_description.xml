@@ -16,34 +16,13 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-        android:id="@+id/edit_objective_value"
+        android:id="@+id/edit_objective_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/dialog_description_hint"
-        android:inputType="textMultiLine"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lbl_dialog"/>
-
-
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_cancel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_confirm"
-        app:layout_constraintTop_toBottomOf="@id/edit_objective_value"
-        app:layout_constraintHorizontal_weight="1"/>
-
-    <Button
-        android:id="@+id/btn_confirm"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_confirm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_cancel"
-        app:layout_constraintTop_toBottomOf="@id/edit_objective_value"
-        app:layout_constraintHorizontal_weight="1"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
