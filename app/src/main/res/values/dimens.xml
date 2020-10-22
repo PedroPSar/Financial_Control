@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="toolbar_height_size">40dp</dimen>
     <dimen name="month_txt_size">32sp</dimen>
     <dimen name="lbl_main_size">16sp</dimen>
     <dimen name="add_activity_lbl_size">16sp</dimen>
     <dimen name="home_year_tv_size">12sp</dimen>
     <dimen name="margin_bottom_card_view_row">4dp</dimen>
-    <dimen name="charts_height">320dp</dimen>
+    <dimen name="charts_height">240dp</dimen>
     <dimen name="lbl_savings_size">24sp</dimen>
     <dimen name="savings_amount_size">18sp</dimen>
     <dimen name="containers_elevation">2dp</dimen>

@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/app_background_shape"
     tools:context=".views.ChartFragment">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="16dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -62,7 +68,8 @@
                     android:textSize="@dimen/lbl_main_size"
                     android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"/>
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_chart_month_expenses_type"
@@ -75,12 +82,13 @@
                     android:textSize="@dimen/lbl_main_size"
                     android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"/>
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_chart_month_expenses_recurrence"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/charts_height"/>
+                    android:layout_height="@dimen/charts_height" />
 
                 <TextView
                     android:id="@+id/lbl_incomes_recurrence_month_pie_chart"
@@ -88,7 +96,8 @@
                     android:textSize="@dimen/lbl_main_size"
                     android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"/>
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie_chart_month_incomes_recurrence"
@@ -103,4 +112,4 @@
 
     </ScrollView>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

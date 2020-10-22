@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -20,7 +22,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlin.properties.Delegates
 
-class ChartFragment : Fragment() {
+class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     companion object {
         fun newInstance() = ChartFragment()
@@ -34,6 +36,7 @@ class ChartFragment : Fragment() {
     private lateinit var mMonthExpensesTypePieChart: PieChart
     private lateinit var mMonthExpensesRecurrenceChart: PieChart
     private lateinit var mMonthIncomesRecurrenceChart: PieChart
+    private lateinit var monthsSpinner: Spinner
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.chart_fragment, container, false)
@@ -52,6 +55,7 @@ class ChartFragment : Fragment() {
         mMonthExpensesRecurrenceChart = root.findViewById(R.id.pie_chart_month_expenses_recurrence)
         mMonthIncomesRecurrenceChart = root.findViewById(R.id.pie_chart_month_incomes_recurrence)
 
+        setSpinners()
         observers()
     }
 
@@ -63,6 +67,25 @@ class ChartFragment : Fragment() {
         viewModel.setExpensesTypePieChartData()
         viewModel.setExpensesRecurrencePieChartData()
         viewModel.setIncomesRecurrencePieChartData()
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        if(parent.id == R.id.spinner_selected_month) {
+            // implements month selected rules
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("Not yet implemented")
+    }
+
+    private fun setSpinners() {
+        monthsSpinner = root.findViewById(R.id.spinner_selected_month)
+        ArrayAdapter.createFromResource(requireContext(), R.array.months_array, android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            monthsSpinner.adapter = adapter
+        }
     }
 
     private fun observers() {
@@ -123,18 +146,23 @@ class ChartFragment : Fragment() {
         xAxis.valueFormatter = MonthsNamesFormatter(context)
 
         mYearMonthsLineChart.zoom(1.5f, 1f, 1f, 1f)
+
+        //Legend
     }
 
     private fun setStyleInMonthExpensesTypePieChart() {
         mMonthExpensesTypePieChart.setEntryLabelColor(Color.BLACK)
+        mMonthExpensesTypePieChart.description.isEnabled = false
     }
 
     private fun setStyleInMonthExpensesRecurrencePieChart() {
         mMonthExpensesRecurrenceChart.setEntryLabelColor(Color.BLACK)
+        mMonthExpensesRecurrenceChart.description.isEnabled = false
     }
 
     private fun setStyleInMonthIncomesRecurrencePieChart() {
         mMonthIncomesRecurrenceChart.setEntryLabelColor(Color.BLACK)
+        mMonthIncomesRecurrenceChart.description.isEnabled = false
     }
 
     class MonthsNamesFormatter(context: Context?) : ValueFormatter() {

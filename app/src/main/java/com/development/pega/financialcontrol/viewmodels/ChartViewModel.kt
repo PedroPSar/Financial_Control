@@ -172,32 +172,35 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun setColorInLines() {
+        var balanceColor: Int
+        var incomeColor: Int
+        var expenseColor: Int
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            val balanceColor = mContext.getColor(R.color.colorPrimary)
-            val incomeColor = mContext.getColor(R.color.colorIncomes)
-            val expenseColor = mContext.getColor(R.color.colorExpenses)
-
-            val balanceCircleColor = arrayListOf(balanceColor)
-            val incomeCircleColor = arrayListOf(incomeColor)
-            val expenseCircleColor = arrayListOf(expenseColor)
-
-            balanceLine.color = balanceColor
-            balanceLine.circleColors = balanceCircleColor
-            balanceLine.valueTextColor = balanceColor
-
-            incomesLine.color = incomeColor
-            incomesLine.circleColors = incomeCircleColor
-            incomesLine.valueTextColor = incomeColor
-
-            expensesLine.color = expenseColor
-            expensesLine.circleColors = expenseCircleColor
-            expensesLine.valueTextColor = expenseColor
+            balanceColor = mContext.getColor(R.color.colorPrimary)
+            incomeColor = mContext.getColor(R.color.colorIncomes)
+            expenseColor = mContext.getColor(R.color.colorExpenses)
         }else {
-            balanceLine.color = mContext.resources.getColor(R.color.colorPrimary)
-            balanceLine.color = mContext.resources.getColor(R.color.colorIncomes)
-            balanceLine.color = mContext.resources.getColor(R.color.colorExpenses)
+            balanceColor = mContext.resources.getColor(R.color.colorPrimary)
+            incomeColor = mContext.resources.getColor(R.color.colorIncomes)
+            expenseColor = mContext.resources.getColor(R.color.colorExpenses)
         }
+
+        val balanceCircleColor = arrayListOf(balanceColor)
+        val incomeCircleColor = arrayListOf(incomeColor)
+        val expenseCircleColor = arrayListOf(expenseColor)
+
+        balanceLine.color = balanceColor
+        balanceLine.circleColors = balanceCircleColor
+        balanceLine.valueTextColor = balanceColor
+
+        incomesLine.color = incomeColor
+        incomesLine.circleColors = incomeCircleColor
+        incomesLine.valueTextColor = incomeColor
+
+        expensesLine.color = expenseColor
+        expensesLine.circleColors = expenseCircleColor
+        expensesLine.valueTextColor = expenseColor
     }
 
     //ExpensesTypePieChart
