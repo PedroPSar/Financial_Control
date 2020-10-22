@@ -8,6 +8,6 @@
     <dimen name="charts_height">320dp</dimen>
     <dimen name="lbl_savings_size">24sp</dimen>
     <dimen name="savings_amount_size">18sp</dimen>
-    <dimen name="containers_elevation">8dp</dimen>
+    <dimen name="containers_elevation">2dp</dimen>
     <dimen name="lbl_dialog_size">24sp</dimen>
 </resources>

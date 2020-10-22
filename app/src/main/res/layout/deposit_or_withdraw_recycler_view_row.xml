@@ -5,45 +5,63 @@
     android:padding="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/tv_lbl_deposit_withdraw_value"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_value"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/lbl_value"
-        android:textSize="@dimen/lbl_main_size"
-        android:textColor="@color/colorPrimary"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toStartOf="@id/ll_date"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="1">
 
-    <TextView
-        android:id="@+id/tv_txt_deposit_withdraw_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="300"
-        android:textSize="@dimen/lbl_main_size"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@id/tv_lbl_deposit_withdraw_value"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/tv_lbl_deposit_withdraw_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_value"
+            android:textSize="@dimen/lbl_main_size"
+            android:textColor="@color/colorPrimary"
+            />
 
-    <TextView
-        android:id="@+id/tv_lbl_deposit_withdraw_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lbl_date"
-        android:textSize="@dimen/lbl_main_size"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintEnd_toStartOf="@id/tv_txt_deposit_withdraw_date"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/tv_txt_deposit_withdraw_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="300"
+            android:textSize="@dimen/lbl_main_size"
+            android:layout_marginStart="8dp"/>
 
-    <TextView
-        android:id="@+id/tv_txt_deposit_withdraw_date"
-        android:layout_width="wrap_content"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_date"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="12/12/1993"
-        android:textSize="@dimen/lbl_main_size"
-        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/ll_value"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="1">
+
+        <TextView
+            android:id="@+id/tv_lbl_deposit_withdraw_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_date"
+            android:textSize="@dimen/lbl_main_size"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tv_txt_deposit_withdraw_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12/12/1993"
+            android:textSize="@dimen/lbl_main_size"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_lbl_deposit_withdraw_description"
@@ -54,11 +72,11 @@
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/lbl_main_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_lbl_deposit_withdraw_date" />
+        app:layout_constraintTop_toBottomOf="@id/ll_value" />
 
     <TextView
         android:id="@+id/tv_txt_deposit_withdraw_description"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_lbl_deposit_withdraw_description"/>

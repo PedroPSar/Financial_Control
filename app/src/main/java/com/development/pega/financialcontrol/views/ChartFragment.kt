@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -28,7 +29,7 @@ class ChartFragment : Fragment() {
     private lateinit var viewModel: ChartViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private lateinit var root: View
-    private lateinit var selectedMonthTextView: TextView
+    private lateinit var selectedMonthSpinner: Spinner
     private lateinit var mYearMonthsLineChart: LineChart
     private lateinit var mMonthExpensesTypePieChart: PieChart
     private lateinit var mMonthExpensesRecurrenceChart: PieChart
@@ -45,7 +46,7 @@ class ChartFragment : Fragment() {
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
         viewModel = ViewModelProvider(this).get(ChartViewModel::class.java)
 
-        selectedMonthTextView = root.findViewById(R.id.lbl_selected_month)
+        selectedMonthSpinner = root.findViewById(R.id.spinner_selected_month)
         mYearMonthsLineChart = root.findViewById(R.id.line_chart_year_months)
         mMonthExpensesTypePieChart = root.findViewById(R.id.pie_chart_month_expenses_type)
         mMonthExpensesRecurrenceChart = root.findViewById(R.id.pie_chart_month_expenses_recurrence)
@@ -66,7 +67,7 @@ class ChartFragment : Fragment() {
 
     private fun observers() {
         viewModel.selectedMonthTextView.observe(viewLifecycleOwner, Observer {
-            selectedMonthTextView.text = it
+            //selectedMonthTextView.text = it
         })
 
         viewModel.yearMonthsChart.observe(viewLifecycleOwner, Observer {

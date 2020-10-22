@@ -4,8 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
@@ -74,17 +76,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        val transaction = supportFragmentManager.beginTransaction()
+
+            when(item.itemId) {
             R.id.nav_savings -> {
-                supportFragmentManager.beginTransaction().add(R.id.nav_host_fragment, savingsFragment).commit()
+                transaction.replace(R.id.nav_host_fragment, savingsFragment).commit()
             }
 
             R.id.nav_home -> {
-                supportFragmentManager.beginTransaction().add(R.id.nav_host_fragment, homeFragment).commit()
+                transaction.replace(R.id.nav_host_fragment, homeFragment).commit()
             }
 
             R.id.nav_chart -> {
-                supportFragmentManager.beginTransaction().add(R.id.nav_host_fragment, chartFragment).commit()
+                transaction.replace(R.id.nav_host_fragment, chartFragment).commit()
             }
         }
         return true
@@ -113,6 +117,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun setOnClicks() {
         popupMenu.setOnMenuItemClickListener(this)
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
     }
 
     private fun setNavController() {
