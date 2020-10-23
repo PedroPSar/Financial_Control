@@ -48,13 +48,11 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
 
     //MonthsLineChart
     fun setDataInYearMonthsLineChart() {
-
         createYearMonthsLines()
         var dataSets = addLinesInDataSets()
         setStyleInLines()
 
         val lineData = LineData(dataSets)
-
         mYearMonthsChart.value = lineData
     }
 
@@ -168,6 +166,14 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         incomesLine.valueTextSize = Constants.LINE.LINE_TEXT_SIZE
         expensesLine.valueTextSize = Constants.LINE.LINE_TEXT_SIZE
 
+        balanceLine.mode = LineDataSet.Mode.CUBIC_BEZIER
+        incomesLine.mode = LineDataSet.Mode.CUBIC_BEZIER
+        expensesLine.mode = LineDataSet.Mode.CUBIC_BEZIER
+
+        balanceLine.setDrawFilled(true)
+        incomesLine.setDrawFilled(true)
+        expensesLine.setDrawFilled(true)
+
         setColorInLines()
     }
 
@@ -193,14 +199,17 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         balanceLine.color = balanceColor
         balanceLine.circleColors = balanceCircleColor
         balanceLine.valueTextColor = balanceColor
+        balanceLine.fillColor = balanceColor
 
         incomesLine.color = incomeColor
         incomesLine.circleColors = incomeCircleColor
         incomesLine.valueTextColor = incomeColor
+        incomesLine.fillColor = incomeColor
 
         expensesLine.color = expenseColor
         expensesLine.circleColors = expenseCircleColor
         expensesLine.valueTextColor = expenseColor
+        expensesLine.fillColor = expenseColor
     }
 
     //ExpensesTypePieChart
@@ -210,7 +219,20 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun createMonthExpensesTypePieChartData(): PieData {
         val typeNames = mContext.resources.getStringArray(R.array.spinner_type_options)
-        val colors = arrayListOf(Color.GREEN, Color.BLUE, Color.YELLOW)
+        var notRequiredColor: Int
+        var requiredColor: Int
+        var investmentColor: Int
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            notRequiredColor = mContext.getColor(R.color.not_required_color)
+            requiredColor = mContext.getColor(R.color.required_color)
+            investmentColor = mContext.getColor(R.color.investment_color)
+        }else {
+            notRequiredColor = mContext.resources.getColor(R.color.not_required_color)
+            requiredColor = mContext.resources.getColor(R.color.required_color)
+            investmentColor = mContext.resources.getColor(R.color.investment_color)
+        }
+        val colors = arrayListOf(notRequiredColor, requiredColor, investmentColor)
 
         //0 = not required; 1 = required; 2 = investment
         val expensesSeparateType = getExpensesTypeInYearAndMonth()
@@ -252,7 +274,22 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun createMonthExpensesRecurrencePieChartData(): PieData {
         val typeNames = mContext.resources.getStringArray(R.array.spinner_recurrence_options)
-        val colors = arrayListOf(Color.GREEN, Color.BLUE, Color.YELLOW)
+
+        var noneColor: Int
+        var installmentColor: Int
+        var fixedMonthlyColor: Int
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            noneColor = mContext.getColor(R.color.none_color)
+            installmentColor = mContext.getColor(R.color.installment_color)
+            fixedMonthlyColor = mContext.getColor(R.color.fixed_monthly_color)
+        }else {
+            noneColor = mContext.resources.getColor(R.color.none_color)
+            installmentColor = mContext.resources.getColor(R.color.installment_color)
+            fixedMonthlyColor = mContext.resources.getColor(R.color.fixed_monthly_color)
+        }
+
+        val colors = arrayListOf(noneColor, installmentColor, fixedMonthlyColor)
 
         //0 = not required; 1 = required; 2 = investment
         val expensesSeparateRecurrence = getExpensesRecurrenceInYearAndMonth()
@@ -294,7 +331,22 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun createMonthIncomesRecurrencePieChartData(): PieData {
         val typeNames = mContext.resources.getStringArray(R.array.spinner_recurrence_options)
-        val colors = arrayListOf(Color.GREEN, Color.BLUE, Color.YELLOW)
+
+        var noneColor: Int
+        var installmentColor: Int
+        var fixedMonthlyColor: Int
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            noneColor = mContext.getColor(R.color.none_color)
+            installmentColor = mContext.getColor(R.color.installment_color)
+            fixedMonthlyColor = mContext.getColor(R.color.fixed_monthly_color)
+        }else {
+            noneColor = mContext.resources.getColor(R.color.none_color)
+            installmentColor = mContext.resources.getColor(R.color.installment_color)
+            fixedMonthlyColor = mContext.resources.getColor(R.color.fixed_monthly_color)
+        }
+
+        val colors = arrayListOf(noneColor, installmentColor, fixedMonthlyColor)
 
         //0 = not required; 1 = required; 2 = investment
         val incomesSeparateType = getIncomesRecurrenceInYearAndMonth()

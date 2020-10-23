@@ -131,14 +131,9 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
         yAxisLeft.setDrawGridLines(false)
 
         val xAxis = mYearMonthsLineChart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.position = XAxis.XAxisPosition.TOP
+        xAxis.setDrawGridLines(true)
         xAxis.textSize = 10f
-
-        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            xAxis.textColor = requireContext().getColor(R.color.colorPrimary)
-        }else {
-            xAxis.textColor = requireContext().resources.getColor(R.color.colorPrimary)
-        }
 
         xAxis.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
@@ -146,23 +141,28 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
         xAxis.valueFormatter = MonthsNamesFormatter(context)
 
         mYearMonthsLineChart.zoom(1.5f, 1f, 1f, 1f)
-
-        //Legend
+        mYearMonthsLineChart.setPinchZoom(false)
+        mYearMonthsLineChart.setDrawBorders(true)
+        mYearMonthsLineChart.setDrawGridBackground(true)
+        mYearMonthsLineChart.setGridBackgroundColor(Color.WHITE)
     }
 
     private fun setStyleInMonthExpensesTypePieChart() {
         mMonthExpensesTypePieChart.setEntryLabelColor(Color.BLACK)
         mMonthExpensesTypePieChart.description.isEnabled = false
+        mMonthExpensesTypePieChart.setTouchEnabled(false)
     }
 
     private fun setStyleInMonthExpensesRecurrencePieChart() {
         mMonthExpensesRecurrenceChart.setEntryLabelColor(Color.BLACK)
         mMonthExpensesRecurrenceChart.description.isEnabled = false
+        mMonthExpensesRecurrenceChart.setTouchEnabled(false)
     }
 
     private fun setStyleInMonthIncomesRecurrencePieChart() {
         mMonthIncomesRecurrenceChart.setEntryLabelColor(Color.BLACK)
         mMonthIncomesRecurrenceChart.description.isEnabled = false
+        mMonthIncomesRecurrenceChart.setTouchEnabled(false)
     }
 
     class MonthsNamesFormatter(context: Context?) : ValueFormatter() {

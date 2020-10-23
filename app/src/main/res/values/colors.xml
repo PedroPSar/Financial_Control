@@ -17,4 +17,14 @@
 
     <color name="background_color">#f7f7f7</color>
 
+    <color name="not_required_color">#FFC400</color>
+    <color name="required_color">#FF3D00</color>
+    <color name="investment_color">#00E5FF</color>
+
+    <color name="none_color">#5B6B6C</color>
+    <color name="installment_color">#FFC400</color>
+    <color name="fixed_monthly_color">#FF3D00</color>
+
+    <color name="highlighted_backgroung">#999999</color>
+
 </resources>
