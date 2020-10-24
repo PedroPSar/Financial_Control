@@ -10,17 +10,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.development.pega.financialcontrol.viewmodels.ChartViewModel
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.control.AppControl
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.formatter.ValueFormatter
-import kotlin.properties.Delegates
 
 class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
@@ -57,21 +56,29 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         setSpinners()
         observers()
+        setListeners()
     }
 
     override fun onResume() {
         super.onResume()
 
-        viewModel.setSelectedMonthTextView()
+        viewModel.setSelectedMonth()
         viewModel.setDataInYearMonthsLineChart()
         viewModel.setExpensesTypePieChartData()
         viewModel.setExpensesRecurrencePieChartData()
         viewModel.setIncomesRecurrencePieChartData()
     }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-        if(parent.id == R.id.spinner_selected_month) {
-            // implements month selected rules
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (parent != null) {
+            if(parent.id == R.id.spinner_selected_month) {
+                // Set month position in spinner on selectedMonth
+                AppControl.setSelectedMonthStartingZero(position)
+
+                viewModel.setExpensesTypePieChartData()
+                viewModel.setExpensesRecurrencePieChartData()
+                viewModel.setIncomesRecurrencePieChartData()
+            }
         }
     }
 
@@ -88,32 +95,40 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
+    private fun setListeners() {
+        monthsSpinner.onItemSelectedListener = this
+    }
+
     private fun observers() {
-        viewModel.selectedMonthTextView.observe(viewLifecycleOwner, Observer {
-            //selectedMonthTextView.text = it
+        viewModel.selectedMonth.observe(viewLifecycleOwner, Observer {
+            monthsSpinner.setSelection(it)
         })
 
         viewModel.yearMonthsChart.observe(viewLifecycleOwner, Observer {
             mYearMonthsLineChart.data = it
             setStyleInYearMonthsLineChart()
+            mYearMonthsLineChart.notifyDataSetChanged()
             mYearMonthsLineChart.invalidate()
         })
 
         viewModel.expensesTypePieChart.observe(viewLifecycleOwner, Observer {
             mMonthExpensesTypePieChart.data = it
             setStyleInMonthExpensesTypePieChart()
+            mMonthExpensesTypePieChart.notifyDataSetChanged()
             mMonthExpensesTypePieChart.invalidate()
         })
 
         viewModel.expensesRecurrencePieChart.observe(viewLifecycleOwner, Observer {
             mMonthExpensesRecurrenceChart.data = it
             setStyleInMonthExpensesRecurrencePieChart()
+            mMonthExpensesRecurrenceChart.notifyDataSetChanged()
             mMonthExpensesRecurrenceChart.invalidate()
         })
 
         viewModel.incomesRecurrencePieChart.observe(viewLifecycleOwner, Observer {
             mMonthIncomesRecurrenceChart.data = it
             setStyleInMonthIncomesRecurrencePieChart()
+            mMonthIncomesRecurrenceChart.notifyDataSetChanged()
             mMonthIncomesRecurrenceChart.invalidate()
         })
     }
@@ -151,18 +166,21 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mMonthExpensesTypePieChart.setEntryLabelColor(Color.BLACK)
         mMonthExpensesTypePieChart.description.isEnabled = false
         mMonthExpensesTypePieChart.setTouchEnabled(false)
+        mMonthExpensesTypePieChart.setDrawEntryLabels(false)
     }
 
     private fun setStyleInMonthExpensesRecurrencePieChart() {
         mMonthExpensesRecurrenceChart.setEntryLabelColor(Color.BLACK)
         mMonthExpensesRecurrenceChart.description.isEnabled = false
         mMonthExpensesRecurrenceChart.setTouchEnabled(false)
+        mMonthExpensesRecurrenceChart.setDrawEntryLabels(false)
     }
 
     private fun setStyleInMonthIncomesRecurrencePieChart() {
         mMonthIncomesRecurrenceChart.setEntryLabelColor(Color.BLACK)
         mMonthIncomesRecurrenceChart.description.isEnabled = false
         mMonthIncomesRecurrenceChart.setTouchEnabled(false)
+        mMonthIncomesRecurrenceChart.setDrawEntryLabels(false)
     }
 
     class MonthsNamesFormatter(context: Context?) : ValueFormatter() {

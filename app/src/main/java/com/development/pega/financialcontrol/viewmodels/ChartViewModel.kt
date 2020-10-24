@@ -2,10 +2,12 @@ package com.development.pega.financialcontrol.viewmodels
 
 import android.app.Application
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.MonthForSum
 import com.development.pega.financialcontrol.service.Constants
@@ -27,8 +29,8 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var incomesLine: LineDataSet
     private lateinit var expensesLine: LineDataSet
 
-    private val mSelectedMonthTextView = MutableLiveData<String>()
-    var selectedMonthTextView: LiveData<String> = mSelectedMonthTextView
+    private val mSelectedMonth = MutableLiveData<Int>()
+    var selectedMonth: LiveData<Int> = mSelectedMonth
 
     private val mYearMonthsChart = MutableLiveData<LineData>()
     var yearMonthsChart: LiveData<LineData> = mYearMonthsChart
@@ -42,8 +44,8 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     private val mIncomesRecurrencePieChart = MutableLiveData<PieData>()
     var incomesRecurrencePieChart: LiveData<PieData> = mIncomesRecurrencePieChart
 
-    fun setSelectedMonthTextView() {
-        mSelectedMonthTextView.value = months[Data.selectedMonth]
+    fun setSelectedMonth() {
+        mSelectedMonth.value = AppControl.getSelectedMonthForArrays() // -1 Correction position for spinner
     }
 
     //MonthsLineChart
@@ -235,7 +237,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         val colors = arrayListOf(notRequiredColor, requiredColor, investmentColor)
 
         //0 = not required; 1 = required; 2 = investment
-        val expensesSeparateType = getExpensesTypeInYearAndMonth()
+        val expensesSeparateType = getExpensesTypeInYearAndMonthSelected()
 
         var expensesType = arrayListOf<PieEntry>()
         expensesType.add(PieEntry(expensesSeparateType[0], typeNames[0]))
@@ -250,8 +252,9 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         return PieData(pieDataSet)
     }
 
-    private fun getExpensesTypeInYearAndMonth(): List<Float> {
+    private fun getExpensesTypeInYearAndMonthSelected(): List<Float> {
         val expenses = expenseRepository.getExpensesFromYearAndMonth(Data.selectedYear, Data.selectedMonth)
+
         var notRequiredSum = 0f
         var requiredSum = 0f
         var investmentSum = 0f
@@ -280,13 +283,13 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         var fixedMonthlyColor: Int
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            noneColor = mContext.getColor(R.color.none_color)
-            installmentColor = mContext.getColor(R.color.installment_color)
-            fixedMonthlyColor = mContext.getColor(R.color.fixed_monthly_color)
+            noneColor = mContext.getColor(R.color.expense_none_color)
+            installmentColor = mContext.getColor(R.color.expense_installment_color)
+            fixedMonthlyColor = mContext.getColor(R.color.expense_fixed_monthly_color)
         }else {
-            noneColor = mContext.resources.getColor(R.color.none_color)
-            installmentColor = mContext.resources.getColor(R.color.installment_color)
-            fixedMonthlyColor = mContext.resources.getColor(R.color.fixed_monthly_color)
+            noneColor = mContext.resources.getColor(R.color.expense_none_color)
+            installmentColor = mContext.resources.getColor(R.color.expense_installment_color)
+            fixedMonthlyColor = mContext.resources.getColor(R.color.expense_fixed_monthly_color)
         }
 
         val colors = arrayListOf(noneColor, installmentColor, fixedMonthlyColor)
@@ -337,13 +340,13 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         var fixedMonthlyColor: Int
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            noneColor = mContext.getColor(R.color.none_color)
-            installmentColor = mContext.getColor(R.color.installment_color)
-            fixedMonthlyColor = mContext.getColor(R.color.fixed_monthly_color)
+            noneColor = mContext.getColor(R.color.income_none_color)
+            installmentColor = mContext.getColor(R.color.income_installment_color)
+            fixedMonthlyColor = mContext.getColor(R.color.income_fixed_monthly_color)
         }else {
-            noneColor = mContext.resources.getColor(R.color.none_color)
-            installmentColor = mContext.resources.getColor(R.color.installment_color)
-            fixedMonthlyColor = mContext.resources.getColor(R.color.fixed_monthly_color)
+            noneColor = mContext.resources.getColor(R.color.income_none_color)
+            installmentColor = mContext.resources.getColor(R.color.income_installment_color)
+            fixedMonthlyColor = mContext.resources.getColor(R.color.income_fixed_monthly_color)
         }
 
         val colors = arrayListOf(noneColor, installmentColor, fixedMonthlyColor)

@@ -1,8 +1,10 @@
 package com.development.pega.financialcontrol.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
@@ -45,11 +47,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setCurrentDate() {
         val c = Calendar.getInstance()
-        val month = c.get(Calendar.MONTH)
+        val month = c.get(Calendar.MONTH) // Get month int starting zero
         val year = c.get(Calendar.YEAR)
-        Data.selectedMonth = month + 1
+
+        AppControl.setSelectedMonthStartingZero(month)
         Data.selectedYear = year
-        mMonth.value = months[month]
+        mMonth.value = months[AppControl.getSelectedMonthForArrays()]
         mYear.value = year
     }
 

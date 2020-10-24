@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import com.development.pega.financialcontrol.service.Constants
+import com.development.pega.financialcontrol.service.Data
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,6 +40,15 @@ abstract class AppControl {
             val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
             c.time = sdf.parse(date)
             return c
+        }
+
+        // This method get number starting 0 then convert for starting 1 ( 1 = January )
+        fun setSelectedMonthStartingZero(num: Int) {
+            Data.selectedMonth = num + 1
+        }
+
+        fun getSelectedMonthForArrays(): Int {
+            return Data.selectedMonth - 1
         }
     }
 

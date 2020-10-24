@@ -21,9 +21,13 @@
     <color name="required_color">#FF3D00</color>
     <color name="investment_color">#00E5FF</color>
 
-    <color name="none_color">#5B6B6C</color>
-    <color name="installment_color">#FFC400</color>
-    <color name="fixed_monthly_color">#FF3D00</color>
+    <color name="expense_none_color">#5B6B6C</color>
+    <color name="expense_installment_color">#FFC400</color>
+    <color name="expense_fixed_monthly_color">#FF3D00</color>
+
+    <color name="income_none_color">#5B6B6C</color>
+    <color name="income_installment_color">#C6FF00</color>
+    <color name="income_fixed_monthly_color">#00FF84</color>
 
     <color name="highlighted_backgroung">#999999</color>
 
