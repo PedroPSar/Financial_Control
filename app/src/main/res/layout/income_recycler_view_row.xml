@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp"
@@ -8,85 +8,79 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:padding="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_lbl_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/lbl_main_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Compras"
+        android:textSize="@dimen/lbl_main_size"
+        app:layout_constraintStart_toEndOf="@id/tv_lbl_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ll_value"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_name"
+        app:layout_constraintHorizontal_weight="1">
 
         <TextView
-            android:id="@+id/tv_lbl_name"
+            android:id="@+id/tv_lbl_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lbl_name"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/lbl_main_size"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/lbl_date"
+            android:textColor="@color/colorPrimary" />
 
         <TextView
-            android:id="@+id/tv_txt_name"
+            android:id="@+id/tv_txt_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Compras"
-            android:textSize="@dimen/lbl_main_size"
-            app:layout_constraintStart_toEndOf="@id/tv_lbl_name"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="23/06/2019"
+            app:layout_constraintStart_toEndOf="@id/tv_lbl_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_txt_name" />
 
-        <LinearLayout
-            android:id="@+id/ll_date"
-            android:layout_width="0dp"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/ll_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_name"
+        app:layout_constraintHorizontal_weight="1">
+
+        <TextView
+            android:id="@+id/tv_lbl_value"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ll_value"
-            app:layout_constraintTop_toBottomOf="@id/tv_txt_name"
-            app:layout_constraintHorizontal_weight="1">
+            android:layout_marginStart="16dp"
+            android:text="@string/lbl_value"
+            android:textColor="@color/colorPrimary" />
 
-            <TextView
-                android:id="@+id/tv_lbl_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_date"
-                android:textColor="@color/colorPrimary" />
-
-            <TextView
-                android:id="@+id/tv_txt_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="23/06/2019"
-                app:layout_constraintStart_toEndOf="@id/tv_lbl_date"
-                app:layout_constraintTop_toBottomOf="@id/tv_txt_name" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_value"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tv_txt_value"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toEndOf="@id/ll_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_txt_name"
-            app:layout_constraintHorizontal_weight="1">
+            android:layout_marginStart="8dp"
+            android:text="R$20,00" />
 
-            <TextView
-                android:id="@+id/tv_lbl_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/lbl_value"
-                android:textColor="@color/colorPrimary" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_txt_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="R$20,00" />
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

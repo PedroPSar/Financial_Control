@@ -46,14 +46,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun setCurrentDate() {
-        val c = Calendar.getInstance()
-        val month = c.get(Calendar.MONTH) // Get month int starting zero
-        val year = c.get(Calendar.YEAR)
+        if(Data.isFirstView) {
+            val c = Calendar.getInstance()
+            val month = c.get(Calendar.MONTH) // Get month int starting zero
+            val year = c.get(Calendar.YEAR)
 
-        AppControl.setSelectedMonthStartingZero(month)
-        Data.selectedYear = year
-        mMonth.value = months[AppControl.getSelectedMonthForArrays()]
-        mYear.value = year
+            AppControl.setSelectedMonthStartingZero(month)
+            Data.selectedYear = year
+            mMonth.value = months[AppControl.getSelectedMonthForArrays()]
+            mYear.value = year
+            Data.isFirstView = false
+        }else {
+            mMonth.value = months[AppControl.getSelectedMonthForArrays()]
+            mYear.value = Data.selectedYear
+        }
     }
 
     fun setIncomesOfMonth() {

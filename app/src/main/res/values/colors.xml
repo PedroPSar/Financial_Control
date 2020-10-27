@@ -8,7 +8,7 @@
     <color name="colorIncomes">#00E676</color>
     <color name="colorExpenses">#FF1744</color>
     <color name="colorBalance">@color/colorPrimary</color>
-    <color name="month_name_color">#FFFFFF</color>
+    <color name="month_name_color">#555555</color>
     <color name="description_bg">#FAFAFA</color>
     <color name="card_view_color_bg">#FFFFFF</color>
     <color name="home_part_bg_color">#FFFFFF</color>
@@ -30,5 +30,6 @@
     <color name="income_fixed_monthly_color">#00FF84</color>
 
     <color name="highlighted_backgroung">#999999</color>
+    <color name="line_color">#555555</color>
 
 </resources>

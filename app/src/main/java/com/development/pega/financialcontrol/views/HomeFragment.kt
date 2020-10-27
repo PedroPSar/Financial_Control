@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
@@ -121,12 +122,14 @@ class HomeFragment() : Fragment(), View.OnClickListener {
 
     private fun setInfoIncomesRecyclerView() {
         val incomesRV = root.findViewById<RecyclerView>(R.id.rv_incomes)
+        incomesRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         incomesRV.layoutManager = LinearLayoutManager(context)
         incomesRV.adapter = mIncomesAdapter
     }
 
     private fun setInfoExpensesRecyclerView() {
         val expensesRV = root.findViewById<RecyclerView>(R.id.rv_expenses)
+        expensesRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         expensesRV.layoutManager = LinearLayoutManager(context)
         expensesRV.adapter = mExpensesAdapter
     }

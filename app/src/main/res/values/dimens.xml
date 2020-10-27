@@ -11,4 +11,5 @@
     <dimen name="savings_amount_size">18sp</dimen>
     <dimen name="containers_elevation">2dp</dimen>
     <dimen name="lbl_dialog_size">24sp</dimen>
+    <dimen name="line_height">2dp</dimen>
 </resources>

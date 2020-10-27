@@ -29,13 +29,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/ll_lbl_months"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_horizontal"
-                    android:background="@color/colorPrimary"
+                    style="@style/ContainerStyle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -45,34 +44,59 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_baseline_navigate_before_24"/>
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_baseline_navigate_before_24"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-                    <TextView
-                        android:id="@+id/lbl_month_name"
+                    <LinearLayout
+                        android:id="@+id/ll_lbl_month"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Janeiro"
-                        android:textColor="@color/month_name_color"
-                        android:textSize="@dimen/month_txt_size"
-                        android:layout_gravity="center_vertical"/>
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        app:layout_constraintStart_toEndOf="@id/btn_img_before"
+                        app:layout_constraintEnd_toStartOf="@id/btn_img_next"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <ImageView
+                            android:id="@+id/img_calendar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_calendar_today_24"
+                            android:layout_marginEnd="8dp"/>
+
+                        <TextView
+                            android:id="@+id/lbl_month_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Janeiro"
+                            android:textColor="@color/month_name_color"
+                            android:textSize="@dimen/month_txt_size"/>
+
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/btn_img_next"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_baseline_navigate_next_24"/>
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_baseline_navigate_next_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_account_balance"
                     style="@style/ContainerStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="4dp"
                     android:padding="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -107,7 +131,7 @@
                     style="@style/ContainerStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:padding="8dp"
                     app:layout_constraintEnd_toStartOf="@id/cl_account_balance"
                     app:layout_constraintHorizontal_weight="1"
@@ -148,7 +172,7 @@
                     style="@style/ContainerStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:padding="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="1"
@@ -219,6 +243,7 @@
                         android:id="@+id/rv_incomes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/label_income" />

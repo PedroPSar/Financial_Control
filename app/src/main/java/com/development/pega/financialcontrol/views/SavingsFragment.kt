@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
@@ -116,12 +117,14 @@ class SavingsFragment : Fragment(), View.OnClickListener{
 
     private fun setInfoInDepositRecyclerView() {
         val depositRV = root.findViewById<RecyclerView>(R.id.rv_deposits)
+        depositRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         depositRV.layoutManager = LinearLayoutManager(context)
         depositRV.adapter = mDepositAdapter
     }
 
     private fun setInfoInWithdrawRecyclerView() {
         val withdrawRV = root.findViewById<RecyclerView>(R.id.rv_withdrawals)
+        withdrawRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         withdrawRV.layoutManager = LinearLayoutManager(context)
         withdrawRV.adapter = mWithdrawalsAdapter
     }

@@ -4,5 +4,6 @@ abstract class Data {
     companion object {
         var selectedMonth: Int = 0
         var selectedYear: Int = 0
+        var isFirstView: Boolean = true
     }
 }

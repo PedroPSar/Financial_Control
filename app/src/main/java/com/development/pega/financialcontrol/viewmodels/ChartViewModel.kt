@@ -2,13 +2,11 @@ package com.development.pega.financialcontrol.viewmodels
 
 import android.app.Application
 import android.graphics.Color
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
-import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.MonthForSum
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.Data
