@@ -91,8 +91,10 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getMonthsDataFromYear(): List<MonthForSum> {
-        val incomesFromYear = incomeRepository.getIncomesFromYear(Data.selectedYear)
-        val expensesFromYear = expenseRepository.getExpensesFromYear(Data.selectedYear)
+        val allIncomes = incomeRepository.getAll()
+        val allExpenses = expenseRepository.getAll()
+        var currentSelectedMonth = Data.selectedMonth
+
         var sumMonths = arrayListOf<MonthForSum>()
         sumMonths.add(MonthForSum(0, 0f, 0f, 0f))
         sumMonths.add(MonthForSum(1, 0f, 0f, 0f))
@@ -107,49 +109,15 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         sumMonths.add(MonthForSum(10, 0f, 0f, 0f))
         sumMonths.add(MonthForSum(11, 0f, 0f, 0f))
 
-        for(income in incomesFromYear) {
-            when(income.month) {
-                1 -> sumMonths[0].incomes += income.value
-                2 -> sumMonths[1].incomes += income.value
-                3 -> sumMonths[2].incomes += income.value
-                4 -> sumMonths[3].incomes += income.value
-                5 -> sumMonths[4].incomes += income.value
-                6 -> sumMonths[5].incomes += income.value
-                7 -> sumMonths[6].incomes += income.value
-                8 -> sumMonths[7].incomes += income.value
-                9 -> sumMonths[8].incomes += income.value
-                10 -> sumMonths[9].incomes += income.value
-                11 -> sumMonths[10].incomes += income.value
-                12 -> sumMonths[11].incomes += income.value
-                else -> {
+        for(i in 1..12) {
+            Data.selectedMonth = i
 
-                }
-            }
+            sumMonths[i - 1].incomes = AppControl.sumSelectedMonthIncomes(allIncomes)
+            sumMonths[i - 1].expenses = AppControl.sumSelectedMonthExpenses(allExpenses)
+            sumMonths[i - 1].balance = AppControl.calcAccountBalance(mContext)
         }
 
-        for(expense in expensesFromYear) {
-            when(expense.month) {
-                1 -> sumMonths[0].expenses += expense.value
-                2 -> sumMonths[1].expenses += expense.value
-                3 -> sumMonths[2].expenses += expense.value
-                4 -> sumMonths[3].expenses += expense.value
-                5 -> sumMonths[4].expenses += expense.value
-                6 -> sumMonths[5].expenses += expense.value
-                7 -> sumMonths[6].expenses += expense.value
-                8 -> sumMonths[7].expenses += expense.value
-                9 -> sumMonths[8].expenses += expense.value
-                10 -> sumMonths[9].expenses += expense.value
-                11 -> sumMonths[10].expenses += expense.value
-                12 -> sumMonths[11].expenses += expense.value
-                else -> {
-
-                }
-            }
-        }
-        for(i in 0..11) {
-            sumMonths[i].balance = sumMonths[i].incomes - sumMonths[i].expenses
-        }
-
+        Data.selectedMonth = currentSelectedMonth
         return sumMonths
     }
 

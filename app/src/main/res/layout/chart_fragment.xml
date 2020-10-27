@@ -28,8 +28,8 @@
                 style="@style/ContainerStyle">
 
                 <TextView
-                    android:id="@+id/lbl_balance_year_months_chart"
-                    android:text="@string/lbl_balance_year_months_chart_label"
+                    android:id="@+id/lbl_account_balance_year_chart"
+                    android:text="@string/lbl_account_balance_year_months_chart"
                     android:textSize="@dimen/lbl_main_size"
                     android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
                     android:id="@+id/line_chart_year_months"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/charts_height"
-                    android:layout_below="@id/lbl_balance_year_months_chart"/>
+                    android:layout_below="@id/lbl_account_balance_year_chart"/>
 
             </RelativeLayout>
 

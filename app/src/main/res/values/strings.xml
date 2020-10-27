@@ -39,7 +39,7 @@
     <string name="edit_many_times_hint">2</string>
     <string name="lbl_number">Number</string>
     <string name="lbl_every">Every</string>
-    <string name="lbl_balance_year_months_chart_label">Monthly Balance</string>
+    <string name="lbl_account_balance_year_months_chart">Account Balance</string>
 
     <!-- Chart Fragment -->
     <string name="lbl_expenses_type_month_pizza_chart">Expenses type</string>
