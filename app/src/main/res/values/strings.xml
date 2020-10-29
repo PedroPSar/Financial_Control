@@ -71,6 +71,9 @@
 
     <!-- Settings Activity -->
     <string name="settings_title">Settings</string>
+    <string name="currency_txt">Currency</string>
+    <string name="email">pegadevelopmententerprise@gmail.com</string>
+    <string name="currency_explication_text">Set the currency you want to use.</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>

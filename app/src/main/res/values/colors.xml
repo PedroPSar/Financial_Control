@@ -31,5 +31,7 @@
 
     <color name="highlighted_backgroung">#999999</color>
     <color name="line_color">#555555</color>
+    
+    <color name="label_options_color">#333333</color>
 
 </resources>
