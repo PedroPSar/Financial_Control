@@ -219,18 +219,27 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getExpensesTypeInYearAndMonthSelected(): List<Float> {
-        val expenses = expenseRepository.getExpensesFromYearAndMonth(Data.selectedYear, Data.selectedMonth)
+        val expenses = expenseRepository.getAll()
 
         var notRequiredSum = 0f
         var requiredSum = 0f
         var investmentSum = 0f
 
         for(expense in expenses) {
-            when(expense.type) {
-                Constants.TYPE.NOT_REQUIRED -> notRequiredSum += expense.value
-                Constants.TYPE.REQUIRED -> requiredSum += expense.value
-                Constants.TYPE.INVESTMENT -> investmentSum += expense.value
+
+            if(expense.month == Data.selectedMonth && expense.year == Data.selectedYear
+                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year == Data.selectedYear && expense.month < Data.selectedMonth
+                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < Data.selectedYear
+                || AppControl.thisInstallmentExpenseIsFromThisMonth(expense)) {
+
+                when(expense.type) {
+                    Constants.TYPE.NOT_REQUIRED -> notRequiredSum += expense.value
+                    Constants.TYPE.REQUIRED -> requiredSum += expense.value
+                    Constants.TYPE.INVESTMENT -> investmentSum += expense.value
+                }
+
             }
+
         }
 
         return arrayListOf(notRequiredSum, requiredSum, investmentSum)
@@ -260,7 +269,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
 
         val colors = arrayListOf(noneColor, installmentColor, fixedMonthlyColor)
 
-        //0 = not required; 1 = required; 2 = investment
+        //0 = none; 1 = installment; 2 = fixedMonthly
         val expensesSeparateRecurrence = getExpensesRecurrenceInYearAndMonth()
 
         var expensesRecurrence = arrayListOf<PieEntry>()
@@ -277,17 +286,26 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getExpensesRecurrenceInYearAndMonth(): List<Float> {
-        val expenses = expenseRepository.getExpensesFromYearAndMonth(Data.selectedYear, Data.selectedMonth)
+        val expenses = expenseRepository.getAll()
         var noneSum = 0f
         var installmentSum = 0f
         var fixedMonthlySum = 0f
 
         for(expense in expenses) {
-            when(expense.recurrence) {
-                Constants.RECURRENCE.NONE -> noneSum += expense.value
-                Constants.RECURRENCE.INSTALLMENT -> installmentSum += expense.value
-                Constants.RECURRENCE.FIXED_MONTHLY -> fixedMonthlySum += expense.value
+
+            if(expense.month == Data.selectedMonth && expense.year == Data.selectedYear
+                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year == Data.selectedYear && expense.month < Data.selectedMonth
+                || expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < Data.selectedYear
+                || AppControl.thisInstallmentExpenseIsFromThisMonth(expense)) {
+
+                when(expense.recurrence) {
+                    Constants.RECURRENCE.NONE -> noneSum += expense.value
+                    Constants.RECURRENCE.INSTALLMENT -> installmentSum += expense.value
+                    Constants.RECURRENCE.FIXED_MONTHLY -> fixedMonthlySum += expense.value
+                }
+
             }
+
         }
 
         return arrayListOf(noneSum, installmentSum, fixedMonthlySum)
@@ -334,17 +352,26 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getIncomesRecurrenceInYearAndMonth(): List<Float> {
-        val incomes = incomeRepository.getIncomesFromYearAndMonth(Data.selectedYear, Data.selectedMonth)
+        val incomes = incomeRepository.getAll()
         var noneSum = 0f
         var installmentSum = 0f
         var fixedMonthlySum = 0f
 
         for(income in incomes) {
-            when(income.recurrence) {
-                Constants.RECURRENCE.NONE -> noneSum += income.value
-                Constants.RECURRENCE.INSTALLMENT -> installmentSum += income.value
-                Constants.RECURRENCE.FIXED_MONTHLY -> fixedMonthlySum += income.value
+
+            if(income.month == Data.selectedMonth && income.year == Data.selectedYear
+                || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year == Data.selectedYear && income.month < Data.selectedMonth
+                || income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < Data.selectedYear
+                || AppControl.thisInstallmentIncomeIsFromThisMonth(income)) {
+
+                when(income.recurrence) {
+                    Constants.RECURRENCE.NONE -> noneSum += income.value
+                    Constants.RECURRENCE.INSTALLMENT -> installmentSum += income.value
+                    Constants.RECURRENCE.FIXED_MONTHLY -> fixedMonthlySum += income.value
+                }
+
             }
+
         }
 
         return arrayListOf(noneSum, installmentSum, fixedMonthlySum)

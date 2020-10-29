@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.SettingsActivity
 import com.development.pega.financialcontrol.listener.MainListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
@@ -67,6 +68,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
         R.id.add_expense_or_revenue -> {
             setAddMenu()
+            true
+        }
+
+        R.id.open_settings_activity -> {
+            openSettingsActivity()
             true
         }
 
@@ -132,6 +138,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             popupMenuIsInflated = true
         }
         popupMenu.show()
+    }
+
+    private fun openSettingsActivity() {
+        val intent = Intent(this, SettingsActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     private fun setCurrentYear() {
