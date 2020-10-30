@@ -12,6 +12,7 @@
     <string name="menu_savings">Savings</string>
     <string name="menu_charts">Charts</string>
     <string name="label_total">Total</string>
+    <string name="et_values_hints">0.00</string>
 
     <!-- Shared Preferences -->
     <string name="objective_value_default">00.00</string>
@@ -74,6 +75,33 @@
     <string name="currency_txt">Currency</string>
     <string name="email">pegadevelopmententerprise@gmail.com</string>
     <string name="currency_explication_text">Set the currency you want to use.</string>
+    <string name="currency_selected_default">$</string>
+    <string-array name="currencies">
+        <item>$</item>
+        <item>€</item>
+        <item>₩</item>
+        <item>¥</item>
+        <item>£</item>
+        <item>R$</item>
+        <item>kr</item>
+        <item>Kč</item>
+        <item>HK$</item>
+        <item>Mex$</item>
+        <item>Bs.</item>
+        <item>$</item>
+        <item>₵</item>
+        <item>₣</item>
+        <item>Q</item>
+        <item>L</item>
+        <item>Kn</item>
+        <item>G</item>
+        <item>Ft</item>
+        <item>Rp</item>
+        <item>₪</item>
+        <item>₹</item>
+        <item>ع.</item>
+        <item>﷼</item>
+    </string-array>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>

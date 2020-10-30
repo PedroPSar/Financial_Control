@@ -9,10 +9,15 @@ class Prefs(context: Context) {
     private val PREFS_FILENAME = "financial.control.prefs"
     private val OBJECTIVE_VALUE_KEY = "Objective_Value"
     private val OBJECTIVE_DESCRIPTION_KEY = "Objective_Description"
-    private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+    private val CURRENCY_SELECTED_KEY = "Currency_Selected"
+    private val prefs: SharedPreferences = context.getSharedPreferences(
+        PREFS_FILENAME,
+        Context.MODE_PRIVATE
+    )
 
     private val objectiveValueDefault = context.getString(R.string.objective_value_default)
     private val objectiveDescriptionDefault = context.getString(R.string.objective_description_default)
+    private val currencySelectedDefault = context.getString(R.string.currency_selected_default)
 
     var objectiveValue: String
         get() = prefs.getString(OBJECTIVE_VALUE_KEY, objectiveValueDefault).toString()
@@ -21,4 +26,8 @@ class Prefs(context: Context) {
     var objectiveDescription: String
         get() = prefs.getString(OBJECTIVE_DESCRIPTION_KEY, objectiveDescriptionDefault).toString()
         set(value) = prefs.edit().putString(OBJECTIVE_DESCRIPTION_KEY, value).apply()
+
+    var currencySelectedValue: String
+        get() = prefs.getString(CURRENCY_SELECTED_KEY, currencySelectedDefault).toString()
+        set(value) = prefs.edit().putString(CURRENCY_SELECTED_KEY, value).apply()
 }

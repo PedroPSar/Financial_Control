@@ -15,11 +15,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <EditText
+    <me.abhinay.input.CurrencyEditText
         android:id="@+id/edit_objective_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/dialog_value_hint"
+        android:hint="@string/et_values_hints"
+        android:textColorHint="@color/et_values_hint_color"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

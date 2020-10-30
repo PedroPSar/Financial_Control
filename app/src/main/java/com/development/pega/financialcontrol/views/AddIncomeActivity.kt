@@ -18,7 +18,6 @@ import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.AddIncomeViewModel
-import kotlinx.android.synthetic.main.activity_add_expense.*
 import kotlinx.android.synthetic.main.activity_add_income.*
 import kotlinx.android.synthetic.main.activity_add_income.btn_add
 import kotlinx.android.synthetic.main.activity_add_income.btn_change_date

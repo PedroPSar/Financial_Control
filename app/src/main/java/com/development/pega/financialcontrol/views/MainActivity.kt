@@ -3,11 +3,8 @@ package com.development.pega.financialcontrol.views
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
@@ -15,7 +12,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.development.pega.financialcontrol.R
-import com.development.pega.financialcontrol.SettingsActivity
 import com.development.pega.financialcontrol.listener.MainListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*

@@ -6,6 +6,7 @@ import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.Data
+import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
 import java.text.SimpleDateFormat
@@ -17,6 +18,10 @@ abstract class AppControl {
 
         fun showToast(context: Context, text: String) {
             Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        }
+
+        fun getCurrencyAbbreviation(context: Context): String {
+            return Prefs(context).currencySelectedValue
         }
 
         fun getRecurrence(pos: Int): Int {

@@ -46,11 +46,14 @@
             android:textSize="@dimen/lbl_main_size"
             android:text="@string/lbl_value"/>
 
-        <EditText
+        <me.abhinay.input.CurrencyEditText
             android:id="@+id/edit_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:inputType="number"
+            android:hint="@string/et_values_hints"
+            android:textColorHint="@color/et_values_hint_color"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

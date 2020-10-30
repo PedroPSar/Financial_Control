@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.adapter.ExpensesRecyclerViewAdapter
 import com.development.pega.financialcontrol.adapter.IncomesRecyclerViewAdapter
+import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.listener.MainListener
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -91,11 +92,13 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         })
 
         viewModel.incomes.observe(viewLifecycleOwner, Observer {
-            tvIncomes.text = it.toString()
+            val incomesTxt = AppControl.getCurrencyAbbreviation(requireContext()) + it.toString()
+            tvIncomes.text = incomesTxt
         })
 
         viewModel.expenses.observe(viewLifecycleOwner, Observer {
-            tvExpenses.text = it.toString()
+            val expensesTxt = AppControl.getCurrencyAbbreviation(requireContext()) + it.toString()
+            tvExpenses.text = expensesTxt
         })
 
         viewModel.recyclerViewIncomes.observe(viewLifecycleOwner, Observer {
@@ -107,7 +110,8 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         })
 
         viewModel.balance.observe(viewLifecycleOwner, Observer {
-            txt_account_balance.text = it.toString()
+            val balanceTxt = AppControl.getCurrencyAbbreviation(requireContext()) + it.toString()
+            txt_account_balance.text = balanceTxt
         })
 
         viewModel.year.observe(viewLifecycleOwner, Observer {
