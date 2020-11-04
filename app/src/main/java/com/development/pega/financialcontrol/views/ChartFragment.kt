@@ -184,14 +184,21 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     class MonthsNamesFormatter(context: Context?) : ValueFormatter() {
-        private val days = context!!.resources.getStringArray(R.array.month_abbreviations)
+        private val days = context?.resources?.getStringArray(R.array.month_abbreviations)
 
         override fun getFormattedValue(value: Float): String {
-            return value.toString()
+            return AppControl.Text.convertFloatToCurrencyText(value)
         }
 
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-            return days.getOrNull(value.toInt()) ?: value.toString()
+            return days?.getOrNull(value.toInt()) ?: value.toString()
+        }
+    }
+
+    class PieChartsValueFormatter(context: Context?) : ValueFormatter() {
+
+        override fun getFormattedValue(value: Float): String {
+            return AppControl.Text.convertFloatToCurrencyText(value)
         }
     }
 

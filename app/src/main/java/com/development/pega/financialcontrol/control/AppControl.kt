@@ -1,6 +1,7 @@
 package com.development.pega.financialcontrol.control
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
@@ -9,10 +10,27 @@ import com.development.pega.financialcontrol.service.Data
 import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 abstract class AppControl {
+
+    object Text {
+        fun convertCurrencyTextToFloat(value: String): Float {
+            val regex = "[,.]".toRegex()
+            var v = value.replace(regex, "")
+            Log.d("teste", "apos retirar virgula: $v floatMax: ${Double.MAX_VALUE}")
+            v = v.substring(0, v.length - 2) + "." + v.substring(v.length - 2)
+            Log.d("teste", "value after convert: ${v.toFloat()}")
+            return v.toFloat()
+        }
+
+        fun convertFloatToCurrencyText(value: Float): String {
+            val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
+            return format.format(value)
+        }
+    }
 
     companion object {
 

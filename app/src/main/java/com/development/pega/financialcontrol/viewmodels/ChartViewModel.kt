@@ -12,6 +12,7 @@ import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.Data
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
+import com.development.pega.financialcontrol.views.ChartFragment
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
@@ -53,6 +54,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         setStyleInLines()
 
         val lineData = LineData(dataSets)
+        lineData.setValueFormatter(ChartFragment.MonthsNamesFormatter(mContext))
         mYearMonthsChart.value = lineData
     }
 
@@ -214,6 +216,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         pieDataSet.colors = colors
         pieDataSet.valueTextColor = Color.BLACK
         pieDataSet.valueTextSize = Constants.PIE.PIE_VALUE_TEXT_SIZE
+        pieDataSet.valueFormatter = ChartFragment.PieChartsValueFormatter(mContext)
 
         return PieData(pieDataSet)
     }
@@ -281,6 +284,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         pieDataSet.colors = colors
         pieDataSet.valueTextColor = Color.BLACK
         pieDataSet.valueTextSize = Constants.PIE.PIE_VALUE_TEXT_SIZE
+        pieDataSet.valueFormatter = ChartFragment.PieChartsValueFormatter(mContext)
 
         return PieData(pieDataSet)
     }
@@ -347,6 +351,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         pieDataSet.colors = colors
         pieDataSet.valueTextColor = Color.BLACK
         pieDataSet.valueTextSize = Constants.PIE.PIE_VALUE_TEXT_SIZE
+        pieDataSet.valueFormatter = ChartFragment.PieChartsValueFormatter(mContext)
 
         return PieData(pieDataSet)
     }

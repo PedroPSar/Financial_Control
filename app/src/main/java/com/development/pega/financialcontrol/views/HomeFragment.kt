@@ -92,12 +92,12 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         })
 
         viewModel.incomes.observe(viewLifecycleOwner, Observer {
-            val incomesTxt = AppControl.getCurrencyAbbreviation(requireContext()) + it.toString()
+            val incomesTxt = AppControl.Text.convertFloatToCurrencyText(it)
             tvIncomes.text = incomesTxt
         })
 
         viewModel.expenses.observe(viewLifecycleOwner, Observer {
-            val expensesTxt = AppControl.getCurrencyAbbreviation(requireContext()) + it.toString()
+            val expensesTxt = AppControl.Text.convertFloatToCurrencyText(it)
             tvExpenses.text = expensesTxt
         })
 
@@ -110,7 +110,7 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         })
 
         viewModel.balance.observe(viewLifecycleOwner, Observer {
-            val balanceTxt = AppControl.getCurrencyAbbreviation(requireContext()) + it.toString()
+            val balanceTxt = AppControl.Text.convertFloatToCurrencyText(it)
             txt_account_balance.text = balanceTxt
         })
 

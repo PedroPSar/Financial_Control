@@ -104,7 +104,9 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
         val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
 
-        money.money = edit_value.text.toString().toFloat()
+        val moneyValue = AppControl.Text.convertCurrencyTextToFloat( edit_value.text.toString() )
+
+        money.money = moneyValue
         money.day = day
         money.month = month
         money.year = year

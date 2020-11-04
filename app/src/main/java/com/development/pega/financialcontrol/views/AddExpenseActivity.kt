@@ -59,12 +59,14 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             val month = calendar.get(Calendar.MONTH) + 1
             val year = calendar.get(Calendar.YEAR)
 
+            val expenseValue = AppControl.Text.convertCurrencyTextToFloat( edit_expense_value.text.toString() )
+
             val expense = Expense()
             expense.type = typeOptions
             expense.day = day
             expense.month = month
             expense.year = year
-            expense.value = edit_expense_value.text.toString().toFloat()
+            expense.value = expenseValue
             expense.name = edit_expense_name.text.toString()
             expense.description = edit_expense_description.text.toString()
             expense.recurrence = recurrenceOptions

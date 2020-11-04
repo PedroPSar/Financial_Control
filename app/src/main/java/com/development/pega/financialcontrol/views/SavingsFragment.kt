@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.adapter.DepositOrWithdrawRecyclerViewAdapter
+import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.dialog.ObjectiveDescriptionDialogFragment
 import com.development.pega.financialcontrol.service.dialog.ObjectiveValueDialogFragment
@@ -151,11 +152,11 @@ class SavingsFragment : Fragment(), View.OnClickListener{
         })
 
         mViewModel.depositsTotal.observe(viewLifecycleOwner, Observer {
-            num_total_deposits.text = it.toString()
+            num_total_deposits.text = AppControl.Text.convertFloatToCurrencyText(it)
         })
 
         mViewModel.withdrawalsTotal.observe(viewLifecycleOwner, Observer {
-            num_total_withdrawals.text = it.toString()
+            num_total_withdrawals.text = AppControl.Text.convertFloatToCurrencyText(it)
         })
 
         mViewModel.savingsAmount.observe(viewLifecycleOwner, Observer {

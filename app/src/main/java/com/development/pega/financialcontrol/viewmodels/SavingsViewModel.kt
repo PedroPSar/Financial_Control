@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.service.repository.savingsmoney.SavingsMoneyRepository
@@ -62,34 +63,37 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
     fun setSavingsAmount() {
         val deposits = mDepositsTotal.value
         val withdrawals = mWithdrawalsTotal.value
-        var amountValue = ""
+        var amountValue = 0f
 
         if(deposits != null && withdrawals != null) {
-            amountValue = (deposits - withdrawals).toString()
+            amountValue = (deposits - withdrawals)
         }else if(deposits == null && withdrawals == null) {
-            amountValue = 0f.toString()
-        }else if(withdrawals == null) {
-            amountValue = deposits.toString()
-        }else if(deposits == null) {
-            amountValue = (0f - withdrawals).toString()
+            amountValue = 0f
+        }else if(withdrawals == null && deposits != null) {
+            amountValue = deposits
+        }else if(deposits == null && withdrawals != null) {
+            amountValue = (0f - withdrawals)
         }
 
-        mSavingsAmount.value = "$amountValue / ${getObjectiveValue()}"
+        mSavingsAmount.value = "${AppControl.Text.convertFloatToCurrencyText(amountValue)} / ${AppControl.Text.convertFloatToCurrencyText(getObjectiveValue())}"
 
-        setAmountPercent(amountValue.toFloat(), getObjectiveValue().toFloat())
+        setAmountPercent(amountValue, getObjectiveValue())
     }
 
-    private fun getObjectiveValue(): String {
-        return prefs.objectiveValue
+    private fun getObjectiveValue(): Float {
+        return AppControl.Text.convertCurrencyTextToFloat(prefs.objectiveValue)
     }
 
     private fun setAmountPercent(amountValue: Float, objectiveValue: Float) {
+
         var percent = (amountValue / objectiveValue) * 100f
         if(percent > 100f){
             percent = 100f
         }
 
-        mAmountPercent.value = percent.roundToInt().toString() + "%"
+        if(!percent.isNaN()) {
+            mAmountPercent.value = percent.roundToInt().toString() + "%"
+        }
     }
 
     fun setObjectiveDescription() {

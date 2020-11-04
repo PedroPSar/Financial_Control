@@ -2,6 +2,7 @@ package com.development.pega.financialcontrol.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -60,10 +61,12 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
             val month = calendar.get(Calendar.MONTH) + 1
             val year = calendar.get(Calendar.YEAR)
 
+            val incomeValue = AppControl.Text.convertCurrencyTextToFloat(edit_income_value.text.toString())
+
             val mIncome = Income()
             mIncome.name = edit_income_name.text.toString()
             mIncome.description = edit_income_description.text.toString()
-            mIncome.value = edit_income_value.text.toString().toFloat()
+            mIncome.value = incomeValue
             mIncome.day = day
             mIncome.month = month
             mIncome.year = year
