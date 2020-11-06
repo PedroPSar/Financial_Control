@@ -3,6 +3,7 @@ package com.development.pega.financialcontrol.control
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
@@ -29,6 +30,16 @@ abstract class AppControl {
         fun convertFloatToCurrencyText(value: Float): String {
             val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
             return format.format(value)
+        }
+    }
+
+    object Validator {
+        fun makeEmptyRequiredFieldToast(context: Context) {
+            Toast.makeText(context, context.getString(R.string.empty_required_field_toast_text), Toast.LENGTH_SHORT).show()
+        }
+
+        fun makeNotEnoughMoneyToast(context: Context) {
+            Toast.makeText(context, context.getString(R.string.not_enough_money_toast_text), Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -55,29 +55,15 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
     override fun onClick(v: View) {
         if(v.id == id.btn_change_date) {
             mViewModel.showDatePickerDialog(this)
+
         } else if(v.id == id.btn_add) {
-            calendar = AppControl.calendarSetTime(txt_income_date.text.toString())
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-            val month = calendar.get(Calendar.MONTH) + 1
-            val year = calendar.get(Calendar.YEAR)
 
-            val incomeValue = AppControl.Text.convertCurrencyTextToFloat(edit_income_value.text.toString())
-
-            val mIncome = Income()
-            mIncome.name = edit_income_name.text.toString()
-            mIncome.description = edit_income_description.text.toString()
-            mIncome.value = incomeValue
-            mIncome.day = day
-            mIncome.month = month
-            mIncome.year = year
-            mIncome.recurrence = recurrenceOption
-            mIncome.payFrequency = everyMonth
-
-            if(edit_many_times.text.toString() != "") {
-                mIncome.numInstallmentMonths = edit_many_times.text.toString().toInt()
+            if(edit_income_name.text.toString().isEmpty() || edit_income_value.text.toString().isEmpty()) {
+                AppControl.Validator.makeEmptyRequiredFieldToast(this)
+            }else {
+                addIncome()
             }
 
-            mViewModel.saveIncome(mIncome)
         }
     }
 
@@ -108,6 +94,31 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         TODO("Not yet implemented")
+    }
+
+    private fun addIncome() {
+        calendar = AppControl.calendarSetTime(txt_income_date.text.toString())
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val year = calendar.get(Calendar.YEAR)
+
+        val incomeValue = AppControl.Text.convertCurrencyTextToFloat(edit_income_value.text.toString())
+
+        val mIncome = Income()
+        mIncome.name = edit_income_name.text.toString()
+        mIncome.description = edit_income_description.text.toString()
+        mIncome.value = incomeValue
+        mIncome.day = day
+        mIncome.month = month
+        mIncome.year = year
+        mIncome.recurrence = recurrenceOption
+        mIncome.payFrequency = everyMonth
+
+        if(edit_many_times.text.toString() != "") {
+            mIncome.numInstallmentMonths = edit_many_times.text.toString().toInt()
+        }
+
+        mViewModel.saveIncome(mIncome)
     }
 
     private fun setListeners() {

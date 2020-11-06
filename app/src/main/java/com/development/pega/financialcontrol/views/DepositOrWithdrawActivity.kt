@@ -47,7 +47,20 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if(v.id == R.id.btn_deposit_or_withdraw) {
-            saveDepositOrWithdraw()
+
+            if(edit_description.text.toString().isEmpty() || edit_value.text.toString().isEmpty()) {
+                AppControl.Validator.makeEmptyRequiredFieldToast(this)
+
+            }else if(type == Constants.SAVINGS_MONEY.WITHDRAW) {
+                if( mViewModel.checkIfHaveEnoughMoney(edit_value.text.toString()) ) {
+                    saveDepositOrWithdraw()
+                }else {
+                    AppControl.Validator.makeNotEnoughMoneyToast(this)
+                }
+            }else if(type == Constants.SAVINGS_MONEY.DEPOSIT){
+                saveDepositOrWithdraw()
+            }
+
         }else if(v.id == R.id.btn_change_date) {
             changeDate()
         }
@@ -72,6 +85,10 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
         })
+    }
+
+    private fun checkIfHaveEnoughMoney() {
+
     }
 
     private fun setListeners() {

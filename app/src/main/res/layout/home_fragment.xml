@@ -93,12 +93,11 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_account_balance"
-                    style="@style/ContainerStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="4dp"
-                    android:padding="8dp"
+                    android:padding="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/cl_expenses"
                     app:layout_constraintHorizontal_weight="1"
@@ -128,11 +127,10 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_incomes"
-                    style="@style/ContainerStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:padding="8dp"
+                    android:padding="2dp"
                     app:layout_constraintEnd_toStartOf="@id/cl_account_balance"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -162,18 +160,18 @@
                         android:layout_height="wrap_content"
                         android:text="R$20,00"
                         android:textColor="@color/colorIncomes"
-                        app:layout_constraintStart_toEndOf="@id/arrow_incomes"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/lbl_incomes" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_expenses"
-                    style="@style/ContainerStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:padding="8dp"
+                    android:padding="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toEndOf="@id/cl_account_balance"
@@ -202,7 +200,8 @@
                         android:layout_height="wrap_content"
                         android:text="R$15,00"
                         android:textColor="@color/colorExpenses"
-                        app:layout_constraintStart_toEndOf="@id/arrow_expenses"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/lbl_expense" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

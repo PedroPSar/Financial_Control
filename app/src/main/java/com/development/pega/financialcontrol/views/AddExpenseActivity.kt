@@ -53,31 +53,15 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     override fun onClick(v: View) {
         if(v.id == R.id.btn_change_date) {
             mViewModel.showDatePickerDialog(this)
+
         } else if(v.id == R.id.btn_add) {
-            calendar = AppControl.calendarSetTime(txt_expense_date.text.toString())
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-            val month = calendar.get(Calendar.MONTH) + 1
-            val year = calendar.get(Calendar.YEAR)
 
-            val expenseValue = AppControl.Text.convertCurrencyTextToFloat( edit_expense_value.text.toString() )
-
-            val expense = Expense()
-            expense.type = typeOptions
-            expense.day = day
-            expense.month = month
-            expense.year = year
-            expense.value = expenseValue
-            expense.name = edit_expense_name.text.toString()
-            expense.description = edit_expense_description.text.toString()
-            expense.recurrence = recurrenceOptions
-            expense.payFrequency = everyMonth
-
-            if(edit_many_times.text.toString() != "") {
-                expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
+            if(edit_expense_name.text.toString().isEmpty() || edit_expense_value.text.toString().isEmpty()) {
+                AppControl.Validator.makeEmptyRequiredFieldToast(this)
+            }else {
+                addExpense()
             }
 
-
-            mViewModel.addExpense(expense)
         }
     }
 
@@ -109,6 +93,32 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         TODO("Not yet implemented")
+    }
+
+    private fun addExpense() {
+        calendar = AppControl.calendarSetTime(txt_expense_date.text.toString())
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val year = calendar.get(Calendar.YEAR)
+
+        val expenseValue = AppControl.Text.convertCurrencyTextToFloat( edit_expense_value.text.toString() )
+
+        val expense = Expense()
+        expense.type = typeOptions
+        expense.day = day
+        expense.month = month
+        expense.year = year
+        expense.value = expenseValue
+        expense.name = edit_expense_name.text.toString()
+        expense.description = edit_expense_description.text.toString()
+        expense.recurrence = recurrenceOptions
+        expense.payFrequency = everyMonth
+
+        if(edit_many_times.text.toString() != "") {
+            expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
+        }
+
+        mViewModel.addExpense(expense)
     }
 
     private fun setListeners() {

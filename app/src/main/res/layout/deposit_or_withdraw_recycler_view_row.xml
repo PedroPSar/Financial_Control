@@ -10,8 +10,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ll_date"
+        app:layout_constraintStart_toEndOf="@id/ll_date"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_weight="1">
 
@@ -21,16 +21,15 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_value"
             android:textSize="@dimen/lbl_main_size"
-            android:textColor="@color/colorPrimary"
-            />
+            android:textColor="@color/colorRecyclerListLabel"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_txt_deposit_withdraw_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="300"
-            android:textSize="@dimen/lbl_main_size"
-            android:layout_marginStart="8dp"/>
+            android:textSize="@dimen/lbl_main_size"/>
 
     </LinearLayout>
 
@@ -38,8 +37,8 @@
         android:id="@+id/ll_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/ll_value"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ll_value"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_weight="1">
 
@@ -49,7 +48,8 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_date"
             android:textSize="@dimen/lbl_main_size"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorRecyclerListLabel"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_txt_deposit_withdraw_date"
@@ -57,7 +57,6 @@
             android:layout_height="wrap_content"
             android:text="12/12/1993"
             android:textSize="@dimen/lbl_main_size"
-            android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -69,15 +68,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/lbl_description"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorRecyclerListLabel"
         android:textSize="@dimen/lbl_main_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_value" />
+        app:layout_constraintTop_toBottomOf="@id/ll_value"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_txt_deposit_withdraw_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="bla bla bla bla"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_lbl_deposit_withdraw_description"/>
 

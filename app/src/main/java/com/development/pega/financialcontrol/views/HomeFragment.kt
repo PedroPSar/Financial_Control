@@ -1,6 +1,10 @@
 package com.development.pega.financialcontrol.views
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.Display
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +22,7 @@ import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.listener.MainListener
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
+import kotlin.math.roundToInt
 
 class HomeFragment() : Fragment(), View.OnClickListener {
 
@@ -55,6 +60,8 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         tvIncomes = root.findViewById(R.id.txt_incomes)
         tvExpenses = root.findViewById(R.id.txt_expenses)
         viewModel.setCurrentDate()
+
+        setMaxWidthInLayout()
         setOnClick()
         adapters()
         observer()
@@ -138,4 +145,17 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         expensesRV.adapter = mExpensesAdapter
     }
 
+    private fun setMaxWidthInLayout() {
+        val metrics = DisplayMetrics()
+        requireActivity().windowManager.defaultDisplay.getMetrics(metrics)
+
+        var width = metrics.widthPixels
+        width = (width - (width * 0.10f) ).roundToInt()
+        val maxWidth = width / 3
+
+        cl_incomes.maxWidth = maxWidth
+        cl_expenses.maxWidth = maxWidth
+        cl_account_balance.maxWidth = maxWidth
+
+    }
 }

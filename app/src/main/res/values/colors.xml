@@ -8,13 +8,14 @@
     <color name="colorIncomes">#00E676</color>
     <color name="colorExpenses">#FF1744</color>
     <color name="colorBalance">@color/colorPrimary</color>
+    <color name="colorRecyclerListLabel">#333333</color>
     <color name="month_name_color">#555555</color>
     <color name="description_bg">#FAFAFA</color>
     <color name="card_view_color_bg">#FFFFFF</color>
     <color name="home_part_bg_color">#FFFFFF</color>
     <color name="colorSelectedMonth">#625D6E</color>
     <color name="button_bg">#ffffff</color>
-    <color name="et_values_hint_color">#000000</color>
+    <color name="et_values_hint_color">#AAAAAA</color>
 
     <color name="background_color">#f7f7f7</color>
 

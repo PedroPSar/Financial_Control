@@ -3,14 +3,17 @@ package com.development.pega.financialcontrol.viewmodels
 import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
+import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
 import com.development.pega.financialcontrol.service.repository.savingsmoney.SavingsMoneyRepository
@@ -47,6 +50,30 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
     fun getCurrentDate() {
         val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
         mCurrentTime.value =  sdf.format(Date())
+    }
+
+    fun checkIfHaveEnoughMoney(value: String): Boolean {
+        val amount = getSavingsAmount()
+        Log.d("teste", "SavingsAmount: $amount | WithdrawalValue: ${AppControl.Text.convertCurrencyTextToFloat(value)}")
+        return amount >= AppControl.Text.convertCurrencyTextToFloat(value)
+    }
+
+    private fun getSavingsAmount(): Float {
+        val deposits = savingsMoneyRepository.getDeposits()
+        val withdrawals =  savingsMoneyRepository.getWithdrawals()
+
+        val totalDeposits = calcTotalSavings(deposits)
+        val totalWithdrawals = calcTotalSavings(withdrawals)
+
+        return totalDeposits - totalWithdrawals
+    }
+
+    private fun calcTotalSavings(list: List<SavingsMoney>): Float {
+        var total = 0f
+        for(savingMoney in list) {
+            total += savingMoney.money
+        }
+        return total
     }
 
     fun showDatePickerDialog(context: Context) {

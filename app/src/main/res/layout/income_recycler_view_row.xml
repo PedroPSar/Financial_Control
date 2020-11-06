@@ -13,10 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/lbl_name"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorRecyclerListLabel"
         android:textSize="@dimen/lbl_main_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_txt_name"
@@ -43,7 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lbl_date"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorRecyclerListLabel"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_txt_date"
@@ -72,7 +74,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/lbl_value"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorRecyclerListLabel"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_txt_value"

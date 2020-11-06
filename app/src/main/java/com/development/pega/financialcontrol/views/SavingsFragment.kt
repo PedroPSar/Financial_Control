@@ -92,8 +92,14 @@ class SavingsFragment : Fragment(), View.OnClickListener{
 
         valueDialogListener = object : ObjectiveValueDialogFragment.ObjectiveValueDialogListener {
             override fun onObjValueDialogPositiveClick(dialog: DialogFragment, value: String) {
-                mViewModel.saveObjectiveValue(value)
-                mViewModel.setSavingsAmount()
+
+                if(value.isEmpty()) {
+                    AppControl.Validator.makeEmptyRequiredFieldToast(requireContext())
+                }else {
+                    mViewModel.saveObjectiveValue(value)
+                    mViewModel.setSavingsAmount()
+                }
+
             }
         }
 
