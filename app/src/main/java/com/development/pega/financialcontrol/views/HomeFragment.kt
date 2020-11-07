@@ -4,11 +4,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Display
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +21,7 @@ import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.math.roundToInt
 
-class HomeFragment() : Fragment(), View.OnClickListener {
+class HomeFragment() : Fragment(), View.OnClickListener{
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
@@ -32,6 +29,8 @@ class HomeFragment() : Fragment(), View.OnClickListener {
     private lateinit var tvLblMonth: TextView
     private lateinit var tvIncomes: TextView
     private lateinit var tvExpenses: TextView
+    private lateinit var incomesRV: RecyclerView
+    private lateinit var expensesRV: RecyclerView
 
     private val mIncomesAdapter: IncomesRecyclerViewAdapter = IncomesRecyclerViewAdapter()
     private val mExpensesAdapter: ExpensesRecyclerViewAdapter = ExpensesRecyclerViewAdapter()
@@ -132,14 +131,14 @@ class HomeFragment() : Fragment(), View.OnClickListener {
     }
 
     private fun setInfoIncomesRecyclerView() {
-        val incomesRV = root.findViewById<RecyclerView>(R.id.rv_incomes)
+        incomesRV = root.findViewById(R.id.rv_incomes)
         incomesRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         incomesRV.layoutManager = LinearLayoutManager(context)
         incomesRV.adapter = mIncomesAdapter
     }
 
     private fun setInfoExpensesRecyclerView() {
-        val expensesRV = root.findViewById<RecyclerView>(R.id.rv_expenses)
+        expensesRV = root.findViewById(R.id.rv_expenses)
         expensesRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         expensesRV.layoutManager = LinearLayoutManager(context)
         expensesRV.adapter = mExpensesAdapter
@@ -158,4 +157,5 @@ class HomeFragment() : Fragment(), View.OnClickListener {
         cl_account_balance.maxWidth = maxWidth
 
     }
+
 }

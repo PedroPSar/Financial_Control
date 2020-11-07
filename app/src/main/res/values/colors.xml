@@ -16,6 +16,7 @@
     <color name="colorSelectedMonth">#625D6E</color>
     <color name="button_bg">#ffffff</color>
     <color name="et_values_hint_color">#AAAAAA</color>
+    <color name="touch_recycler_view_item_color">#DDDDDD</color>
 
     <color name="background_color">#f7f7f7</color>
 

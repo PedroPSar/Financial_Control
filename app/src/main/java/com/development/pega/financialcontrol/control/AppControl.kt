@@ -2,6 +2,8 @@ package com.development.pega.financialcontrol.control
 
 import android.content.Context
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.model.Expense
@@ -45,12 +47,37 @@ abstract class AppControl {
 
     companion object {
 
+        private var mLastItemRecyclerView: View? = null
+
         fun showToast(context: Context, text: String) {
             Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
         }
 
         fun getCurrencyAbbreviation(context: Context): String {
             return Prefs(context).currencySelectedValue
+        }
+
+        fun recyclerItemTouch(action: Int, v: View): Boolean {
+            when(action) {
+                MotionEvent.ACTION_DOWN -> {
+                    if(mLastItemRecyclerView != null){
+                        mLastItemRecyclerView!!.background = mLastItemRecyclerView!!.context.getDrawable(android.R.color.transparent)
+                    }
+                    mLastItemRecyclerView = v
+                    v?.background = v?.context.getDrawable(R.color.touch_recycler_view_item_color)
+                    return true
+                }
+                MotionEvent.ACTION_UP -> {
+                    v?.background = v?.context.getDrawable(android.R.color.transparent)
+                    return true
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    v?.background = v?.context.getDrawable(android.R.color.transparent)
+                    return true
+                }
+                else -> return false
+            }
         }
 
         fun getRecurrence(pos: Int): Int {
