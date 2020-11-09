@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.listener.ItemListener
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.model.Month
 import com.development.pega.financialcontrol.viewholder.IncomesViewHolder
@@ -12,10 +13,11 @@ import com.development.pega.financialcontrol.viewholder.IncomesViewHolder
 class IncomesRecyclerViewAdapter(): RecyclerView.Adapter<IncomesViewHolder>() {
 
     private var incomesList: List<Income> = arrayListOf()
+    private lateinit var mItemListener: ItemListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomesViewHolder {
         val item = LayoutInflater.from(parent.context).inflate(R.layout.income_recycler_view_row, parent, false)
-        return IncomesViewHolder(item)
+        return IncomesViewHolder(item, mItemListener)
     }
 
     override fun onBindViewHolder(holder: IncomesViewHolder, position: Int) {
@@ -29,5 +31,9 @@ class IncomesRecyclerViewAdapter(): RecyclerView.Adapter<IncomesViewHolder>() {
     fun updateIncomesList(list: List<Income>) {
         incomesList = list
         notifyDataSetChanged()
+    }
+
+    fun attachListener(listener: ItemListener) {
+        mItemListener = listener
     }
 }

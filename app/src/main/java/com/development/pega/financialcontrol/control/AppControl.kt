@@ -33,6 +33,10 @@ abstract class AppControl {
             val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
             return format.format(value)
         }
+
+        fun setDateText(day: Int, month: Int, year: Int): String {
+            return "$day/$month/$year"
+        }
     }
 
     object Validator {

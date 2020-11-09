@@ -32,6 +32,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
     private var recurrenceOption = Constants.RECURRENCE.NONE
     private var everyMonth = 1
     private var numInstallmentMonths = 0
+    private var mItemId = 0
 
     private lateinit var spinner: Spinner
     private lateinit var spinnerEveryMonth: Spinner
@@ -50,6 +51,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         observers()
         setSpinner()
         setListeners()
+        loadData()
     }
 
     override fun onClick(v: View) {
@@ -105,6 +107,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         val incomeValue = AppControl.Text.convertCurrencyTextToFloat(edit_income_value.text.toString())
 
         val mIncome = Income()
+        mIncome.id = mItemId
         mIncome.name = edit_income_name.text.toString()
         mIncome.description = edit_income_description.text.toString()
         mIncome.value = incomeValue
@@ -163,6 +166,28 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
                 finish()
             }
         })
+
+        mViewModel.getIncome.observe(this, Observer {
+            edit_income_name.setText(it.name)
+            edit_income_description.setText(it.description)
+            edit_income_value.setText(AppControl.Text.convertFloatToCurrencyText(it.value))
+            txt_income_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
+            spinner_income_recurrence.setSelection(it.recurrence)
+
+            if(it.recurrence == Constants.RECURRENCE.INSTALLMENT) {
+                cl_pay_installment_income.visibility = View.VISIBLE
+                edit_many_times.setText(it.numInstallmentMonths)
+                spinner_income_every_months.setSelection(it.payFrequency)
+            }
+        })
+    }
+
+    private fun loadData() {
+        val bundle = intent.extras
+        if(bundle != null) {
+            mItemId = bundle.getInt(Constants.ITEM_ID)
+            mViewModel.loadIncome(mItemId)
+        }
     }
 
 }

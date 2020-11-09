@@ -33,6 +33,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     private var recurrenceOptions = Constants.RECURRENCE.NONE
     private var everyMonth = 1
     private var numInstallmentMonths = 0
+    private var mItemId = 0
 
     private lateinit var calendar: Calendar
 
@@ -48,6 +49,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         observers()
         setSpinners()
         setListeners()
+        loadData()
     }
 
     override fun onClick(v: View) {
@@ -171,6 +173,18 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
                 finish()
             }
         })
+
+        mViewModel.getExpense.observe(this, Observer {
+
+        })
+    }
+
+    private fun loadData() {
+        val bundle = intent.extras
+        if(bundle != null) {
+            mItemId = bundle.getInt(Constants.ITEM_ID)
+            mViewModel.loadExpense(mItemId)
+        }
     }
 
 }

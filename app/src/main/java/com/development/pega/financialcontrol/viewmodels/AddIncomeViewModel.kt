@@ -28,6 +28,9 @@ class AddIncomeViewModel(application: Application): AndroidViewModel(application
     private var mAddIncome = MutableLiveData<Boolean>()
     val addIncome: LiveData<Boolean> = mAddIncome
 
+    private val mGetIncome = MutableLiveData<Income>()
+    var getIncome: LiveData<Income> = mGetIncome
+
     fun getCurrentDate() {
         val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
         mCurrentTime.value =  sdf.format(Date())
@@ -47,6 +50,15 @@ class AddIncomeViewModel(application: Application): AndroidViewModel(application
     }
 
     fun saveIncome(income: Income) {
-        mAddIncome.value = mIncomeRepository.save(income)
+        if(income.id == 0) {
+            mAddIncome.value = mIncomeRepository.save(income)
+        }else {
+            mAddIncome.value = mIncomeRepository.update(income)
+        }
+
+    }
+
+    fun loadIncome(id: Int) {
+        mGetIncome.value = mIncomeRepository.get(id)
     }
 }

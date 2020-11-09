@@ -25,6 +25,9 @@ class AddExpenseViewModel(application: Application): AndroidViewModel(applicatio
     private var mSaveExpense = MutableLiveData<Boolean>()
     val saveExpense: LiveData<Boolean> = mSaveExpense
 
+    private var mGetExpense = MutableLiveData<Expense>()
+    val getExpense: LiveData<Expense> = mGetExpense
+
     fun getCurrentDate() {
         val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
         mCurrentTime.value =  sdf.format(Date())
@@ -45,6 +48,10 @@ class AddExpenseViewModel(application: Application): AndroidViewModel(applicatio
 
     fun addExpense(expense: Expense) {
         mSaveExpense.value = mExpenseRepository.save(expense)
+    }
+
+    fun loadExpense(id: Int) {
+        mGetExpense.value = mExpenseRepository.get(id)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.development.pega.financialcontrol.views
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.TextView
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,7 +18,9 @@ import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.adapter.ExpensesRecyclerViewAdapter
 import com.development.pega.financialcontrol.adapter.IncomesRecyclerViewAdapter
 import com.development.pega.financialcontrol.control.AppControl
+import com.development.pega.financialcontrol.listener.ItemListener
 import com.development.pega.financialcontrol.listener.MainListener
+import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.math.roundToInt
@@ -34,6 +38,9 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
     private val mIncomesAdapter: IncomesRecyclerViewAdapter = IncomesRecyclerViewAdapter()
     private val mExpensesAdapter: ExpensesRecyclerViewAdapter = ExpensesRecyclerViewAdapter()
+
+    private lateinit var mIncomesItemListener: ItemListener
+    private lateinit var mExpensesItemListener: ItemListener
 
     companion object {
         private lateinit var mMainListener: MainListener
@@ -60,8 +67,26 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         tvExpenses = root.findViewById(R.id.txt_expenses)
         viewModel.setCurrentDate()
 
+        mIncomesItemListener = object : ItemListener {
+
+            override fun onEdit(id: Int) {
+                val intent = Intent(requireContext(), AddIncomeActivity::class.java)
+                val bundle = Bundle()
+                bundle.putInt(Constants.ITEM_ID, id)
+
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+
+            override fun onDelete(id: Int) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
         setMaxWidthInLayout()
         setOnClick()
+        setListenerOnAdapters()
         adapters()
         observer()
     }
@@ -142,6 +167,11 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         expensesRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         expensesRV.layoutManager = LinearLayoutManager(context)
         expensesRV.adapter = mExpensesAdapter
+    }
+
+    private fun setListenerOnAdapters() {
+        mIncomesAdapter.attachListener(mIncomesItemListener)
+        //mExpensesAdapter.attachListener(mExpensesItemListener)
     }
 
     private fun setMaxWidthInLayout() {

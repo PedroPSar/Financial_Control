@@ -6,6 +6,10 @@ import com.development.pega.financialcontrol.R
 
 class Constants private constructor() {
 
+    companion object {
+        const val ITEM_ID = "itemID"
+    }
+
     object TYPE {
         const val NOT_REQUIRED = 0
         const val REQUIRED = 1

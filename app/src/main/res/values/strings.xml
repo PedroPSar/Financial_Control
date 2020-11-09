@@ -81,6 +81,10 @@
     <string name="currency_explication_text">Set the currency you want to use.</string>
     <string name="currency_selected_default">$</string>
 
+    <!-- Recycler View Item Menu -->
+    <string name="edit_item_title_menu">Edit</string>
+    <string name="delete_item_title_menu">Delete</string>
+
     <string-array name="currencies">
         <item>$</item>
         <item>€</item>
