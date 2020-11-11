@@ -170,7 +170,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         mViewModel.getIncome.observe(this, Observer {
             edit_income_name.setText(it.name)
             edit_income_description.setText(it.description)
-            edit_income_value.setText(AppControl.Text.convertFloatToCurrencyText(it.value))
+            edit_income_value.setText(it.value.toString())
             txt_income_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
             spinner_income_recurrence.setSelection(it.recurrence)
 

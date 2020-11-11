@@ -21,7 +21,7 @@ abstract class AppControl {
 
     object Text {
         fun convertCurrencyTextToFloat(value: String): Float {
-            val regex = "[,.]".toRegex()
+            val regex = "[^0-9]".toRegex()
             var v = value.replace(regex, "")
             Log.d("teste", "apos retirar virgula: $v floatMax: ${Double.MAX_VALUE}")
             v = v.substring(0, v.length - 2) + "." + v.substring(v.length - 2)
