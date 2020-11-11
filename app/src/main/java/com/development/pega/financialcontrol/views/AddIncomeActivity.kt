@@ -2,12 +2,10 @@ package com.development.pega.financialcontrol.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Fade
@@ -104,7 +102,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
 
-        val incomeValue = AppControl.Text.convertCurrencyTextToFloat(edit_income_value.text.toString())
+        val incomeValue = AppControl.Text.convertCurrencyTextToFloat( edit_income_value.text.toString() )
 
         val mIncome = Income()
         mIncome.id = mItemId
@@ -170,14 +168,14 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         mViewModel.getIncome.observe(this, Observer {
             edit_income_name.setText(it.name)
             edit_income_description.setText(it.description)
-            edit_income_value.setText(it.value.toString())
+            edit_income_value.setText(AppControl.Text.convertValueForCurrencyEditText(it.value))
             txt_income_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
             spinner_income_recurrence.setSelection(it.recurrence)
 
             if(it.recurrence == Constants.RECURRENCE.INSTALLMENT) {
                 cl_pay_installment_income.visibility = View.VISIBLE
-                edit_many_times.setText(it.numInstallmentMonths)
-                spinner_income_every_months.setSelection(it.payFrequency)
+                edit_many_times.setText(it.numInstallmentMonths.toString())
+                spinner_income_every_months.setSelection(it.payFrequency - 1)
             }
         })
     }

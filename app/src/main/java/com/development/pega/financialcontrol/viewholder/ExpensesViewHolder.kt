@@ -1,34 +1,70 @@
 package com.development.pega.financialcontrol.viewholder
 
-import android.view.MotionEvent
+import android.app.AlertDialog
+import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
-import com.development.pega.financialcontrol.listener.ItemListener
+import com.development.pega.financialcontrol.listener.ExpenseItemListener
+import com.development.pega.financialcontrol.listener.IncomeItemListener
 import com.development.pega.financialcontrol.model.Expense
-import com.development.pega.financialcontrol.model.Income
+import kotlinx.android.synthetic.main.income_recycler_view_row.view.*
 
-class ExpensesViewHolder(itemView: View, private val mItemListener: ItemListener): RecyclerView.ViewHolder(itemView), View.OnTouchListener {
+class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+
+    lateinit var btnMenu: ImageView
+    private var expenseId = 0
+    private lateinit var mExpense: Expense
 
     fun bind(expense: Expense) {
+        mExpense = expense
         val txtDate = "${expense.day}/${expense.month}/${expense.year}"
         val txtValue = AppControl.Text.convertFloatToCurrencyText(expense.value)
         val txtName = expense.name
+        expenseId = expense.id
 
+        btnMenu = itemView.findViewById(R.id.img_btn_item_menu)
         itemView.findViewById<TextView>(R.id.tv_txt_name).text = txtName
         itemView.findViewById<TextView>(R.id.tv_txt_date).text = txtDate
         itemView.findViewById<TextView>(R.id.tv_txt_value).text = txtValue
 
-        itemView.setOnTouchListener(this)
+        itemView.img_btn_item_menu.setOnClickListener(this)
     }
 
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        return if (event != null && v != null) {
-            AppControl.recyclerItemTouch(event.action, v)
-        }else {
-            false
+    override fun onClick(v: View?) {
+        if(v?.id == R.id.img_btn_item_menu) {
+            showItemMenu()
         }
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return when(item?.itemId) {
+            R.id.edit_item -> {
+                mItemListener.onEdit(expenseId)
+                true
+            }
+            R.id.delete_item -> {
+                AlertDialog.Builder(itemView.context)
+                    .setMessage(R.string.confirm_delete_expense_dialog_message)
+                    .setPositiveButton(R.string.confirm_delete_income_dialog_positive_button) { dialog, which ->
+                        mItemListener.onDelete(mExpense)
+                    }
+                    .setNeutralButton(R.string.confirm_delete_income_dialog_neutral_button, null)
+                    .show()
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun showItemMenu() {
+        val popUpMenu = PopupMenu(itemView.context, btnMenu)
+        popUpMenu.menuInflater.inflate(R.menu.recycler_item_menu, popUpMenu.menu)
+        popUpMenu.setOnMenuItemClickListener(this)
+        popUpMenu.show()
     }
 }

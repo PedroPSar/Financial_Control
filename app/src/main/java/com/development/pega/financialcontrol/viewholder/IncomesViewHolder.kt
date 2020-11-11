@@ -1,6 +1,6 @@
 package com.development.pega.financialcontrol.viewholder
 
-import android.util.Log
+import android.app.AlertDialog
 import android.view.*
 import android.widget.ImageView
 import android.widget.PopupMenu
@@ -8,17 +8,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
-import com.development.pega.financialcontrol.listener.ItemListener
+import com.development.pega.financialcontrol.listener.IncomeItemListener
 import com.development.pega.financialcontrol.model.Income
 import kotlinx.android.synthetic.main.income_recycler_view_row.view.*
-import kotlin.properties.Delegates
 
-class IncomesViewHolder(itemView: View, private val mItemListener: ItemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener, PopupMenu.OnMenuItemClickListener{
+class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
     lateinit var btnMenu: ImageView
     private var incomeId = 0
+    private lateinit var mIncome: Income
 
     fun bind(income: Income) {
+        mIncome = income
         val txtDate = "${income.day}/${income.month}/${income.year}"
         val txtValue = AppControl.Text.convertFloatToCurrencyText(income.value)
         val txtName = income.name
@@ -46,6 +47,13 @@ class IncomesViewHolder(itemView: View, private val mItemListener: ItemListener)
                 true
             }
             R.id.delete_item -> {
+                AlertDialog.Builder(itemView.context)
+                    .setMessage(R.string.confirm_delete_income_dialog_message)
+                    .setPositiveButton(R.string.confirm_delete_income_dialog_positive_button) { dialog, which ->
+                        mItemListener.onDelete(mIncome)
+                    }
+                    .setNeutralButton(R.string.confirm_delete_income_dialog_neutral_button, null)
+                    .show()
                 true
             }
             else -> false
@@ -53,7 +61,6 @@ class IncomesViewHolder(itemView: View, private val mItemListener: ItemListener)
     }
 
     private fun showItemMenu() {
-        Log.d("teste", "clicked")
         val popUpMenu = PopupMenu(itemView.context, btnMenu)
         popUpMenu.menuInflater.inflate(R.menu.recycler_item_menu, popUpMenu.menu)
         popUpMenu.setOnMenuItemClickListener(this)

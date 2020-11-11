@@ -1,7 +1,6 @@
 package com.development.pega.financialcontrol.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
@@ -17,8 +16,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mContext = application.applicationContext
     private val months = mContext.resources.getStringArray(R.array.months_array)
-    private val incomeRepository = IncomeRepository(mContext)
-    private val expenseRepository = ExpenseRepository(mContext)
+    private val mIncomeRepository = IncomeRepository(mContext)
+    private val mExpenseRepository = ExpenseRepository(mContext)
 
     private val mMonth = MutableLiveData<String>()
     var month: LiveData<String> = mMonth
@@ -63,17 +62,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun setIncomesOfMonth() {
-        val incomesList = incomeRepository.getAll()
+        val incomesList = mIncomeRepository.getAll()
         mIncomes.value = AppControl.sumSelectedMonthIncomes(incomesList)
     }
 
     fun setExpensesOfMonth() {
-        val expensesList = expenseRepository.getAll()
+        val expensesList = mExpenseRepository.getAll()
         mExpenses.value = AppControl.sumSelectedMonthExpenses(expensesList)
     }
 
     fun setIncomesInRecyclerView() {
-        val list = incomeRepository.getAll()
+        val list = mIncomeRepository.getAll()
         var currentMonthList = mutableListOf<Income>()
 
         for(income in list) {
@@ -87,7 +86,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun setExpensesInRecyclerView() {
-        val list = expenseRepository.getAll()
+        val list = mExpenseRepository.getAll()
         var currentMonthList = mutableListOf<Expense>()
 
         for(expense in list) {
@@ -165,6 +164,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         if(month == 12) {
             Data.selectedYear--
         }
+    }
+
+    fun deleteIncome(income: Income) {
+        mIncomeRepository.delete(income)
+    }
+
+    fun deleteExpense(expense: Expense) {
+        mExpenseRepository.delete(expense)
     }
 
 }

@@ -46,8 +46,13 @@ class AddExpenseViewModel(application: Application): AndroidViewModel(applicatio
         }, mYear, mMonth, mDay)
     }
 
-    fun addExpense(expense: Expense) {
-        mSaveExpense.value = mExpenseRepository.save(expense)
+    fun saveExpense(expense: Expense) {
+        if(expense.id == 0) {
+            mSaveExpense.value = mExpenseRepository.save(expense)
+        }else {
+            mSaveExpense.value = mExpenseRepository.update(expense)
+        }
+
     }
 
     fun loadExpense(id: Int) {

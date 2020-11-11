@@ -85,6 +85,13 @@
     <string name="edit_item_title_menu">Edit</string>
     <string name="delete_item_title_menu">Delete</string>
 
+    <!-- Confirm delte dialog -->
+    <string name="confirm_delete_income_dialog_message">Are you sure you want to delete this income?</string>
+    <string name="confirm_delete_income_dialog_positive_button">Delete</string>
+    <string name="confirm_delete_income_dialog_neutral_button">Cancel</string>
+
+    <string name="confirm_delete_expense_dialog_message">Are you sure you want to delete this expense?</string>
+
     <string-array name="currencies">
         <item>$</item>
         <item>€</item>

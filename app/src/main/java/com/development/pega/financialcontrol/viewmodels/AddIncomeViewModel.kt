@@ -3,15 +3,12 @@ package com.development.pega.financialcontrol.viewmodels
 import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Context
-import android.provider.SyncStateContract
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
-import kotlinx.android.synthetic.main.activity_add_income.*
 import java.text.SimpleDateFormat
 import java.util.*
 

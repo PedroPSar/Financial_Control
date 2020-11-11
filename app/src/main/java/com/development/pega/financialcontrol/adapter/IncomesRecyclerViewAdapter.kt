@@ -1,19 +1,17 @@
 package com.development.pega.financialcontrol.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
-import com.development.pega.financialcontrol.listener.ItemListener
+import com.development.pega.financialcontrol.listener.IncomeItemListener
 import com.development.pega.financialcontrol.model.Income
-import com.development.pega.financialcontrol.model.Month
 import com.development.pega.financialcontrol.viewholder.IncomesViewHolder
 
 class IncomesRecyclerViewAdapter(): RecyclerView.Adapter<IncomesViewHolder>() {
 
     private var incomesList: List<Income> = arrayListOf()
-    private lateinit var mItemListener: ItemListener
+    private lateinit var mItemListener: IncomeItemListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomesViewHolder {
         val item = LayoutInflater.from(parent.context).inflate(R.layout.income_recycler_view_row, parent, false)
@@ -33,7 +31,7 @@ class IncomesRecyclerViewAdapter(): RecyclerView.Adapter<IncomesViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun attachListener(listener: ItemListener) {
+    fun attachListener(listener: IncomeItemListener) {
         mItemListener = listener
     }
 }

@@ -17,6 +17,8 @@ import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.AddExpenseViewModel
 import kotlinx.android.synthetic.main.activity_add_expense.*
+import kotlinx.android.synthetic.main.activity_add_expense.btn_add
+import kotlinx.android.synthetic.main.activity_add_expense.btn_change_date
 import kotlinx.android.synthetic.main.activity_add_expense.edit_many_times
 import java.util.*
 
@@ -106,6 +108,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         val expenseValue = AppControl.Text.convertCurrencyTextToFloat( edit_expense_value.text.toString() )
 
         val expense = Expense()
+        expense.id = mItemId
         expense.type = typeOptions
         expense.day = day
         expense.month = month
@@ -120,7 +123,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
         }
 
-        mViewModel.addExpense(expense)
+        mViewModel.saveExpense(expense)
     }
 
     private fun setListeners() {
@@ -175,7 +178,18 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         })
 
         mViewModel.getExpense.observe(this, Observer {
+            edit_expense_name.setText(it.name)
+            spinner_type.setSelection(it.type)
+            edit_expense_description.setText(it.description)
+            edit_expense_value.setText(AppControl.Text.convertValueForCurrencyEditText(it.value))
+            txt_expense_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
+            spinner_expense_recurrence.setSelection(it.recurrence)
 
+            if(it.recurrence == Constants.RECURRENCE.INSTALLMENT) {
+                cl_pay_installment_expense.visibility = View.VISIBLE
+                edit_many_times.setText(it.numInstallmentMonths.toString())
+                spinner_expense_every_months.setSelection(it.payFrequency - 1)
+            }
         })
     }
 

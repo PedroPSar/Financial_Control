@@ -23,10 +23,18 @@ abstract class AppControl {
         fun convertCurrencyTextToFloat(value: String): Float {
             val regex = "[^0-9]".toRegex()
             var v = value.replace(regex, "")
-            Log.d("teste", "apos retirar virgula: $v floatMax: ${Double.MAX_VALUE}")
+            Log.d("teste", "apos retirar virgula: $v")
             v = v.substring(0, v.length - 2) + "." + v.substring(v.length - 2)
+            Log.d("teste", "value after add . - $v")
             Log.d("teste", "value after convert: ${v.toFloat()}")
             return v.toFloat()
+        }
+
+        fun convertValueForCurrencyEditText(value: Float): String {
+            var v = convertFloatToCurrencyText(value)
+            val regex = "[^0-9]".toRegex()
+            v = v.replace(regex, "")
+            return v
         }
 
         fun convertFloatToCurrencyText(value: Float): String {
