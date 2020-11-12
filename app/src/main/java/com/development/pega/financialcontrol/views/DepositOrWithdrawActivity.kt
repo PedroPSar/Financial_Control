@@ -20,8 +20,9 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
 
     private lateinit var toolbar: Toolbar
-    private var type = 1
+    private var type = Constants.SAVINGS_MONEY.DEPOSIT
     private lateinit var calendar: Calendar
+    private var mItemId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,15 +35,13 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
         mViewModel = ViewModelProvider(this, mViewModelFactory).get(DepositOrWithdrawViewModel::class.java)
 
-        setInfoFromIntent()
+        mViewModel.getCurrentDate()
+
+        getInfoFromIntent()
         setListeners()
         observers()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        mViewModel.getCurrentDate()
+        loadData()
+        setInfo()
     }
 
     override fun onClick(v: View) {
@@ -85,10 +84,13 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
         })
-    }
 
-    private fun checkIfHaveEnoughMoney() {
-
+        mViewModel.getSavings.observe(this, Observer {
+            edit_value.setText(AppControl.Text.convertValueForCurrencyEditText(it.money))
+            txt_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
+            edit_description.setText(it.description)
+            type = it.type
+        })
     }
 
     private fun setListeners() {
@@ -96,10 +98,12 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
         btn_change_date.setOnClickListener(this)
     }
 
-    private fun setInfoFromIntent() {
+    private fun getInfoFromIntent() {
         val intent = intent
         type = intent.getIntExtra("type", Constants.SAVINGS_MONEY.DEPOSIT)
+    }
 
+    private fun setInfo() {
         when(type) {
             Constants.SAVINGS_MONEY.DEPOSIT -> {
                 tv_deposit_or_withdraw.text = getString(R.string.btn_deposit_txt)
@@ -122,7 +126,7 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
         val year = calendar.get(Calendar.YEAR)
 
         val moneyValue = AppControl.Text.convertCurrencyTextToFloat( edit_value.text.toString() )
-
+        money.id = mItemId
         money.money = moneyValue
         money.day = day
         money.month = month
@@ -135,5 +139,13 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun changeDate() {
         mViewModel.showDatePickerDialog(this)
+    }
+
+    private fun loadData() {
+        val bundle = intent.extras
+        if(bundle != null) {
+            mItemId = bundle.getInt(Constants.ITEM_ID)
+            mViewModel.loadSavingsMoney(mItemId)
+        }
     }
 }

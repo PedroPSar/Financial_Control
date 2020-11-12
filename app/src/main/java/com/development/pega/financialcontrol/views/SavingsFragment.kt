@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.adapter.DepositOrWithdrawRecyclerViewAdapter
 import com.development.pega.financialcontrol.control.AppControl
+import com.development.pega.financialcontrol.listener.SavingsMoneyItemListener
+import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.dialog.ObjectiveDescriptionDialogFragment
 import com.development.pega.financialcontrol.service.dialog.ObjectiveValueDialogFragment
@@ -33,20 +35,21 @@ class SavingsFragment : Fragment(), View.OnClickListener{
     private lateinit var mViewModel: SavingsViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
 
-    private lateinit var root: View
-    private lateinit var btnDeposit: ImageView
-    private lateinit var btnWithdraw: ImageView
+    private lateinit var mRoot: View
+    private lateinit var mBtnDeposit: ImageView
+    private lateinit var mBtnWithdraw: ImageView
     private val mDepositAdapter = DepositOrWithdrawRecyclerViewAdapter()
     private val mWithdrawalsAdapter = DepositOrWithdrawRecyclerViewAdapter()
 
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var mSharedPreferences: SharedPreferences
 
-    private lateinit var valueDialogListener: ObjectiveValueDialogFragment.ObjectiveValueDialogListener
-    private lateinit var descriptionDialogListener: ObjectiveDescriptionDialogFragment.ObjectiveDescriptionDialogListener
+    private lateinit var mValueDialogListener: ObjectiveValueDialogFragment.ObjectiveValueDialogListener
+    private lateinit var mDescriptionDialogListener: ObjectiveDescriptionDialogFragment.ObjectiveDescriptionDialogListener
+    private lateinit var mSavingsMoneyItemListener: SavingsMoneyItemListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        root = inflater.inflate(R.layout.savings_fragment, container, false)
-        return root
+        mRoot = inflater.inflate(R.layout.savings_fragment, container, false)
+        return mRoot
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,13 +58,14 @@ class SavingsFragment : Fragment(), View.OnClickListener{
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
         mViewModel = ViewModelProvider(this).get(SavingsViewModel::class.java)
 
-        btnDeposit = root.findViewById(R.id.btn_deposit)
-        btnWithdraw = root.findViewById(R.id.btn_withdraw)
+        mBtnDeposit = mRoot.findViewById(R.id.btn_deposit)
+        mBtnWithdraw = mRoot.findViewById(R.id.btn_withdraw)
 
-        sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)!!
+        mSharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)!!
 
         setListeners()
         adapters()
+        setListenersOnAdapter()
         observers()
     }
 
@@ -90,7 +94,7 @@ class SavingsFragment : Fragment(), View.OnClickListener{
         btn_objective.setOnClickListener(this)
         btn_objective_description.setOnClickListener(this)
 
-        valueDialogListener = object : ObjectiveValueDialogFragment.ObjectiveValueDialogListener {
+        mValueDialogListener = object : ObjectiveValueDialogFragment.ObjectiveValueDialogListener {
             override fun onObjValueDialogPositiveClick(dialog: DialogFragment, value: String) {
 
                 if(value.isEmpty()) {
@@ -103,12 +107,36 @@ class SavingsFragment : Fragment(), View.OnClickListener{
             }
         }
 
-        descriptionDialogListener = object : ObjectiveDescriptionDialogFragment.ObjectiveDescriptionDialogListener {
+        mDescriptionDialogListener = object : ObjectiveDescriptionDialogFragment.ObjectiveDescriptionDialogListener {
             override fun onObjDescriptionDialogPositiveClick(dialog: DialogFragment, description: String) {
                 mViewModel.saveObjectiveDescription(description)
                 mViewModel.setObjectiveDescription()
             }
         }
+
+        mSavingsMoneyItemListener = object : SavingsMoneyItemListener {
+            override fun onEdit(id: Int) {
+                val intent = Intent(requireContext(), DepositOrWithdrawActivity::class.java)
+                val bundle = Bundle()
+                bundle.putInt(Constants.ITEM_ID, id)
+
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+
+            override fun onDelete(savingsMoney: SavingsMoney) {
+                mViewModel.deleteSavingsMoney(savingsMoney)
+                mViewModel.setDepositRecyclerViewInfo()
+                mViewModel.setWithdrawalsRecyclerViewInfo()
+            }
+
+        }
+
+    }
+
+    private fun setListenersOnAdapter() {
+        mDepositAdapter.attachListener(mSavingsMoneyItemListener)
+        mWithdrawalsAdapter.attachListener(mSavingsMoneyItemListener)
     }
 
     private fun setDepositWithdrawIntent(type: Int) {
@@ -123,14 +151,14 @@ class SavingsFragment : Fragment(), View.OnClickListener{
     }
 
     private fun setInfoInDepositRecyclerView() {
-        val depositRV = root.findViewById<RecyclerView>(R.id.rv_deposits)
+        val depositRV = mRoot.findViewById<RecyclerView>(R.id.rv_deposits)
         depositRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         depositRV.layoutManager = LinearLayoutManager(context)
         depositRV.adapter = mDepositAdapter
     }
 
     private fun setInfoInWithdrawRecyclerView() {
-        val withdrawRV = root.findViewById<RecyclerView>(R.id.rv_withdrawals)
+        val withdrawRV = mRoot.findViewById<RecyclerView>(R.id.rv_withdrawals)
         withdrawRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         withdrawRV.layoutManager = LinearLayoutManager(context)
         withdrawRV.adapter = mWithdrawalsAdapter
@@ -138,13 +166,13 @@ class SavingsFragment : Fragment(), View.OnClickListener{
 
     private fun editObjectiveValue() {
         val objValueDialog = ObjectiveValueDialogFragment()
-        objValueDialog.onAttach(valueDialogListener)
+        objValueDialog.onAttach(mValueDialogListener)
         objValueDialog.show(requireActivity().supportFragmentManager, "ObjectiveValueDialog")
     }
 
     private fun editObjectiveDescription() {
         val objDescriptionDialog = ObjectiveDescriptionDialogFragment()
-        objDescriptionDialog.onAttach(descriptionDialogListener)
+        objDescriptionDialog.onAttach(mDescriptionDialogListener)
         objDescriptionDialog.show(requireActivity().supportFragmentManager, "ObjectiveDescriptionDialog")
     }
 
@@ -171,6 +199,10 @@ class SavingsFragment : Fragment(), View.OnClickListener{
 
         mViewModel.amountPercent.observe(viewLifecycleOwner, Observer {
             tv_amount_percent.text = it
+        })
+
+        mViewModel.amountProgressBar.observe(viewLifecycleOwner, Observer {
+            progress_horizontal_savings_amount.progress = it
         })
 
         mViewModel.objectiveDescription.observe(viewLifecycleOwner, Observer {

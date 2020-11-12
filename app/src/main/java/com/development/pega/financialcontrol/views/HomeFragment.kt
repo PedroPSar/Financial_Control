@@ -24,7 +24,6 @@ import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.math.roundToInt
-import kotlin.reflect.KClass
 
 class HomeFragment() : Fragment(), View.OnClickListener{
 

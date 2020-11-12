@@ -35,15 +35,22 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
     private val mAmountPercent = MutableLiveData<String>()
     var amountPercent: LiveData<String> = mAmountPercent
 
+    private val mAmountProgressBar = MutableLiveData<Int>()
+    var amountProgressBar: LiveData<Int> = mAmountProgressBar
+
     private val mObjectiveDescription = MutableLiveData<String>()
     var objectiveDescription: LiveData<String> = mObjectiveDescription
 
     fun setDepositRecyclerViewInfo() {
-        mDepositRecyclerViewInfo.value = savingsMoneyRepository.getDeposits()
+        val savingsMoneyList = savingsMoneyRepository.getDeposits()
+        val sortedList = AppControl.orderSavingsMoney(savingsMoneyList)
+        mDepositRecyclerViewInfo.value = sortedList
     }
 
     fun setWithdrawalsRecyclerViewInfo() {
-        mWithdrawalsRecyclerViewInfo.value = savingsMoneyRepository.getWithdrawals()
+        val savingsMoneyList = savingsMoneyRepository.getWithdrawals()
+        val sortedList = AppControl.orderSavingsMoney(savingsMoneyList)
+        mWithdrawalsRecyclerViewInfo.value = sortedList
     }
 
     fun setDepositsTotal() {
@@ -93,6 +100,7 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
 
         if(!percent.isNaN()) {
             mAmountPercent.value = percent.roundToInt().toString() + "%"
+            mAmountProgressBar.value = percent.roundToInt()
         }
     }
 
@@ -114,6 +122,10 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
 
     fun saveObjectiveDescription(description: String) {
         prefs.objectiveDescription = description
+    }
+
+    fun deleteSavingsMoney(savingsMoney: SavingsMoney) {
+        savingsMoneyRepository.delete(savingsMoney)
     }
 
 }

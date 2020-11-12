@@ -13,20 +13,18 @@ import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
-import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
 import com.development.pega.financialcontrol.service.repository.savingsmoney.SavingsMoneyRepository
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.exp
 
 class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(application) {
 
     private val mContext = application.applicationContext
-    private val savingsMoneyRepository = SavingsMoneyRepository(mContext)
-    private val expenseRepository = ExpenseRepository(mContext)
-    private val incomeRepository = IncomeRepository(mContext)
+    private val mSavingsMoneyRepository = SavingsMoneyRepository(mContext)
+    private val mExpenseRepository = ExpenseRepository(mContext)
+    private val mIncomeRepository = IncomeRepository(mContext)
 
     private var mDepositOrWithdraw = MutableLiveData<Boolean>()
     val depositOrWithdraw: LiveData<Boolean> = mDepositOrWithdraw
@@ -37,19 +35,32 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
     private var mDatePickerDialog = MutableLiveData<DatePickerDialog>()
     val datePickerDialog: LiveData<DatePickerDialog> = mDatePickerDialog
 
-    fun saveDepositOrWithdraw(savingsMoney: SavingsMoney) {
-        mDepositOrWithdraw.value = savingsMoneyRepository.save(savingsMoney)
+    private var mGetSavings = MutableLiveData<SavingsMoney>()
+    var getSavings: LiveData<SavingsMoney> = mGetSavings
 
-        if(savingsMoney.type == Constants.SAVINGS_MONEY.DEPOSIT) {
-            addExpense(savingsMoney)
-        }else if(savingsMoney.type == Constants.SAVINGS_MONEY.WITHDRAW) {
-            addIncome(savingsMoney)
+    fun saveDepositOrWithdraw(savingsMoney: SavingsMoney) {
+        if(savingsMoney.id == 0) {
+            mDepositOrWithdraw.value = mSavingsMoneyRepository.save(savingsMoney)
+
+            if(savingsMoney.type == Constants.SAVINGS_MONEY.DEPOSIT) {
+                addExpense(savingsMoney)
+            }else if(savingsMoney.type == Constants.SAVINGS_MONEY.WITHDRAW) {
+                addIncome(savingsMoney)
+            }
+
+        }else {
+            mDepositOrWithdraw.value = mSavingsMoneyRepository.update(savingsMoney)
         }
+
     }
 
     fun getCurrentDate() {
         val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
         mCurrentTime.value =  sdf.format(Date())
+    }
+
+    fun loadSavingsMoney(id: Int) {
+        mGetSavings.value = mSavingsMoneyRepository.get(id)
     }
 
     fun checkIfHaveEnoughMoney(value: String): Boolean {
@@ -59,8 +70,8 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
     }
 
     private fun getSavingsAmount(): Float {
-        val deposits = savingsMoneyRepository.getDeposits()
-        val withdrawals =  savingsMoneyRepository.getWithdrawals()
+        val deposits = mSavingsMoneyRepository.getDeposits()
+        val withdrawals =  mSavingsMoneyRepository.getWithdrawals()
 
         val totalDeposits = calcTotalSavings(deposits)
         val totalWithdrawals = calcTotalSavings(withdrawals)
@@ -99,7 +110,7 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
         income.description = savingsMoney.description
         income.recurrence = Constants.RECURRENCE.NONE
 
-        incomeRepository.save(income)
+        mIncomeRepository.save(income)
     }
 
     private fun addExpense(savingsMoney: SavingsMoney) {
@@ -113,7 +124,7 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
         expense.description = savingsMoney.description
         expense.recurrence = Constants.RECURRENCE.NONE
 
-        expenseRepository.save(expense)
+        mExpenseRepository.save(expense)
     }
 
 }

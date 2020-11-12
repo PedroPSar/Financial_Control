@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.income_recycler_view_row.view.*
 class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
     lateinit var btnMenu: ImageView
-    private var incomeId = 0
     private lateinit var mIncome: Income
 
     fun bind(income: Income) {
@@ -23,7 +22,6 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
         val txtDate = "${income.day}/${income.month}/${income.year}"
         val txtValue = AppControl.Text.convertFloatToCurrencyText(income.value)
         val txtName = income.name
-        incomeId = income.id
 
         btnMenu = itemView.findViewById(R.id.img_btn_item_menu)
         itemView.findViewById<TextView>(R.id.tv_txt_name).text = txtName
@@ -43,7 +41,7 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         return when(item?.itemId) {
             R.id.edit_item -> {
-                mItemListener.onEdit(incomeId)
+                mItemListener.onEdit(mIncome.id)
                 true
             }
             R.id.delete_item -> {

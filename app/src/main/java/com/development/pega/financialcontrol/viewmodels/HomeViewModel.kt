@@ -82,7 +82,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 currentMonthList.add(income)
             }
         }
-        mRecyclerViewIncomes.value = currentMonthList
+        val sortedList = AppControl.orderIncomeList(currentMonthList)
+        mRecyclerViewIncomes.value = sortedList
     }
 
     fun setExpensesInRecyclerView() {
@@ -96,7 +97,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 currentMonthList.add(expense)
             }
         }
-        mRecyclerViewExpenses.value = currentMonthList
+        val sortedList = AppControl.orderExpenseList(currentMonthList)
+        mRecyclerViewExpenses.value = sortedList
     }
 
     fun btnBeforeClick() {

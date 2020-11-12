@@ -91,6 +91,7 @@
     <string name="confirm_delete_income_dialog_neutral_button">Cancel</string>
 
     <string name="confirm_delete_expense_dialog_message">Are you sure you want to delete this expense?</string>
+    <string name="confirm_delete_savings_dialog_message">Are you sure you want to delete?</string>
 
     <string-array name="currencies">
         <item>$</item>

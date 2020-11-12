@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
+import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.Data
 import com.development.pega.financialcontrol.service.repository.Prefs
@@ -67,6 +68,18 @@ abstract class AppControl {
 
         fun getCurrencyAbbreviation(context: Context): String {
             return Prefs(context).currencySelectedValue
+        }
+
+        fun orderIncomeList(incomeList: List<Income>): List<Income> {
+            return incomeList.sortedBy { it.day }
+        }
+
+        fun orderExpenseList(expenseList: List<Expense>): List<Expense> {
+            return expenseList.sortedBy { it.day }
+        }
+
+        fun orderSavingsMoney(savingsMoneyList: List<SavingsMoney>): List<SavingsMoney> {
+            return savingsMoneyList.sortedWith(compareBy({it.year}, {it.month}, {it.day}))
         }
 
         fun recyclerItemTouch(action: Int, v: View): Boolean {
