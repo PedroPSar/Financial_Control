@@ -1,6 +1,7 @@
 package com.development.pega.financialcontrol.service.repository.income
 
 import androidx.room.*
+import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 
 @Dao
@@ -29,5 +30,8 @@ interface IncomeDAO {
 
     @Query("SELECT * FROM Incomes WHERE year = :year AND month = :month")
     fun getIncomesFromYearAndMonth(year: Int, month: Int): List<Income>
+
+    @Query("SELECT * FROM Incomes WHERE relationalID = :relationalID")
+    fun getByRelationalId(relationalID: Int): Income
 
 }

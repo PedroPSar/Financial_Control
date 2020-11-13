@@ -20,11 +20,14 @@ interface SavingsMoneyDAO {
     fun get(id: Int): SavingsMoney
 
     @Query("SELECT * FROM Savings")
-    fun getSavingsMoney(): List<SavingsMoney>
+    fun getAllSavingsMoney(): List<SavingsMoney>
 
     @Query("SELECT * FROM Savings WHERE type = 1")
     fun getDepositMoney(): List<SavingsMoney>
 
     @Query("SELECT * FROM Savings WHERE type = 2")
     fun getWithdrawMoney(): List<SavingsMoney>
+
+    @Query("SELECT * FROM Savings WHERE relationalID = :relationalID")
+    fun getByRelationalId(relationalID: Int): SavingsMoney
 }

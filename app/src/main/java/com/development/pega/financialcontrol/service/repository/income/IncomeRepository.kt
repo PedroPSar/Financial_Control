@@ -1,6 +1,7 @@
 package com.development.pega.financialcontrol.service.repository.income
 
 import android.content.Context
+import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 
 class IncomeRepository(context: Context) {
@@ -13,6 +14,10 @@ class IncomeRepository(context: Context) {
 
     fun get(id: Int): Income {
         return mDatabase.get(id)
+    }
+
+    fun getIncomeByRelationalId(relationalID: Int): Income {
+        return mDatabase.getByRelationalId(relationalID)
     }
 
     fun getIncomesFromMonth(month: Int): List<Income> {

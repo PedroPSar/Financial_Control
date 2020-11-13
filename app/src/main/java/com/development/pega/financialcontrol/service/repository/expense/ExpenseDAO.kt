@@ -40,4 +40,7 @@ interface ExpenseDAO {
     @Query("SELECT * FROM Expenses WHERE type = 2")
     fun getInvestment(): List<Expense>
 
+    @Query("SELECT * FROM Expenses WHERE relationalID = :relationalID")
+    fun getByRelationalId(relationalID: Int): Expense
+
 }

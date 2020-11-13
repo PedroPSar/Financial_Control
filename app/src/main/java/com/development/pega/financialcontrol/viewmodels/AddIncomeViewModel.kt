@@ -6,15 +6,21 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
+import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
+import com.development.pega.financialcontrol.service.repository.savingsmoney.SavingsMoneyRepository
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AddIncomeViewModel(application: Application): AndroidViewModel(application) {
 
-    private val mIncomeRepository = IncomeRepository(application.applicationContext)
+    private val context = application.applicationContext
+    private val mIncomeRepository = IncomeRepository(context)
+    private val mSavingsMoneyRepository = SavingsMoneyRepository(context)
+
 
     private var mCurrentTime = MutableLiveData<String>()
     val currentTime: LiveData<String> = mCurrentTime
@@ -51,11 +57,32 @@ class AddIncomeViewModel(application: Application): AndroidViewModel(application
             mAddIncome.value = mIncomeRepository.save(income)
         }else {
             mAddIncome.value = mIncomeRepository.update(income)
+
+            val money = changeFromIncomeToSavings(income)
+            money.id = getSavingsMoneyIdByRelationalID(income.relationalID)
+            mSavingsMoneyRepository.update(money)
         }
 
     }
 
     fun loadIncome(id: Int) {
         mGetIncome.value = mIncomeRepository.get(id)
+    }
+
+    private fun changeFromIncomeToSavings(income: Income): SavingsMoney {
+        val money = SavingsMoney()
+        money.money = income.value
+        money.day = income.day
+        money.month = income.month
+        money.year = income.year
+        money.description = income.description
+        money.type = Constants.SAVINGS_MONEY.WITHDRAW
+        money.relationalID = income.relationalID
+
+        return money
+    }
+
+    private fun getSavingsMoneyIdByRelationalID(relationalID: Int): Int {
+        return mSavingsMoneyRepository.getSavingsByRelationalId(relationalID).id
     }
 }

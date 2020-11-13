@@ -43,13 +43,25 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
             mDepositOrWithdraw.value = mSavingsMoneyRepository.save(savingsMoney)
 
             if(savingsMoney.type == Constants.SAVINGS_MONEY.DEPOSIT) {
-                addExpense(savingsMoney)
+                val expense = changeFromSavingsToExpense(savingsMoney)
+                mExpenseRepository.save(expense)
             }else if(savingsMoney.type == Constants.SAVINGS_MONEY.WITHDRAW) {
-                addIncome(savingsMoney)
+                val income = changeFromSavingsToIncome(savingsMoney)
+                mIncomeRepository.save(income)
             }
 
         }else {
             mDepositOrWithdraw.value = mSavingsMoneyRepository.update(savingsMoney)
+
+            if(savingsMoney.type == Constants.SAVINGS_MONEY.DEPOSIT) {
+                val expense = changeFromSavingsToExpense(savingsMoney)
+                expense.id = getExpenseIdByRelationalID(savingsMoney.relationalID)
+                mExpenseRepository.update(expense)
+            }else if(savingsMoney.type == Constants.SAVINGS_MONEY.WITHDRAW) {
+                val income = changeFromSavingsToIncome(savingsMoney)
+                income.id = getIncomeIdByRelationalID(savingsMoney.relationalID)
+                mIncomeRepository.update(income)
+            }
         }
 
     }
@@ -61,30 +73,6 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
 
     fun loadSavingsMoney(id: Int) {
         mGetSavings.value = mSavingsMoneyRepository.get(id)
-    }
-
-    fun checkIfHaveEnoughMoney(value: String): Boolean {
-        val amount = getSavingsAmount()
-        Log.d("teste", "SavingsAmount: $amount | WithdrawalValue: ${AppControl.Text.convertCurrencyTextToFloat(value)}")
-        return amount >= AppControl.Text.convertCurrencyTextToFloat(value)
-    }
-
-    private fun getSavingsAmount(): Float {
-        val deposits = mSavingsMoneyRepository.getDeposits()
-        val withdrawals =  mSavingsMoneyRepository.getWithdrawals()
-
-        val totalDeposits = calcTotalSavings(deposits)
-        val totalWithdrawals = calcTotalSavings(withdrawals)
-
-        return totalDeposits - totalWithdrawals
-    }
-
-    private fun calcTotalSavings(list: List<SavingsMoney>): Float {
-        var total = 0f
-        for(savingMoney in list) {
-            total += savingMoney.money
-        }
-        return total
     }
 
     fun showDatePickerDialog(context: Context) {
@@ -100,7 +88,7 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
         }, mYear, mMonth, mDay)
     }
 
-    private fun addIncome(savingsMoney: SavingsMoney) {
+    private fun changeFromSavingsToIncome(savingsMoney: SavingsMoney): Income {
         val income = Income()
         income.day = savingsMoney.day
         income.month = savingsMoney.month
@@ -109,11 +97,12 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
         income.name = mContext.getString(R.string.withdraw_name)
         income.description = savingsMoney.description
         income.recurrence = Constants.RECURRENCE.NONE
+        income.relationalID = savingsMoney.relationalID
 
-        mIncomeRepository.save(income)
+        return income
     }
 
-    private fun addExpense(savingsMoney: SavingsMoney) {
+    private fun changeFromSavingsToExpense(savingsMoney: SavingsMoney): Expense {
         val expense = Expense()
         expense.type = Constants.TYPE.INVESTMENT
         expense.day = savingsMoney.day
@@ -123,8 +112,18 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
         expense.name = mContext.getString(R.string.deposit_name)
         expense.description = savingsMoney.description
         expense.recurrence = Constants.RECURRENCE.NONE
+        expense.relationalID = savingsMoney.relationalID
 
-        mExpenseRepository.save(expense)
+       return expense
     }
+
+    private fun getIncomeIdByRelationalID(relationalID: Int): Int {
+        return mIncomeRepository.getIncomeByRelationalId(relationalID).id
+    }
+
+    private fun getExpenseIdByRelationalID(relationalID: Int): Int {
+        return mExpenseRepository.getExpenseByRelationalId(relationalID).id
+    }
+
 
 }

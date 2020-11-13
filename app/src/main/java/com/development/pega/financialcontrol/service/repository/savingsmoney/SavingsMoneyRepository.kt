@@ -1,18 +1,21 @@
 package com.development.pega.financialcontrol.service.repository.savingsmoney
 
 import android.content.Context
-import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.model.SavingsMoney
 
 class SavingsMoneyRepository(context: Context) {
     private val mDatabase = SavingsMoneyDatabase.getDatabase(context).savingsMoneyDao()
 
-    fun getSavingsMoney(): List<SavingsMoney> {
-        return mDatabase.getSavingsMoney()
+    fun getAllSavingsMoney(): List<SavingsMoney> {
+        return mDatabase.getAllSavingsMoney()
     }
 
     fun get(id: Int): SavingsMoney {
         return mDatabase.get(id)
+    }
+
+    fun getSavingsByRelationalId(relationalID: Int): SavingsMoney {
+        return mDatabase.getByRelationalId(relationalID)
     }
 
     fun getDeposits(): List<SavingsMoney> {

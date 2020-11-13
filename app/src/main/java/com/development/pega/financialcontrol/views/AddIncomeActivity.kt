@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_add_income.*
 import kotlinx.android.synthetic.main.activity_add_income.btn_add
 import kotlinx.android.synthetic.main.activity_add_income.btn_change_date
 import kotlinx.android.synthetic.main.activity_add_income.edit_many_times
+import kotlinx.android.synthetic.main.activity_add_income.lbl_recurrence
 import java.util.*
 
 class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -31,6 +32,8 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
     private var everyMonth = 1
     private var numInstallmentMonths = 0
     private var mItemId = 0
+    private var mRelationalID = 0
+    private var mInitialValue = "0.00"
 
     private lateinit var spinner: Spinner
     private lateinit var spinnerEveryMonth: Spinner
@@ -60,8 +63,14 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
 
             if(edit_income_name.text.toString().isEmpty() || edit_income_value.text.toString().isEmpty()) {
                 AppControl.Validator.makeEmptyRequiredFieldToast(this)
-            }else {
-                addIncome()
+            } else {
+
+                if( AppControl.checkIfHaveEnoughMoneyForWithdrawEdition(mInitialValue, edit_income_value.text.toString(),  this) ) {
+                    addIncome()
+                }else {
+                    AppControl.Validator.makeNotEnoughMoneyToast(this)
+                }
+
             }
 
         }
@@ -104,6 +113,11 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
 
         val incomeValue = AppControl.Text.convertCurrencyTextToFloat( edit_income_value.text.toString() )
 
+        //If relationalID 0 == edit... != 0 is new save
+        if(mRelationalID == 0) {
+            mRelationalID = AppControl.getNewRelationalID(this)
+        }
+
         val mIncome = Income()
         mIncome.id = mItemId
         mIncome.name = edit_income_name.text.toString()
@@ -114,6 +128,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         mIncome.year = year
         mIncome.recurrence = recurrenceOption
         mIncome.payFrequency = everyMonth
+        mIncome.relationalID = mRelationalID
 
         if(edit_many_times.text.toString() != "") {
             mIncome.numInstallmentMonths = edit_many_times.text.toString().toInt()
@@ -166,16 +181,27 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         })
 
         mViewModel.getIncome.observe(this, Observer {
+
+            mRelationalID = it.relationalID
             edit_income_name.setText(it.name)
             edit_income_description.setText(it.description)
             edit_income_value.setText(AppControl.Text.convertValueForCurrencyEditText(it.value))
             txt_income_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
             spinner_income_recurrence.setSelection(it.recurrence)
 
+            getIncomeValueForCheckIfMoneyEnough()
+
             if(it.recurrence == Constants.RECURRENCE.INSTALLMENT) {
                 cl_pay_installment_income.visibility = View.VISIBLE
                 edit_many_times.setText(it.numInstallmentMonths.toString())
                 spinner_income_every_months.setSelection(it.payFrequency - 1)
+            }
+
+            if(it.name == getString(string.withdraw_name)) {
+                lbl_income_name.visibility = View.GONE
+                edit_income_name.visibility = View.GONE
+                lbl_recurrence.visibility = View.GONE
+                spinner_income_recurrence.visibility = View.GONE
             }
         })
     }
@@ -185,6 +211,12 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         if(bundle != null) {
             mItemId = bundle.getInt(Constants.ITEM_ID)
             mViewModel.loadIncome(mItemId)
+        }
+    }
+
+    private fun getIncomeValueForCheckIfMoneyEnough() {
+        if(edit_income_value.text.toString().isNotEmpty()) {
+            mInitialValue = edit_income_value.text.toString()
         }
     }
 

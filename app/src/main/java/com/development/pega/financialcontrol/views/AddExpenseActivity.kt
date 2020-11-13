@@ -36,6 +36,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     private var everyMonth = 1
     private var numInstallmentMonths = 0
     private var mItemId = 0
+    private var mRelationalID = 0
+    private var mInitialValue = "0.00"
 
     private lateinit var calendar: Calendar
 
@@ -63,7 +65,13 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             if(edit_expense_name.text.toString().isEmpty() || edit_expense_value.text.toString().isEmpty()) {
                 AppControl.Validator.makeEmptyRequiredFieldToast(this)
             }else {
-                addExpense()
+
+                if( AppControl.checkIfHaveEnoughMoneyForDepositEdition(mInitialValue, edit_expense_value.text.toString(), this) ) {
+                    addExpense()
+                }else {
+                    AppControl.Validator.makeNotEnoughMoneyToast(this)
+                }
+
             }
 
         }
@@ -107,6 +115,10 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
         val expenseValue = AppControl.Text.convertCurrencyTextToFloat( edit_expense_value.text.toString() )
 
+        if(mRelationalID == 0) {
+            mRelationalID = AppControl.getNewRelationalID(this)
+        }
+
         val expense = Expense()
         expense.id = mItemId
         expense.type = typeOptions
@@ -118,6 +130,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         expense.description = edit_expense_description.text.toString()
         expense.recurrence = recurrenceOptions
         expense.payFrequency = everyMonth
+        expense.relationalID = mRelationalID
 
         if(edit_many_times.text.toString() != "") {
             expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
@@ -178,6 +191,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         })
 
         mViewModel.getExpense.observe(this, Observer {
+
+            mRelationalID = it.relationalID
             edit_expense_name.setText(it.name)
             spinner_type.setSelection(it.type)
             edit_expense_description.setText(it.description)
@@ -185,10 +200,21 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             txt_expense_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
             spinner_expense_recurrence.setSelection(it.recurrence)
 
+            getExpenseValueForCheckIfMoneyEnough()
+
             if(it.recurrence == Constants.RECURRENCE.INSTALLMENT) {
                 cl_pay_installment_expense.visibility = View.VISIBLE
                 edit_many_times.setText(it.numInstallmentMonths.toString())
                 spinner_expense_every_months.setSelection(it.payFrequency - 1)
+            }
+
+            if(it.name == getString(R.string.deposit_name)) {
+                lbl_expense_name.visibility = View.GONE
+                edit_expense_name.visibility = View.GONE
+                lbl_type.visibility = View.GONE
+                spinner_type.visibility = View.GONE
+                lbl_recurrence.visibility = View.GONE
+                spinner_expense_recurrence.visibility = View.GONE
             }
         })
     }
@@ -198,6 +224,12 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         if(bundle != null) {
             mItemId = bundle.getInt(Constants.ITEM_ID)
             mViewModel.loadExpense(mItemId)
+        }
+    }
+
+    private fun getExpenseValueForCheckIfMoneyEnough() {
+        if(edit_expense_value.text.toString().isNotEmpty()) {
+            mInitialValue = edit_expense_value.text.toString()
         }
     }
 

@@ -29,4 +29,7 @@ class SavingsMoney() {
     // type 1 deposit, 2 withdraw
     @ColumnInfo(name = "type")
     var type = 0
+
+    @ColumnInfo(name = "relationalID")
+    var relationalID = 0
 }

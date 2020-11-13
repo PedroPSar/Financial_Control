@@ -27,6 +27,10 @@ class ExpenseRepository(context: Context) {
         return mDatabase.get(id)
     }
 
+    fun getExpenseByRelationalId(relationalID: Int): Expense {
+        return mDatabase.getByRelationalId(relationalID)
+    }
+
     fun getExpensesFromMonth(month: Int): List<Expense> {
         return mDatabase.getExpensesFromMonth(month)
     }

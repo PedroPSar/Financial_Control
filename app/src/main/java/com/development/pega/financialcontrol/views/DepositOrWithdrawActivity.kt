@@ -10,6 +10,7 @@ import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
+import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.viewmodels.DepositOrWithdrawViewModel
 import kotlinx.android.synthetic.main.activity_deposit_or_withdraw.*
 import java.util.*
@@ -23,6 +24,8 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
     private var type = Constants.SAVINGS_MONEY.DEPOSIT
     private lateinit var calendar: Calendar
     private var mItemId = 0
+    private var mRelationalID = 0
+    private var mInitialValue = "0.00"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +54,37 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
                 AppControl.Validator.makeEmptyRequiredFieldToast(this)
 
             }else if(type == Constants.SAVINGS_MONEY.WITHDRAW) {
-                if( mViewModel.checkIfHaveEnoughMoney(edit_value.text.toString()) ) {
-                    saveDepositOrWithdraw()
-                }else {
-                    AppControl.Validator.makeNotEnoughMoneyToast(this)
+                // if mItem id == 0 is not edition
+                if(mItemId == 0) {
+
+                    if( AppControl.checkIfHaveEnoughMoney(edit_value.text.toString(), this) ) {
+                        saveDepositOrWithdraw()
+                    }else {
+                        AppControl.Validator.makeNotEnoughMoneyToast(this)
+                    }
+
+                } else {
+
+                    if( AppControl.checkIfHaveEnoughMoneyForWithdrawEdition(mInitialValue, edit_value.text.toString(), this) ) {
+                        saveDepositOrWithdraw()
+                    } else {
+                        AppControl.Validator.makeNotEnoughMoneyToast(this)
+                    }
+
                 }
+
             }else if(type == Constants.SAVINGS_MONEY.DEPOSIT){
-                saveDepositOrWithdraw()
+                // if mItem id == 0 is not edition
+                if(mItemId == 0) {
+                    saveDepositOrWithdraw()
+                } else {
+                    if( AppControl.checkIfHaveEnoughMoneyForDepositEdition(mInitialValue, edit_value.text.toString(), this)) {
+                        saveDepositOrWithdraw()
+                    } else {
+                        AppControl.Validator.makeNotEnoughMoneyToast(this)
+                    }
+                }
+
             }
 
         }else if(v.id == R.id.btn_change_date) {
@@ -86,10 +113,13 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
         })
 
         mViewModel.getSavings.observe(this, Observer {
+            mRelationalID = it.relationalID
             edit_value.setText(AppControl.Text.convertValueForCurrencyEditText(it.money))
             txt_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
             edit_description.setText(it.description)
             type = it.type
+
+            mInitialValue = AppControl.Text.convertValueForCurrencyEditText(it.money)
         })
     }
 
@@ -126,6 +156,11 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
         val year = calendar.get(Calendar.YEAR)
 
         val moneyValue = AppControl.Text.convertCurrencyTextToFloat( edit_value.text.toString() )
+
+        if(mRelationalID == 0) {
+            mRelationalID = AppControl.getNewRelationalID(this)
+        }
+
         money.id = mItemId
         money.money = moneyValue
         money.day = day
@@ -133,6 +168,7 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
         money.year = year
         money.description = edit_description.text.toString()
         money.type = type
+        money.relationalID = mRelationalID
 
         mViewModel.saveDepositOrWithdraw(money)
     }
@@ -145,7 +181,9 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
         val bundle = intent.extras
         if(bundle != null) {
             mItemId = bundle.getInt(Constants.ITEM_ID)
-            mViewModel.loadSavingsMoney(mItemId)
+            if(mItemId != null && mItemId != 0) {
+                mViewModel.loadSavingsMoney(mItemId)
+            }
         }
     }
 }

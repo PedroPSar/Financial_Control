@@ -37,4 +37,7 @@ class Income() {
 
     @ColumnInfo(name = "payFrequency")
     var payFrequency = 0
+
+    @ColumnInfo(name = "relationalID")
+    var relationalID = 0
 }

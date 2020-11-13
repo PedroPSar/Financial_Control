@@ -14,6 +14,7 @@ import com.development.pega.financialcontrol.service.Data
 import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
+import com.development.pega.financialcontrol.service.repository.savingsmoney.SavingsMoneyRepository
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,7 +61,65 @@ abstract class AppControl {
 
     companion object {
 
-        private var mLastItemRecyclerView: View? = null
+        fun getNewRelationalID(context: Context): Int {
+            var currentRelationalID = Prefs(context).relationalID
+            currentRelationalID++
+            Prefs(context).relationalID = currentRelationalID
+            return currentRelationalID
+        }
+
+        fun checkIfHaveEnoughMoney(value: String, context: Context): Boolean {
+            val amount = getSavingsAmount(context)
+            return amount >= Text.convertCurrencyTextToFloat(value)
+        }
+
+        fun checkIfHaveEnoughMoneyForDepositEdition(initialValue: String, currentValue: String, context: Context): Boolean{
+            val initialValue = Text.convertCurrencyTextToFloat(initialValue)
+            val currentValue = Text.convertCurrencyTextToFloat(currentValue)
+            Log.d("teste", "v: $initialValue")
+
+            var amount = getSavingsAmount(context)
+            amount -= initialValue
+            amount += currentValue
+
+            Log.d("teste", "amount: ${getSavingsAmount(context)}")
+            Log.d("teste", "amount calculado: $amount")
+            Log.d("teste", "result: ${amount >= 0}")
+            return amount >= 0
+        }
+
+        fun checkIfHaveEnoughMoneyForWithdrawEdition(initialValue: String, currentValue: String, context: Context): Boolean{
+            val initialValue = Text.convertCurrencyTextToFloat(initialValue)
+            val currentValue = Text.convertCurrencyTextToFloat(currentValue)
+            Log.d("teste", "v: $initialValue")
+
+            var amount = getSavingsAmount(context)
+            amount += initialValue
+            amount -= currentValue
+            Log.d("teste", "amount: ${getSavingsAmount(context)}")
+            Log.d("teste", "amount calculado: $amount")
+            Log.d("teste", "result: ${amount >= 0}")
+            return amount >= 0
+        }
+
+        private fun getSavingsAmount(context: Context): Float {
+            val repository = SavingsMoneyRepository(context)
+            val deposits = repository.getDeposits()
+            val withdrawals =  repository.getWithdrawals()
+
+            val totalDeposits = calcTotalSavings(deposits)
+            val totalWithdrawals = calcTotalSavings(withdrawals)
+
+            return totalDeposits - totalWithdrawals
+        }
+
+        private fun calcTotalSavings(list: List<SavingsMoney>): Float {
+            var total = 0f
+            for(savingMoney in list) {
+                total += savingMoney.money
+            }
+            return total
+        }
 
         fun showToast(context: Context, text: String) {
             Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
@@ -80,29 +139,6 @@ abstract class AppControl {
 
         fun orderSavingsMoney(savingsMoneyList: List<SavingsMoney>): List<SavingsMoney> {
             return savingsMoneyList.sortedWith(compareBy({it.year}, {it.month}, {it.day}))
-        }
-
-        fun recyclerItemTouch(action: Int, v: View): Boolean {
-            when(action) {
-                MotionEvent.ACTION_DOWN -> {
-                    if(mLastItemRecyclerView != null){
-                        mLastItemRecyclerView!!.background = mLastItemRecyclerView!!.context.getDrawable(android.R.color.transparent)
-                    }
-                    mLastItemRecyclerView = v
-                    v?.background = v?.context.getDrawable(R.color.touch_recycler_view_item_color)
-                    return true
-                }
-                MotionEvent.ACTION_UP -> {
-                    v?.background = v?.context.getDrawable(android.R.color.transparent)
-                    return true
-                }
-
-                MotionEvent.ACTION_MOVE -> {
-                    v?.background = v?.context.getDrawable(android.R.color.transparent)
-                    return true
-                }
-                else -> return false
-            }
         }
 
         fun getRecurrence(pos: Int): Int {
