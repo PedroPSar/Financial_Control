@@ -11,6 +11,7 @@ import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.listener.IncomeItemListener
 import com.development.pega.financialcontrol.model.Income
 import kotlinx.android.synthetic.main.income_recycler_view_row.view.*
+import java.util.*
 
 class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener, PopupMenu.OnMenuItemClickListener{
 
@@ -19,7 +20,9 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
 
     fun bind(income: Income) {
         mIncome = income
-        val txtDate = "${income.day}/${income.month}/${income.year}"
+        val day = checkAndChangeMaximumDayOfMonth(income.year, income.month, income.day)
+
+        val txtDate = "$day/${income.month}/${income.year}"
         val txtValue = AppControl.Text.convertFloatToCurrencyText(income.value)
         val txtName = income.name
 
@@ -63,6 +66,19 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
         popUpMenu.menuInflater.inflate(R.menu.recycler_item_menu, popUpMenu.menu)
         popUpMenu.setOnMenuItemClickListener(this)
         popUpMenu.show()
+    }
+
+    private fun checkAndChangeMaximumDayOfMonth(year: Int, month: Int, day: Int): Int {
+        val c = Calendar.getInstance()
+        c.set(Calendar.YEAR, year)
+        c.set(Calendar.MONTH, month - 1) //In calendar January is 0
+        val maximum = c.getActualMaximum(Calendar.DATE)
+
+        return if(day > maximum) {
+            maximum
+        }else {
+            day
+        }
     }
 
 }

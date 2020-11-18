@@ -65,13 +65,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             if(edit_expense_name.text.toString().isEmpty() || edit_expense_value.text.toString().isEmpty()) {
                 AppControl.Validator.makeEmptyRequiredFieldToast(this)
             }else {
-
-                if( AppControl.checkIfHaveEnoughMoneyForDepositEdition(mInitialValue, edit_expense_value.text.toString(), this) ) {
-                    addExpense()
-                }else {
-                    AppControl.Validator.makeNotEnoughMoneyToast(this)
-                }
-
+                addExpense()
             }
 
         }
@@ -136,7 +130,17 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
         }
 
-        mViewModel.saveExpense(expense)
+        if(expense.name == getString(R.string.deposit_name)) {
+
+            if( AppControl.checkIfHaveEnoughMoneyForDepositEdition(mInitialValue, edit_expense_value.text.toString(), this) ) {
+                mViewModel.saveExpense(expense)
+            }else {
+                AppControl.Validator.makeNotEnoughMoneyToast(this)
+            }
+
+        } else {
+            mViewModel.saveExpense(expense)
+        }
     }
 
     private fun setListeners() {

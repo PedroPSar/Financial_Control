@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.listener.ExpenseItemListener
-import com.development.pega.financialcontrol.listener.IncomeItemListener
 import com.development.pega.financialcontrol.model.Expense
 import kotlinx.android.synthetic.main.income_recycler_view_row.view.*
+import java.util.*
 
 class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
@@ -21,7 +21,9 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
 
     fun bind(expense: Expense) {
         mExpense = expense
-        val txtDate = "${expense.day}/${expense.month}/${expense.year}"
+        val day = checkAndChangeMaximumDayOfMonth(expense.year, expense.month, expense.day)
+
+        val txtDate = "$day/${expense.month}/${expense.year}"
         val txtValue = AppControl.Text.convertFloatToCurrencyText(expense.value)
         val txtName = expense.name
 
@@ -64,5 +66,18 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
         popUpMenu.menuInflater.inflate(R.menu.recycler_item_menu, popUpMenu.menu)
         popUpMenu.setOnMenuItemClickListener(this)
         popUpMenu.show()
+    }
+
+    private fun checkAndChangeMaximumDayOfMonth(year: Int, month: Int, day: Int): Int {
+        val c = Calendar.getInstance()
+        c.set(Calendar.YEAR, year)
+        c.set(Calendar.MONTH, month - 1) //In calendar January is 0
+        val maximum = c.getActualMaximum(Calendar.DATE)
+
+        return if(day > maximum) {
+            maximum
+        }else {
+            day
+        }
     }
 }

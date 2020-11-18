@@ -119,7 +119,6 @@ class SavingsFragment : Fragment(), View.OnClickListener{
                 val intent = Intent(requireContext(), DepositOrWithdrawActivity::class.java)
                 val bundle = Bundle()
                 bundle.putInt(Constants.ITEM_ID, id)
-
                 intent.putExtras(bundle)
                 startActivity(intent)
             }
@@ -128,6 +127,9 @@ class SavingsFragment : Fragment(), View.OnClickListener{
                 mViewModel.deleteSavingsMoney(savingsMoney)
                 mViewModel.setDepositRecyclerViewInfo()
                 mViewModel.setWithdrawalsRecyclerViewInfo()
+                mViewModel.setDepositsTotal()
+                mViewModel.setWithdrawalsTotal()
+                mViewModel.setSavingsAmount()
             }
 
         }

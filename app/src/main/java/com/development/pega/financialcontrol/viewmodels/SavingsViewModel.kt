@@ -7,7 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.SavingsMoney
+import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.repository.Prefs
+import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
+import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
 import com.development.pega.financialcontrol.service.repository.savingsmoney.SavingsMoneyRepository
 import kotlin.math.roundToInt
 
@@ -15,6 +18,8 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
 
     private val mContext = application.applicationContext
     private val savingsMoneyRepository = SavingsMoneyRepository(mContext)
+    private val mExpenseRepository = ExpenseRepository(mContext)
+    private val mIncomeRepository = IncomeRepository(mContext)
     private val prefs = Prefs(mContext)
 
     private val mDepositRecyclerViewInfo = MutableLiveData<List<SavingsMoney>>()
@@ -126,6 +131,26 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
 
     fun deleteSavingsMoney(savingsMoney: SavingsMoney) {
         savingsMoneyRepository.delete(savingsMoney)
+
+        if(savingsMoney.type == Constants.SAVINGS_MONEY.DEPOSIT) {
+
+            val expenseID = getExpenseIdByRelationalID(savingsMoney.relationalID)
+            val expense = mExpenseRepository.get(expenseID)
+            mExpenseRepository.delete(expense)
+
+        } else {
+            val incomeID = getIncomeIdByRelationalID(savingsMoney.relationalID)
+            val income = mIncomeRepository.get(incomeID)
+            mIncomeRepository.delete(income)
+        }
+    }
+
+    private fun getIncomeIdByRelationalID(relationalID: Int): Int {
+        return mIncomeRepository.getIncomeByRelationalId(relationalID).id
+    }
+
+    private fun getExpenseIdByRelationalID(relationalID: Int): Int {
+        return mExpenseRepository.getExpenseByRelationalId(relationalID).id
     }
 
 }

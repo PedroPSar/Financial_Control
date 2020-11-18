@@ -64,13 +64,7 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
             if(edit_income_name.text.toString().isEmpty() || edit_income_value.text.toString().isEmpty()) {
                 AppControl.Validator.makeEmptyRequiredFieldToast(this)
             } else {
-
-                if( AppControl.checkIfHaveEnoughMoneyForWithdrawEdition(mInitialValue, edit_income_value.text.toString(),  this) ) {
-                    addIncome()
-                }else {
-                    AppControl.Validator.makeNotEnoughMoneyToast(this)
-                }
-
+                addIncome()
             }
 
         }
@@ -134,7 +128,17 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
             mIncome.numInstallmentMonths = edit_many_times.text.toString().toInt()
         }
 
-        mViewModel.saveIncome(mIncome)
+        if(mIncome.name == getString(string.withdraw_name)) {
+
+            if( AppControl.checkIfHaveEnoughMoneyForWithdrawEdition(mInitialValue, edit_income_value.text.toString(),  this) ) {
+                mViewModel.saveIncome(mIncome)
+            }else {
+                AppControl.Validator.makeNotEnoughMoneyToast(this)
+            }
+
+        } else {
+            mViewModel.saveIncome(mIncome)
+        }
     }
 
     private fun setListeners() {

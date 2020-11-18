@@ -6,10 +6,12 @@ import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
+import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.Data
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
+import com.development.pega.financialcontrol.service.repository.savingsmoney.SavingsMoneyRepository
 import java.util.*
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,6 +20,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val months = mContext.resources.getStringArray(R.array.months_array)
     private val mIncomeRepository = IncomeRepository(mContext)
     private val mExpenseRepository = ExpenseRepository(mContext)
+    private val mSavingsMoneyRepository = SavingsMoneyRepository(mContext)
 
     private val mMonth = MutableLiveData<String>()
     var month: LiveData<String> = mMonth
@@ -170,10 +173,22 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deleteIncome(income: Income) {
         mIncomeRepository.delete(income)
+        deleteRelationalSavingsMoney(income.relationalID)
     }
 
     fun deleteExpense(expense: Expense) {
         mExpenseRepository.delete(expense)
+        deleteRelationalSavingsMoney(expense.relationalID)
+    }
+
+    private fun deleteRelationalSavingsMoney(relationalID: Int) {
+        val savingsID = getSavingsMoneyIdByRelationalID(relationalID)
+        val savingsMoney = mSavingsMoneyRepository.get(savingsID)
+        mSavingsMoneyRepository.delete(savingsMoney)
+    }
+
+    private fun getSavingsMoneyIdByRelationalID(relationalID: Int): Int {
+        return mSavingsMoneyRepository.getSavingsByRelationalId(relationalID).id
     }
 
 }
