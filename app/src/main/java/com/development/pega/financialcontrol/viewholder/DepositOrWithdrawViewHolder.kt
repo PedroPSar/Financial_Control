@@ -20,7 +20,10 @@ class DepositOrWithdrawViewHolder(itemView: View, private val mItemListener: Sav
 
     fun bind(savingsMoney: SavingsMoney) {
         mSavingsMoney = savingsMoney
-        val date = "${savingsMoney.day}/${savingsMoney.month}/${savingsMoney.year}"
+        val txtDay = putZeroIfNumberLessTen(savingsMoney.day)
+        val txtMonth = putZeroIfNumberLessTen(savingsMoney.month)
+
+        val date = "$txtDay/$txtMonth/${savingsMoney.year}"
         val value = AppControl.Text.convertFloatToCurrencyText(savingsMoney.money)
         val description = savingsMoney.description
 
@@ -66,5 +69,12 @@ class DepositOrWithdrawViewHolder(itemView: View, private val mItemListener: Sav
         popUpMenu.show()
     }
 
+    private fun putZeroIfNumberLessTen(number: Int): String {
+        return if(number < 10) {
+            "0$number"
+        }else {
+            number.toString()
+        }
+    }
 
 }

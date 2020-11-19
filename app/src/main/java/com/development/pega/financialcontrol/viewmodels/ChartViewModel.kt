@@ -136,9 +136,9 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         incomesLine.valueTextSize = Constants.LINE.LINE_TEXT_SIZE
         expensesLine.valueTextSize = Constants.LINE.LINE_TEXT_SIZE
 
-        balanceLine.mode = LineDataSet.Mode.CUBIC_BEZIER
-        incomesLine.mode = LineDataSet.Mode.CUBIC_BEZIER
-        expensesLine.mode = LineDataSet.Mode.CUBIC_BEZIER
+        balanceLine.mode = LineDataSet.Mode.LINEAR
+        incomesLine.mode = LineDataSet.Mode.LINEAR
+        expensesLine.mode = LineDataSet.Mode.LINEAR
 
         balanceLine.setDrawFilled(true)
         incomesLine.setDrawFilled(true)

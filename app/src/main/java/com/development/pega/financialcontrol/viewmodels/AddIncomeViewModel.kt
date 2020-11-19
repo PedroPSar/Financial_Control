@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.model.SavingsMoney
@@ -58,9 +59,12 @@ class AddIncomeViewModel(application: Application): AndroidViewModel(application
         }else {
             mAddIncome.value = mIncomeRepository.update(income)
 
-            val money = changeFromIncomeToSavings(income)
-            money.id = getSavingsMoneyIdByRelationalID(income.relationalID)
-            mSavingsMoneyRepository.update(money)
+            if(income.name == context.getString(R.string.withdraw_name)) {
+                val money = changeFromIncomeToSavings(income)
+                money.id = getSavingsMoneyIdByRelationalID(income.relationalID)
+                mSavingsMoneyRepository.update(money)
+            }
+
         }
 
     }

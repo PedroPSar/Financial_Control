@@ -21,8 +21,10 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
     fun bind(income: Income) {
         mIncome = income
         val day = checkAndChangeMaximumDayOfMonth(income.year, income.month, income.day)
+        val txtDay = putZeroIfNumberLessTen(day)
+        var txtMonth = putZeroIfNumberLessTen(income.month)
 
-        val txtDate = "$day/${income.month}/${income.year}"
+        val txtDate = "$txtDay/$txtMonth/${income.year}"
         val txtValue = AppControl.Text.convertFloatToCurrencyText(income.value)
         val txtName = income.name
 
@@ -78,6 +80,14 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
             maximum
         }else {
             day
+        }
+    }
+
+    private fun putZeroIfNumberLessTen(number: Int): String {
+        return if(number < 10) {
+            "0$number"
+        }else {
+            number.toString()
         }
     }
 

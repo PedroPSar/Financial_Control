@@ -146,14 +146,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun checkIfIncomeHasToBeOnTheList(income: Income): Boolean {
-        return (income.month == Data.selectedMonth ||
+        return (income.month == Data.selectedMonth && income.year == Data.selectedYear ||
                 income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year == Data.selectedYear && income.month < Data.selectedMonth ||
                 income.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && income.year < Data.selectedYear
                 || AppControl.thisInstallmentIncomeIsFromThisMonth(income))
     }
 
     private fun checkIfExpenseHasToBeOnTheList(expense: Expense): Boolean {
-        return (expense.month == Data.selectedMonth ||
+        return (expense.month == Data.selectedMonth && expense.year == Data.selectedYear ||
                 expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year == Data.selectedYear && expense.month < Data.selectedMonth ||
                 expense.recurrence == Constants.RECURRENCE.FIXED_MONTHLY && expense.year < Data.selectedYear
                 || AppControl.thisInstallmentExpenseIsFromThisMonth(expense))
@@ -173,12 +173,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deleteIncome(income: Income) {
         mIncomeRepository.delete(income)
-        deleteRelationalSavingsMoney(income.relationalID)
+        if(income.name == mContext.getString(R.string.withdraw_name)) {
+            deleteRelationalSavingsMoney(income.relationalID)
+        }
+        updateInfo()
     }
 
     fun deleteExpense(expense: Expense) {
         mExpenseRepository.delete(expense)
-        deleteRelationalSavingsMoney(expense.relationalID)
+        if(expense.name == mContext.getString(R.string.deposit_name)) {
+            deleteRelationalSavingsMoney(expense.relationalID)
+        }
+        updateInfo()
     }
 
     private fun deleteRelationalSavingsMoney(relationalID: Int) {

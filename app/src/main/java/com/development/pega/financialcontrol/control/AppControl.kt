@@ -203,38 +203,58 @@ abstract class AppControl {
 
         fun thisInstallmentIncomeIsFromThisMonth(income: Income): Boolean{
             var result = false
+            val minimumInstallment = 2
+            var incomeYear = income.year
 
             if(income.recurrence == Constants.RECURRENCE.INSTALLMENT) {
 
-                var month = income.month
-                for(i in 2 .. income.numInstallmentMonths) {
-                    month += income.payFrequency
-                    if(month > 12) month-= 12
+                if(income.year == Data.selectedYear && income.month < Data.selectedMonth || income.year < Data.selectedYear) {
 
-                    if(Data.selectedMonth == month) {
-                        result = true
-                        break
+                    var month = income.month
+                    for(i in minimumInstallment .. income.numInstallmentMonths) {
+                        month += income.payFrequency
+                        if(month > 12) {
+                            month-= 12
+                            incomeYear++
+                        }
+
+                        if(Data.selectedMonth == month && Data.selectedYear == incomeYear) {
+                            result = true
+                            break
+                        }
                     }
+
                 }
+
             }
             return result
         }
 
         fun thisInstallmentExpenseIsFromThisMonth(expense: Expense): Boolean{
             var result = false
+            val minimumInstallment = 2
+            var expenseYear = expense.year
 
             if(expense.recurrence == Constants.RECURRENCE.INSTALLMENT) {
 
-                var month = expense.month
-                for(i in 2 .. expense.numInstallmentMonths) {
-                    month += expense.payFrequency
-                    if(month > 12) month-= 12
+                if(expense.year == Data.selectedYear && expense.month < Data.selectedMonth || expense.year < Data.selectedYear) {
 
-                    if(Data.selectedMonth == month) {
-                        result = true
-                        break
+                    var month = expense.month
+                    for(i in minimumInstallment .. expense.numInstallmentMonths) {
+                        month += expense.payFrequency
+                        if(month > 12) {
+                            month-= 12
+                            expenseYear++
+                        }
+
+                        if(Data.selectedMonth == month && Data.selectedYear == expenseYear) {
+                            result = true
+                            break
+                        }
                     }
+
                 }
+
             }
             return result
         }

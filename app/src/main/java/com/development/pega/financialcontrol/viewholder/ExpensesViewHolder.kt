@@ -22,8 +22,10 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
     fun bind(expense: Expense) {
         mExpense = expense
         val day = checkAndChangeMaximumDayOfMonth(expense.year, expense.month, expense.day)
+        val txtDay = putZeroIfNumberLessTen(day)
+        val txtMonth = putZeroIfNumberLessTen(expense.month)
 
-        val txtDate = "$day/${expense.month}/${expense.year}"
+        val txtDate = "$txtDay/$txtMonth/${expense.year}"
         val txtValue = AppControl.Text.convertFloatToCurrencyText(expense.value)
         val txtName = expense.name
 
@@ -78,6 +80,14 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
             maximum
         }else {
             day
+        }
+    }
+
+    private fun putZeroIfNumberLessTen(number: Int): String {
+        return if(number < 10) {
+            "0$number"
+        }else {
+            number.toString()
         }
     }
 }

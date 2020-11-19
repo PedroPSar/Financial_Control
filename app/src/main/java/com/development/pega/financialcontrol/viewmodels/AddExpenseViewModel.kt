@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
@@ -56,9 +57,12 @@ class AddExpenseViewModel(application: Application): AndroidViewModel(applicatio
         }else {
             mSaveExpense.value = mExpenseRepository.update(expense)
 
-            val money = changeFromExpenseToSavings(expense)
-            money.id = getSavingsMoneyIdByRelationalID(expense.relationalID)
-            mSavingsMoneyRepository.update(money)
+            if(expense.name == context.getString(R.string.deposit_name)) {
+                val money = changeFromExpenseToSavings(expense)
+                money.id = getSavingsMoneyIdByRelationalID(expense.relationalID)
+                mSavingsMoneyRepository.update(money)
+            }
+
         }
 
     }
