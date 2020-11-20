@@ -96,6 +96,7 @@
     <!-- Recycler View Item Menu -->
     <string name="edit_item_title_menu">Edit</string>
     <string name="delete_item_title_menu">Delete</string>
+    <string name="delete_item_details_menu">Details</string>
 
     <!-- Confirm delete dialog -->
     <string name="confirm_delete_income_dialog_message">Are you sure you want to delete this income?</string>
@@ -109,6 +110,9 @@
     <string name="color_dialog_title">Select Color</string>
     <string name="color_dialog_positive_button">Select</string>
     <string name="color_dialog_negative_button">Cancel</string>
+
+    <!-- Details Dialog -->
+    <string name="details_dialog_title">Details</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>

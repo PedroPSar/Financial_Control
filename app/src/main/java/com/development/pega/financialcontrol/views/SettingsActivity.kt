@@ -5,10 +5,11 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Spinner
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.control.AppControl
+import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.viewmodels.SettingsViewModel
 import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.ColorPickerDialog
@@ -22,15 +23,19 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mSettingsViewModel: SettingsViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private lateinit var mToolbar: Toolbar
+    private lateinit var prefs: Prefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        prefs = AppControl.getAppPrefs(this)
+
         setViewModel()
         setToolbarOptions()
         observers()
         setListeners()
+        setColorsInViewColors()
     }
 
     override fun onClick(v: View?) {
@@ -80,7 +85,7 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
         mToolbar.setNavigationOnClickListener{ onBackPressed() }
     }
 
-    fun showColorDialog(view: View) {
+    private fun showColorDialog(view: View) {
         val colorDrawable = view.background as ColorDrawable
         val viewColor = colorDrawable.color
 
@@ -95,6 +100,7 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onColorSelected(envelope: ColorEnvelope?, fromUser: Boolean) {
                     if (envelope != null) {
                         view.setBackgroundColor(envelope.color)
+                        setSelectedColorInPrefs(envelope.color, view)
                     }
                 }
             })
@@ -105,13 +111,40 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
                 }
             })
             .attachAlphaSlideBar(false)
-            .attachBrightnessSlideBar(false)
+            .attachBrightnessSlideBar(true)
             .setBottomSpace(12)
 
         val colorPickerView = colorBuilder.colorPickerView
         colorPickerView.flagView = bubbleFlag
-        colorPickerView.setInitialColor(resources.getColor(R.color.investment_color))
         colorBuilder.show()
+    }
+
+    private fun setSelectedColorInPrefs(selectedColor: Int, v: View) {
+        when(v.id) {
+            R.id.view_incomes_color -> prefs.incomesColor = selectedColor
+            R.id.view_expenses_color -> prefs.expensesColor = selectedColor
+            R.id.view_balance_color -> prefs.balanceColor = selectedColor
+            R.id.view_not_required_color -> prefs.notRequiredColor = selectedColor
+            R.id.view_required_color -> prefs.requiredColor = selectedColor
+            R.id.view_investment_color -> prefs.investmentColor = selectedColor
+            R.id.view_expenses_installment_color -> prefs.expensesInstallmentColor = selectedColor
+            R.id.view_expenses_fixed_monthly_color -> prefs.expensesFixedMonthlyColor = selectedColor
+            R.id.view_incomes_installment_color -> prefs.incomesInstallmentColor = selectedColor
+            R.id.view_incomes_fixed_monthly_color -> prefs.incomesFixedMonthlyColor = selectedColor
+        }
+    }
+
+    private fun setColorsInViewColors() {
+        view_incomes_color.setBackgroundColor(prefs.incomesColor)
+        view_expenses_color.setBackgroundColor(prefs.expensesColor)
+        view_balance_color.setBackgroundColor(prefs.balanceColor)
+        view_not_required_color.setBackgroundColor(prefs.notRequiredColor)
+        view_required_color.setBackgroundColor(prefs.requiredColor)
+        view_investment_color.setBackgroundColor(prefs.investmentColor)
+        view_expenses_installment_color.setBackgroundColor(prefs.expensesInstallmentColor)
+        view_expenses_fixed_monthly_color.setBackgroundColor(prefs.expensesFixedMonthlyColor)
+        view_incomes_installment_color.setBackgroundColor(prefs.incomesInstallmentColor)
+        view_incomes_fixed_monthly_color.setBackgroundColor(prefs.incomesFixedMonthlyColor)
     }
 
 }

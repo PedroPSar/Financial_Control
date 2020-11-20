@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_lbl_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_name"
+        android:textSize="@dimen/details_lbl_size"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_name"/>
+
+    <TextView
+        android:id="@+id/tv_lbl_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/lbl_description"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/details_lbl_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_name" />
+
+    <TextView
+        android:id="@+id/tv_txt_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_description"/>
+
+    <TextView
+        android:id="@+id/tv_lbl_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/lbl_value"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/details_lbl_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_description" />
+
+    <TextView
+        android:id="@+id/tv_txt_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_value"/>
+
+    <TextView
+        android:id="@+id/tv_lbl_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/lbl_date"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/details_lbl_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_value" />
+
+    <TextView
+        android:id="@+id/tv_txt_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_date"/>
+
+    <TextView
+        android:id="@+id/tv_lbl_recurrence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/lbl_recurrence"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/details_lbl_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_date"/>
+
+    <TextView
+        android:id="@+id/tv_txt_recurrence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_recurrence"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_recurrence"/>
+
+    <TextView
+        android:id="@+id/tv_lbl_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/lbl_number"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/details_lbl_size"
+        app:layout_constraintEnd_toStartOf="@id/tv_lbl_every"
+        app:layout_constraintStart_toEndOf="@+id/tv_lbl_recurrence"
+        app:layout_constraintTop_toBottomOf="@+id/tv_txt_date" />
+
+    <TextView
+        android:id="@+id/tv_txt_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_number"
+        app:layout_constraintStart_toStartOf="@id/tv_lbl_number"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_number"/>
+
+    <TextView
+        android:id="@+id/tv_lbl_every"
+        android:layout_width="48dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/lbl_every"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/details_lbl_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_lbl_number"
+        app:layout_constraintTop_toBottomOf="@+id/tv_txt_date" />
+
+    <TextView
+        android:id="@+id/tv_txt_every"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_every"
+        app:layout_constraintStart_toStartOf="@id/tv_lbl_every"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_number"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

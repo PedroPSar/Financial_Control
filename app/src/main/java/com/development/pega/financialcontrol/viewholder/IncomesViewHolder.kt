@@ -1,6 +1,8 @@
 package com.development.pega.financialcontrol.viewholder
 
 import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.view.*
 import android.widget.ImageView
 import android.widget.PopupMenu
@@ -17,6 +19,7 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
 
     lateinit var btnMenu: ImageView
     private lateinit var mIncome: Income
+    private val mContext = itemView.context
 
     fun bind(income: Income) {
         mIncome = income
@@ -50,7 +53,7 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
                 true
             }
             R.id.delete_item -> {
-                AlertDialog.Builder(itemView.context)
+                AlertDialog.Builder(mContext)
                     .setMessage(R.string.confirm_delete_income_dialog_message)
                     .setPositiveButton(R.string.confirm_delete_income_dialog_positive_button) { dialog, which ->
                         mItemListener.onDelete(mIncome)
@@ -59,12 +62,16 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
                     .show()
                 true
             }
+            R.id.details_item -> {
+                showDetailsDialog()
+                true
+            }
             else -> false
         }
     }
 
     private fun showItemMenu() {
-        val popUpMenu = PopupMenu(itemView.context, btnMenu)
+        val popUpMenu = PopupMenu(mContext, btnMenu)
         popUpMenu.menuInflater.inflate(R.menu.recycler_item_menu, popUpMenu.menu)
         popUpMenu.setOnMenuItemClickListener(this)
         popUpMenu.show()
@@ -89,6 +96,17 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
         }else {
             number.toString()
         }
+    }
+
+    private fun showDetailsDialog() {
+        val builder = AlertDialog.Builder(mContext)
+        builder.setTitle(mContext.getString(R.string.details_dialog_title))
+        val view = LayoutInflater.from(mContext).inflate(R.layout.dialog_details_incomes, null)
+
+        builder.setView(view)
+        builder.setPositiveButton("Ok"
+        ) { dialog, which -> dialog?.dismiss() }
+        builder.show()
     }
 
 }

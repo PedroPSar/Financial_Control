@@ -61,10 +61,14 @@ abstract class AppControl {
 
     companion object {
 
+        fun getAppPrefs(context: Context): Prefs {
+            return Prefs.getInstance(context)
+        }
+
         fun getNewRelationalID(context: Context): Int {
-            var currentRelationalID = Prefs(context).relationalID
+            var currentRelationalID = getAppPrefs(context).relationalID
             currentRelationalID++
-            Prefs(context).relationalID = currentRelationalID
+            getAppPrefs(context).relationalID = currentRelationalID
             return currentRelationalID
         }
 
@@ -126,7 +130,7 @@ abstract class AppControl {
         }
 
         fun getCurrencyAbbreviation(context: Context): String {
-            return Prefs(context).currencySelectedValue
+            return getAppPrefs(context).currencySelectedValue
         }
 
         fun orderIncomeList(incomeList: List<Income>): List<Income> {

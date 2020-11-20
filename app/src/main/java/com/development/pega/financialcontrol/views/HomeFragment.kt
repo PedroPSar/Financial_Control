@@ -21,6 +21,7 @@ import com.development.pega.financialcontrol.listener.MainListener
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
+import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.math.roundToInt
@@ -41,6 +42,8 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
     private lateinit var mIncomesItemListener: IncomeItemListener
     private lateinit var mExpensesItemListener: ExpenseItemListener
+
+    private lateinit var mPrefs: Prefs
 
     companion object {
         private lateinit var mMainListener: MainListener
@@ -66,6 +69,8 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         tvIncomes = root.findViewById(R.id.txt_incomes)
         tvExpenses = root.findViewById(R.id.txt_expenses)
         mViewModel.setCurrentDate()
+
+        mPrefs = AppControl.getAppPrefs(requireContext())
 
         mIncomesItemListener = object : IncomeItemListener {
 
@@ -110,6 +115,7 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
     override fun onResume() {
         super.onResume()
+        setColors()
         mViewModel.setIncomesOfMonth()
         mViewModel.setExpensesOfMonth()
         mViewModel.setIncomesInRecyclerView()
@@ -203,6 +209,16 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         cl_expenses.maxWidth = maxWidth
         cl_account_balance.maxWidth = maxWidth
 
+    }
+
+    private fun setColors() {
+        arrow_incomes.setColorFilter(mPrefs.incomesColor)
+        txt_incomes.setTextColor(mPrefs.incomesColor)
+        label_income.setTextColor(mPrefs.incomesColor)
+
+        arrow_expenses.setColorFilter(mPrefs.expensesColor)
+        txt_expenses.setTextColor(mPrefs.expensesColor)
+        label_expense.setTextColor(mPrefs.expensesColor)
     }
 
 }

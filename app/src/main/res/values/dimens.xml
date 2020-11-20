@@ -15,4 +15,5 @@
     <dimen name="label_options_text_size">18sp</dimen>
     <dimen name="color_view_width">80dp</dimen>
     <dimen name="color_view_height">24dp</dimen>
+    <dimen name="details_lbl_size">16sp</dimen>
 </resources>

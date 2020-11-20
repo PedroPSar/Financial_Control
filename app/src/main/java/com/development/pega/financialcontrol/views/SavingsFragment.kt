@@ -23,6 +23,7 @@ import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.dialog.ObjectiveDescriptionDialogFragment
 import com.development.pega.financialcontrol.service.dialog.ObjectiveValueDialogFragment
+import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.viewmodels.SavingsViewModel
 import kotlinx.android.synthetic.main.savings_fragment.*
 
@@ -34,14 +35,13 @@ class SavingsFragment : Fragment(), View.OnClickListener{
 
     private lateinit var mViewModel: SavingsViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
+    private lateinit var mPrefs: Prefs
 
     private lateinit var mRoot: View
     private lateinit var mBtnDeposit: ImageView
     private lateinit var mBtnWithdraw: ImageView
     private val mDepositAdapter = DepositOrWithdrawRecyclerViewAdapter()
     private val mWithdrawalsAdapter = DepositOrWithdrawRecyclerViewAdapter()
-
-    private lateinit var mSharedPreferences: SharedPreferences
 
     private lateinit var mValueDialogListener: ObjectiveValueDialogFragment.ObjectiveValueDialogListener
     private lateinit var mDescriptionDialogListener: ObjectiveDescriptionDialogFragment.ObjectiveDescriptionDialogListener
@@ -60,8 +60,7 @@ class SavingsFragment : Fragment(), View.OnClickListener{
 
         mBtnDeposit = mRoot.findViewById(R.id.btn_deposit)
         mBtnWithdraw = mRoot.findViewById(R.id.btn_withdraw)
-
-        mSharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)!!
+        mPrefs = AppControl.getAppPrefs(requireContext())
 
         setListeners()
         adapters()
@@ -71,6 +70,7 @@ class SavingsFragment : Fragment(), View.OnClickListener{
 
     override fun onResume() {
         super.onResume()
+        setColors()
         mViewModel.setDepositRecyclerViewInfo()
         mViewModel.setWithdrawalsRecyclerViewInfo()
         mViewModel.setDepositsTotal()
@@ -210,6 +210,16 @@ class SavingsFragment : Fragment(), View.OnClickListener{
         mViewModel.objectiveDescription.observe(viewLifecycleOwner, Observer {
             tv_objective_description.text = it
         })
+    }
+
+    private fun setColors() {
+        lbl_deposits.setTextColor(mPrefs.incomesColor)
+        btn_deposit.setColorFilter(mPrefs.incomesColor)
+        ll_total_deposits.setBackgroundColor(mPrefs.incomesColor)
+
+        lbl_withdrawals.setTextColor(mPrefs.expensesColor)
+        btn_withdraw.setColorFilter(mPrefs.expensesColor)
+        ll_total_withdrawals.setBackgroundColor(mPrefs.expensesColor)
     }
 
 }

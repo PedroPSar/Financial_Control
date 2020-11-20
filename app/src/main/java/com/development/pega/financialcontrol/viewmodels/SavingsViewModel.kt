@@ -20,7 +20,7 @@ class SavingsViewModel(application: Application) : AndroidViewModel(application)
     private val savingsMoneyRepository = SavingsMoneyRepository(mContext)
     private val mExpenseRepository = ExpenseRepository(mContext)
     private val mIncomeRepository = IncomeRepository(mContext)
-    private val prefs = Prefs(mContext)
+    private val prefs = AppControl.getAppPrefs(mContext)
 
     private val mDepositRecyclerViewInfo = MutableLiveData<List<SavingsMoney>>()
     var depositRecyclerViewInfo: LiveData<List<SavingsMoney>> = mDepositRecyclerViewInfo

@@ -10,6 +10,7 @@ import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.model.MonthForSum
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.Data
+import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.service.repository.expense.ExpenseRepository
 import com.development.pega.financialcontrol.service.repository.income.IncomeRepository
 import com.development.pega.financialcontrol.views.ChartFragment
@@ -23,6 +24,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     private val months = mContext.resources.getStringArray(R.array.months_array)
     private val incomeRepository = IncomeRepository(mContext)
     private val expenseRepository = ExpenseRepository(mContext)
+    private val mPrefs = AppControl.getAppPrefs(mContext)
 
     private lateinit var balanceLine: LineDataSet
     private lateinit var incomesLine: LineDataSet
@@ -148,19 +150,9 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun setColorInLines() {
-        var balanceColor: Int
-        var incomeColor: Int
-        var expenseColor: Int
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            balanceColor = mContext.getColor(R.color.colorPrimary)
-            incomeColor = mContext.getColor(R.color.colorIncomes)
-            expenseColor = mContext.getColor(R.color.colorExpenses)
-        }else {
-            balanceColor = mContext.resources.getColor(R.color.colorPrimary)
-            incomeColor = mContext.resources.getColor(R.color.colorIncomes)
-            expenseColor = mContext.resources.getColor(R.color.colorExpenses)
-        }
+        var balanceColor = mPrefs.balanceColor
+        var incomeColor = mPrefs.incomesColor
+        var expenseColor = mPrefs.expensesColor
 
         val balanceCircleColor = arrayListOf(balanceColor)
         val incomeCircleColor = arrayListOf(incomeColor)
@@ -189,19 +181,10 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun createMonthExpensesTypePieChartData(): PieData {
         val typeNames = mContext.resources.getStringArray(R.array.spinner_type_options)
-        var notRequiredColor: Int
-        var requiredColor: Int
-        var investmentColor: Int
+        var notRequiredColor = mPrefs.notRequiredColor
+        var requiredColor = mPrefs.requiredColor
+        var investmentColor = mPrefs.investmentColor
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            notRequiredColor = mContext.getColor(R.color.not_required_color)
-            requiredColor = mContext.getColor(R.color.required_color)
-            investmentColor = mContext.getColor(R.color.investment_color)
-        }else {
-            notRequiredColor = mContext.resources.getColor(R.color.not_required_color)
-            requiredColor = mContext.resources.getColor(R.color.required_color)
-            investmentColor = mContext.resources.getColor(R.color.investment_color)
-        }
         val colors = arrayListOf(notRequiredColor, requiredColor, investmentColor)
 
         //0 = not required; 1 = required; 2 = investment
@@ -257,20 +240,16 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         val typeNames = mContext.resources.getStringArray(R.array.spinner_recurrence_options)
 
         var noneColor: Int
-        var installmentColor: Int
-        var fixedMonthlyColor: Int
+        var installmentExpensesColor = mPrefs.expensesInstallmentColor
+        var fixedMonthlyExpensesColor = mPrefs.expensesFixedMonthlyColor
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             noneColor = mContext.getColor(R.color.expense_none_color)
-            installmentColor = mContext.getColor(R.color.expense_installment_color)
-            fixedMonthlyColor = mContext.getColor(R.color.expense_fixed_monthly_color)
         }else {
             noneColor = mContext.resources.getColor(R.color.expense_none_color)
-            installmentColor = mContext.resources.getColor(R.color.expense_installment_color)
-            fixedMonthlyColor = mContext.resources.getColor(R.color.expense_fixed_monthly_color)
         }
 
-        val colors = arrayListOf(noneColor, installmentColor, fixedMonthlyColor)
+        val colors = arrayListOf(noneColor, installmentExpensesColor, fixedMonthlyExpensesColor)
 
         //0 = none; 1 = installment; 2 = fixedMonthly
         val expensesSeparateRecurrence = getExpensesRecurrenceInYearAndMonth()
@@ -324,20 +303,16 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         val typeNames = mContext.resources.getStringArray(R.array.spinner_recurrence_options)
 
         var noneColor: Int
-        var installmentColor: Int
-        var fixedMonthlyColor: Int
+        var installmentIncomesColor = mPrefs.incomesInstallmentColor
+        var fixedMonthlyIncomesColor = mPrefs.incomesFixedMonthlyColor
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             noneColor = mContext.getColor(R.color.income_none_color)
-            installmentColor = mContext.getColor(R.color.income_installment_color)
-            fixedMonthlyColor = mContext.getColor(R.color.income_fixed_monthly_color)
         }else {
             noneColor = mContext.resources.getColor(R.color.income_none_color)
-            installmentColor = mContext.resources.getColor(R.color.income_installment_color)
-            fixedMonthlyColor = mContext.resources.getColor(R.color.income_fixed_monthly_color)
         }
 
-        val colors = arrayListOf(noneColor, installmentColor, fixedMonthlyColor)
+        val colors = arrayListOf(noneColor, installmentIncomesColor, fixedMonthlyIncomesColor)
 
         //0 = not required; 1 = required; 2 = investment
         val incomesSeparateType = getIncomesRecurrenceInYearAndMonth()
