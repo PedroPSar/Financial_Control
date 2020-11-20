@@ -13,19 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_more_vert_24"
+        android:paddingVertical="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/tv_lbl_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lbl_name"
-        android:textColor="@color/colorRecyclerListLabel"
-        android:textSize="@dimen/lbl_main_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_txt_name"
@@ -34,7 +24,7 @@
         android:layout_marginStart="8dp"
         android:text="Compras"
         android:textSize="@dimen/lbl_main_size"
-        app:layout_constraintStart_toEndOf="@id/tv_lbl_name"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -48,20 +38,12 @@
         app:layout_constraintHorizontal_weight="1">
 
         <TextView
-            android:id="@+id/tv_lbl_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lbl_date"
-            android:textColor="@color/colorRecyclerListLabel"
-            android:visibility="gone"/>
-
-        <TextView
             android:id="@+id/tv_txt_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="23/06/2019"
-            app:layout_constraintStart_toEndOf="@id/tv_lbl_date"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_txt_name" />
 
     </LinearLayout>
@@ -75,15 +57,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_txt_name"
         app:layout_constraintHorizontal_weight="1">
-
-        <TextView
-            android:id="@+id/tv_lbl_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/lbl_value"
-            android:textColor="@color/colorRecyclerListLabel"
-            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_txt_value"

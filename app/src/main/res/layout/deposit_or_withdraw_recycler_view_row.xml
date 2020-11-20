@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_more_vert_24"
+        android:paddingVertical="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -22,15 +23,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_weight="1">
-
-        <TextView
-            android:id="@+id/tv_lbl_deposit_withdraw_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lbl_value"
-            android:textSize="@dimen/lbl_main_size"
-            android:textColor="@color/colorRecyclerListLabel"
-            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_txt_deposit_withdraw_value"
@@ -51,15 +43,6 @@
         app:layout_constraintHorizontal_weight="1">
 
         <TextView
-            android:id="@+id/tv_lbl_deposit_withdraw_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lbl_date"
-            android:textSize="@dimen/lbl_main_size"
-            android:textColor="@color/colorRecyclerListLabel"
-            android:visibility="gone"/>
-
-        <TextView
             android:id="@+id/tv_txt_deposit_withdraw_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,23 +54,11 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_lbl_deposit_withdraw_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/lbl_description"
-        android:textColor="@color/colorRecyclerListLabel"
-        android:textSize="@dimen/lbl_main_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_value"
-        android:visibility="gone"/>
-
-    <TextView
         android:id="@+id/tv_txt_deposit_withdraw_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="bla bla bla bla"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_lbl_deposit_withdraw_description"/>
+        app:layout_constraintTop_toBottomOf="@id/ll_date"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,12 +80,24 @@
     <string name="email">pegadevelopmententerprise@gmail.com</string>
     <string name="currency_explication_text">Set the currency you want to use.</string>
     <string name="currency_selected_default">$</string>
+    <string name="use_favorite_colors">Use your favorite colors</string>
+
+    <string name="lbl_incomes_color">Incomes</string>
+    <string name="lbl_expenses_color">Expenses</string>
+    <string name="lbl_balance_color">Balance</string>
+    <string name="lbl_not_required_color">Not required</string>
+    <string name="lbl_required_color">Required</string>
+    <string name="investments_color">Investments</string>
+    <string name="lbl_installment_expenses_color">Installment expenses</string>
+    <string name="lbl_fixed_monthly_expenses_color">Fixed monthly expenses</string>
+    <string name="lbl_installment_incomes_color">Installment incomes</string>
+    <string name="lbl_fixed_monthly_incomes_color">Fixed monthly incomes</string>
 
     <!-- Recycler View Item Menu -->
     <string name="edit_item_title_menu">Edit</string>
     <string name="delete_item_title_menu">Delete</string>
 
-    <!-- Confirm delte dialog -->
+    <!-- Confirm delete dialog -->
     <string name="confirm_delete_income_dialog_message">Are you sure you want to delete this income?</string>
     <string name="confirm_delete_income_dialog_positive_button">Delete</string>
     <string name="confirm_delete_income_dialog_neutral_button">Cancel</string>
@@ -93,32 +105,10 @@
     <string name="confirm_delete_expense_dialog_message">Are you sure you want to delete this expense?</string>
     <string name="confirm_delete_savings_dialog_message">Are you sure you want to delete?</string>
 
-    <string-array name="currencies">
-        <item>$</item>
-        <item>€</item>
-        <item>₩</item>
-        <item>¥</item>
-        <item>£</item>
-        <item>R$</item>
-        <item>kr</item>
-        <item>Kč</item>
-        <item>HK$</item>
-        <item>Mex$</item>
-        <item>Bs.</item>
-        <item>$</item>
-        <item>₵</item>
-        <item>₣</item>
-        <item>Q</item>
-        <item>L</item>
-        <item>Kn</item>
-        <item>G</item>
-        <item>Ft</item>
-        <item>Rp</item>
-        <item>₪</item>
-        <item>₹</item>
-        <item>ع.</item>
-        <item>﷼</item>
-    </string-array>
+    <!-- Color Dialog -->
+    <string name="color_dialog_title">Select Color</string>
+    <string name="color_dialog_positive_button">Select</string>
+    <string name="color_dialog_negative_button">Cancel</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>

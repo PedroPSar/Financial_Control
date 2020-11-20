@@ -13,4 +13,6 @@
     <dimen name="lbl_dialog_size">24sp</dimen>
     <dimen name="line_height">2dp</dimen>
     <dimen name="label_options_text_size">18sp</dimen>
+    <dimen name="color_view_width">80dp</dimen>
+    <dimen name="color_view_height">24dp</dimen>
 </resources>
