@@ -113,6 +113,7 @@
 
     <!-- Details Dialog -->
     <string name="details_dialog_title">Details</string>
+    <string name="txt_ok">Ok</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>

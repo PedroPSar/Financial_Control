@@ -1,17 +1,17 @@
 package com.development.pega.financialcontrol.viewholder
 
-import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
+import android.graphics.Color
 import android.view.*
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.listener.IncomeItemListener
 import com.development.pega.financialcontrol.model.Income
+import com.development.pega.financialcontrol.service.Constants
 import kotlinx.android.synthetic.main.income_recycler_view_row.view.*
 import java.util.*
 
@@ -20,6 +20,11 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
     lateinit var btnMenu: ImageView
     private lateinit var mIncome: Income
     private val mContext = itemView.context
+    private val mRecurrences = mContext.resources.getStringArray(R.array.spinner_recurrence_options)
+    private var mIncomeRecurrence = ""
+    private var txtDate = ""
+    private var txtValue = ""
+    private var txtName = ""
 
     fun bind(income: Income) {
         mIncome = income
@@ -27,9 +32,10 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
         val txtDay = putZeroIfNumberLessTen(day)
         var txtMonth = putZeroIfNumberLessTen(income.month)
 
-        val txtDate = "$txtDay/$txtMonth/${income.year}"
-        val txtValue = AppControl.Text.convertFloatToCurrencyText(income.value)
-        val txtName = income.name
+        txtDate = "$txtDay/$txtMonth/${income.year}"
+        txtValue = AppControl.Text.convertFloatToCurrencyText(income.value)
+        txtName = income.name
+        mIncomeRecurrence = getIncomeRecurrence(mIncome.recurrence)
 
         btnMenu = itemView.findViewById(R.id.img_btn_item_menu)
         itemView.findViewById<TextView>(R.id.tv_txt_name).text = txtName
@@ -103,10 +109,43 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
         builder.setTitle(mContext.getString(R.string.details_dialog_title))
         val view = LayoutInflater.from(mContext).inflate(R.layout.dialog_details_incomes, null)
 
+        val tvLblNumber = view.findViewById<TextView>(R.id.tv_lbl_number)
+        val tvTxtNumber = view.findViewById<TextView>(R.id.tv_txt_number)
+        val tvLblEvery = view.findViewById<TextView>(R.id.tv_lbl_every)
+        val tvTxtEvery = view.findViewById<TextView>(R.id.tv_txt_every)
+
+        view.findViewById<TextView>(R.id.tv_txt_name).text = mIncome.name
+        view.findViewById<TextView>(R.id.tv_txt_description).text = mIncome.description
+        view.findViewById<TextView>(R.id.tv_txt_value).text = txtValue
+        view.findViewById<TextView>(R.id.tv_txt_date).text = txtDate
+        view.findViewById<TextView>(R.id.tv_txt_recurrence).text = mIncomeRecurrence
+        tvTxtNumber.text = mIncome.numInstallmentMonths.toString()
+        tvTxtEvery.text = mIncome.payFrequency.toString()
+
+        // Installment == 1
+        if(mIncomeRecurrence == mRecurrences[1]) {
+            tvLblNumber.visibility = View.VISIBLE
+            tvTxtNumber.visibility = View.VISIBLE
+            tvLblEvery.visibility = View.VISIBLE
+            tvTxtEvery.visibility = View.VISIBLE
+        }
+
         builder.setView(view)
-        builder.setPositiveButton("Ok"
-        ) { dialog, which -> dialog?.dismiss() }
-        builder.show()
+        builder.setPositiveButton(mContext.getString(R.string.txt_ok)) { dialog, which -> dialog?.dismiss() }
+
+        val detailsDialog = builder.create()
+        detailsDialog.setOnShowListener { detailsDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK) }
+
+        detailsDialog.show()
+    }
+
+    private fun getIncomeRecurrence(recurrence: Int): String {
+        return when(recurrence) {
+            Constants.RECURRENCE.NONE -> mRecurrences[0]
+            Constants.RECURRENCE.INSTALLMENT -> mRecurrences[1]
+            Constants.RECURRENCE.FIXED_MONTHLY -> mRecurrences[2]
+            else -> mRecurrences[0]
+        }
     }
 
 }
