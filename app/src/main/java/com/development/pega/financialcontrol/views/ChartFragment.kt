@@ -61,12 +61,7 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onResume() {
         super.onResume()
-
-        viewModel.setSelectedMonth()
-        viewModel.setDataInYearMonthsLineChart()
-        viewModel.setExpensesTypePieChartData()
-        viewModel.setExpensesRecurrencePieChartData()
-        viewModel.setIncomesRecurrencePieChartData()
+        updateChartInfo()
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -181,6 +176,14 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mMonthIncomesRecurrenceChart.description.isEnabled = false
         mMonthIncomesRecurrenceChart.setTouchEnabled(false)
         mMonthIncomesRecurrenceChart.setDrawEntryLabels(false)
+    }
+
+    fun updateChartInfo() {
+        viewModel.setSelectedMonth()
+        viewModel.setDataInYearMonthsLineChart()
+        viewModel.setExpensesTypePieChartData()
+        viewModel.setExpensesRecurrencePieChartData()
+        viewModel.setIncomesRecurrencePieChartData()
     }
 
     class MonthsNamesFormatter(context: Context?) : ValueFormatter() {

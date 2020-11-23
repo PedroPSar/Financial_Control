@@ -92,6 +92,7 @@
     <string name="lbl_fixed_monthly_expenses_color">Fixed monthly expenses</string>
     <string name="lbl_installment_incomes_color">Installment incomes</string>
     <string name="lbl_fixed_monthly_incomes_color">Fixed monthly incomes</string>
+    <string name="btn_default_colors">Default colors</string>
 
     <!-- Recycler View Item Menu -->
     <string name="edit_item_title_menu">Edit</string>
@@ -114,6 +115,10 @@
     <!-- Details Dialog -->
     <string name="details_dialog_title">Details</string>
     <string name="txt_ok">Ok</string>
+
+    <!-- Default Colors Dialog -->
+    <string name="yes">Yes</string>
+    <string name="confirm_set_default_colors">Are you sure you want to set the default colors?</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>

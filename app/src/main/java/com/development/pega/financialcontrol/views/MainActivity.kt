@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
@@ -13,11 +14,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.listener.MainListener
+import com.development.pega.financialcontrol.service.Data
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
-        PopupMenu.OnMenuItemClickListener{
+        PopupMenu.OnMenuItemClickListener, View.OnClickListener{
 
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
@@ -56,6 +59,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         instantiateFragments()
     }
 
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.image_btn_left_arrow -> btnLeftArrowYearClick()
+            R.id.image_btn_right_arrow -> btnRightArrowYearClick()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
@@ -78,7 +88,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val transaction = supportFragmentManager.beginTransaction()
+            val transaction = supportFragmentManager.beginTransaction()
 
             when(item.itemId) {
             R.id.nav_savings -> {
@@ -115,11 +125,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         homeFragment = HomeFragment.newInstance(mMainListener)
         savingsFragment = SavingsFragment()
         chartFragment = ChartFragment()
+
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.add(R.id.nav_host_fragment, chartFragment)
+        transaction.add(R.id.nav_host_fragment, homeFragment).commit()
     }
 
     private fun setOnClicks() {
         popupMenu.setOnMenuItemClickListener(this)
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        image_btn_left_arrow.setOnClickListener(this)
+        image_btn_right_arrow.setOnClickListener(this)
     }
 
     private fun setNavController() {
@@ -146,6 +162,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val c = Calendar.getInstance()
         tvYear = toolbar.findViewById(R.id.tv_year)
         tvYear.text = c.get(Calendar.YEAR).toString()
+    }
+
+    private fun btnLeftArrowYearClick() {
+        Data.selectedYear--
+        tvYear.text = Data.selectedYear.toString()
+        homeFragment.updateHomeInfo()
+        chartFragment.updateChartInfo()
+    }
+
+    private fun btnRightArrowYearClick() {
+        Data.selectedYear++
+        tvYear.text = Data.selectedYear.toString()
+        homeFragment.updateHomeInfo()
+        chartFragment.updateChartInfo()
     }
 
 }

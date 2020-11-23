@@ -62,14 +62,12 @@ class HomeFragment() : Fragment(), View.OnClickListener{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val application = requireActivity().application
-        mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
+        mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         mViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         tvLblMonth = root.findViewById(R.id.lbl_month_name)
         tvIncomes = root.findViewById(R.id.txt_incomes)
         tvExpenses = root.findViewById(R.id.txt_expenses)
         mViewModel.setCurrentDate()
-
         mPrefs = AppControl.getAppPrefs(requireContext())
 
         mIncomesItemListener = object : IncomeItemListener {
@@ -90,7 +88,7 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
         }
 
-        mExpensesItemListener = object: ExpenseItemListener {
+        mExpensesItemListener = object : ExpenseItemListener {
             override fun onEdit(id: Int) {
                 val intent = Intent(requireContext(), AddExpenseActivity::class.java)
                 val bundle = Bundle()
@@ -219,6 +217,10 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         arrow_expenses.setColorFilter(mPrefs.expensesColor)
         txt_expenses.setTextColor(mPrefs.expensesColor)
         label_expense.setTextColor(mPrefs.expensesColor)
+    }
+
+    fun updateHomeInfo() {
+        mViewModel.updateInfo()
     }
 
 }

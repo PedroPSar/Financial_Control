@@ -135,7 +135,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun updateInfo() {
+    fun updateInfo() {
         setIncomesOfMonth()
         setExpensesOfMonth()
         setIncomesInRecyclerView()

@@ -59,13 +59,18 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
                 true
             }
             R.id.delete_item -> {
-                AlertDialog.Builder(mContext)
+                val builder = AlertDialog.Builder(mContext)
                     .setMessage(R.string.confirm_delete_income_dialog_message)
                     .setPositiveButton(R.string.confirm_delete_income_dialog_positive_button) { dialog, which ->
                         mItemListener.onDelete(mIncome)
                     }
                     .setNeutralButton(R.string.confirm_delete_income_dialog_neutral_button, null)
-                    .show()
+
+                val deleteDialog = builder.create()
+                deleteDialog.setOnShowListener { deleteDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK)
+                                                 deleteDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.BLACK) }
+
+                deleteDialog.show()
                 true
             }
             R.id.details_item -> {
