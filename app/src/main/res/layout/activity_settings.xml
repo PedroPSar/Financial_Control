@@ -26,7 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/contact_text"
+        app:layout_constraintBottom_toTopOf="@id/tv_about"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -268,13 +268,15 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/contact_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/email"
-        android:textColor="@color/colorPrimary"
+        android:id="@+id/tv_about"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/about_title"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:background="@color/color_labels_black"
         android:textSize="16sp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

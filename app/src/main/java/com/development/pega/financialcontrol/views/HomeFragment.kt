@@ -6,6 +6,7 @@ import android.util.DisplayMetrics
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -123,19 +124,18 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
     override fun onClick(v: View) {
         when(v.id) {
-            R.id.btn_img_before -> {
-                mViewModel.btnBeforeClick()
-            }
+            R.id.btn_img_before -> mViewModel.btnBeforeClick()
 
-            R.id.btn_img_next -> {
-                mViewModel.btnNextClick()
-            }
+            R.id.btn_img_next -> mViewModel.btnNextClick()
+
+            R.id.img_calendar -> showMonthsDialog()
         }
     }
 
     private fun setOnClick() {
         btn_img_before.setOnClickListener(this)
         btn_img_next.setOnClickListener(this)
+        img_calendar.setOnClickListener(this)
     }
 
     private fun observer() {
@@ -221,6 +221,20 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
     fun updateHomeInfo() {
         mViewModel.updateInfo()
+    }
+
+    private fun showMonthsDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.months_dialog_title))
+
+        val months = resources.getStringArray(R.array.months_array)
+        builder.setItems(months) { dialog, which ->
+            AppControl.setSelectedMonthStartingZero(which)
+            updateHomeInfo()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
 }

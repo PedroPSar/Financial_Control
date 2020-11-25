@@ -126,8 +126,18 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         expense.payFrequency = everyMonth
         expense.relationalID = mRelationalID
 
-        if(edit_many_times.text.toString() != "") {
-            expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
+        if(recurrenceOptions == Constants.RECURRENCE.INSTALLMENT) {
+            if(edit_many_times.text.toString() != "") {
+                expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
+
+                if(expense.numInstallmentMonths < 2) {
+                    AppControl.showToast(this, getString(R.string.minimum_number_installments))
+                    return
+                }
+            } else {
+                AppControl.showToast(this, getString(R.string.number_field_is_empty))
+                return
+            }
         }
 
         if(expense.name == getString(R.string.deposit_name)) {

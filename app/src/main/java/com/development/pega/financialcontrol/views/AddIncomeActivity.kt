@@ -124,8 +124,18 @@ class AddIncomeActivity : AppCompatActivity(), View.OnClickListener, AdapterView
         mIncome.payFrequency = everyMonth
         mIncome.relationalID = mRelationalID
 
-        if(edit_many_times.text.toString() != "") {
-            mIncome.numInstallmentMonths = edit_many_times.text.toString().toInt()
+        if(recurrenceOption == Constants.RECURRENCE.INSTALLMENT) {
+            if(edit_many_times.text.toString() != "") {
+                mIncome.numInstallmentMonths = edit_many_times.text.toString().toInt()
+
+                if(mIncome.numInstallmentMonths < 2) {
+                    AppControl.showToast(this, getString(string.minimum_number_installments))
+                    return
+                }
+            } else {
+                AppControl.showToast(this, getString(string.number_field_is_empty))
+                return
+            }
         }
 
         if(mIncome.name == getString(string.withdraw_name)) {

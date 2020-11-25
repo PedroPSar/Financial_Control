@@ -2,14 +2,14 @@ package com.development.pega.financialcontrol.views
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.development.pega.financialcontrol.viewmodels.ChartViewModel
@@ -21,7 +21,7 @@ import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.formatter.ValueFormatter
 
-class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
+class ChartFragment : Fragment(), View.OnClickListener {
 
     companion object {
         fun newInstance() = ChartFragment()
@@ -30,12 +30,11 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var viewModel: ChartViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private lateinit var root: View
-    private lateinit var selectedMonthSpinner: Spinner
     private lateinit var mYearMonthsLineChart: LineChart
     private lateinit var mMonthExpensesTypePieChart: PieChart
     private lateinit var mMonthExpensesRecurrenceChart: PieChart
     private lateinit var mMonthIncomesRecurrenceChart: PieChart
-    private lateinit var monthsSpinner: Spinner
+    private lateinit var mTvSelectedMonth: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         root = inflater.inflate(R.layout.chart_fragment, container, false)
@@ -48,13 +47,14 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
         viewModel = ViewModelProvider(this).get(ChartViewModel::class.java)
 
-        selectedMonthSpinner = root.findViewById(R.id.spinner_selected_month)
+        mTvSelectedMonth = root.findViewById(R.id.tv_selected_month)
         mYearMonthsLineChart = root.findViewById(R.id.line_chart_year_months)
         mMonthExpensesTypePieChart = root.findViewById(R.id.pie_chart_month_expenses_type)
         mMonthExpensesRecurrenceChart = root.findViewById(R.id.pie_chart_month_expenses_recurrence)
         mMonthIncomesRecurrenceChart = root.findViewById(R.id.pie_chart_month_incomes_recurrence)
 
-        setSpinners()
+        mTvSelectedMonth.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+
         observers()
         setListeners()
     }
@@ -64,39 +64,19 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
         updateChartInfo()
     }
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (parent != null) {
-            if(parent.id == R.id.spinner_selected_month) {
-                // Set month position in spinner on selectedMonth
-                AppControl.setSelectedMonthStartingZero(position)
-
-                viewModel.setExpensesTypePieChartData()
-                viewModel.setExpensesRecurrencePieChartData()
-                viewModel.setIncomesRecurrencePieChartData()
-            }
-        }
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
-    }
-
-    private fun setSpinners() {
-        monthsSpinner = root.findViewById(R.id.spinner_selected_month)
-        ArrayAdapter.createFromResource(requireContext(), R.array.months_array, android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            monthsSpinner.adapter = adapter
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.tv_selected_month -> showMonthsDialog()
         }
     }
 
     private fun setListeners() {
-        monthsSpinner.onItemSelectedListener = this
+        mTvSelectedMonth.setOnClickListener(this)
     }
 
     private fun observers() {
         viewModel.selectedMonth.observe(viewLifecycleOwner, Observer {
-            monthsSpinner.setSelection(it)
+            mTvSelectedMonth.text = resources.getStringArray(R.array.months_array)[it]
         })
 
         viewModel.yearMonthsChart.observe(viewLifecycleOwner, Observer {
@@ -184,6 +164,21 @@ class ChartFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel.setExpensesTypePieChartData()
         viewModel.setExpensesRecurrencePieChartData()
         viewModel.setIncomesRecurrencePieChartData()
+
+    }
+
+    private fun showMonthsDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.months_dialog_title))
+
+        val months = resources.getStringArray(R.array.months_array)
+        builder.setItems(months) { dialog, which ->
+            AppControl.setSelectedMonthStartingZero(which)
+            updateChartInfo()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     class MonthsNamesFormatter(context: Context?) : ValueFormatter() {

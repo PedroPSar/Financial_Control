@@ -1,6 +1,7 @@
 package com.development.pega.financialcontrol.views
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -35,7 +36,6 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
 
         setViewModel()
         setToolbarOptions()
-        observers()
         setListeners()
         setColorsInViewColors()
     }
@@ -53,6 +53,7 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
             R.id.view_incomes_installment_color -> showColorDialog(view_incomes_installment_color)
             R.id.view_incomes_fixed_monthly_color -> showColorDialog(view_incomes_fixed_monthly_color)
             R.id.tv_btn_default_colors -> showDefaultColorDialog()
+            R.id.tv_about -> showAboutActivity()
         }
     }
 
@@ -68,10 +69,7 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
         view_incomes_installment_color.setOnClickListener(this)
         view_incomes_fixed_monthly_color.setOnClickListener(this)
         tv_btn_default_colors.setOnClickListener(this)
-    }
-
-    private fun observers() {
-
+        tv_about.setOnClickListener(this)
     }
 
     private fun setViewModel() {
@@ -186,6 +184,10 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             this.resources.getColor(resColor)
         }
+    }
+
+    private fun showAboutActivity() {
+        startActivity(Intent(this, AboutActivity::class.java))
     }
 
 }

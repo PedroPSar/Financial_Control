@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/add_expense_or_revenue"
-        android:icon="@drawable/ic_baseline_add_box_24"
+        android:icon="@drawable/ic_baseline_add_24"
         android:title="@string/action_add_expense_revenue_title"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/open_settings_activity"
-        android:icon="@drawable/ic_baseline_settings_applications_24"
+        android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/settings_activity_menu_title"
         app:showAsAction="ifRoom"/>
 </menu>

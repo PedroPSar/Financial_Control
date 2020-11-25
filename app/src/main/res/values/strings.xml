@@ -46,6 +46,8 @@
     <string name="lbl_number">Number</string>
     <string name="lbl_every">Every</string>
     <string name="lbl_account_balance_year_months_chart">Account Balance</string>
+    <string name="number_field_is_empty">The Number field is empty</string>
+    <string name="minimum_number_installments">The minimum number of installments is 2</string>
 
     <!-- Chart Fragment -->
     <string name="lbl_expenses_type_month_pizza_chart">Expenses type</string>
@@ -119,6 +121,42 @@
     <!-- Default Colors Dialog -->
     <string name="yes">Yes</string>
     <string name="confirm_set_default_colors">Are you sure you want to set the default colors?</string>
+
+    <!-- Months Dialog -->
+    <string name="months_dialog_title">Select a month</string>
+
+    <!-- About Activity -->
+    <string name="developed_by">Developed by</string>
+    <string name="about_title">About</string>
+    <string name="about_version">Version</string>
+    <string name="about_licenses">Licenses</string>
+
+    <!-- Licenses Dialog -->
+    <string name="understand">Understand</string>
+    <string name="lbl_mp_android_chart">MPAndroidChart</string>
+    <string name="lbl_currency_edittext">Currency-Edittext</string>
+    <string name="lbl_color_picker_view">ColorPickerView</string>
+
+    <string name="copyright_mp_android_chart" translatable="false">Copyright 2020 Philipp Jahoda\n
+        Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0\nUnless required by applicable law or agreed
+        to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+        ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the
+        License.</string>
+
+    <string name="copyright_corrency_edittext" translatable="false">Copyright [2019] [AbhinayMe]\n
+        Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0\nUnless required by applicable law or agreed
+        to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+        ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the
+        License.</string>
+
+    <string name="copyright_color_picker_view" translatable="false">Copyright 2017 skydoves (Jaewoong Eum)\n
+        Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0\nUnless required by applicable law or agreed
+        to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+        ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the
+        License.</string>
 
     <string-array name="spinner_recurrence_options">
         <item>None</item>
