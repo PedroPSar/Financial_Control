@@ -195,7 +195,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         expensesType.add(PieEntry(expensesSeparateType[1], typeNames[1]))
         expensesType.add(PieEntry(expensesSeparateType[2], typeNames[2]))
 
-        val pieDataSet = PieDataSet(expensesType, mContext.getString(R.string.expenses_type_pie_chart_name))
+        val pieDataSet = PieDataSet(expensesType, "")
         pieDataSet.colors = colors
         pieDataSet.valueTextColor = Color.BLACK
         pieDataSet.valueTextSize = Constants.PIE.PIE_VALUE_TEXT_SIZE
@@ -259,7 +259,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         expensesRecurrence.add(PieEntry(expensesSeparateRecurrence[1], typeNames[1]))
         expensesRecurrence.add(PieEntry(expensesSeparateRecurrence[2], typeNames[2]))
 
-        val pieDataSet = PieDataSet(expensesRecurrence, mContext.getString(R.string.lbl_expenses_recurrence_month_pizza_chart))
+        val pieDataSet = PieDataSet(expensesRecurrence, "")
         pieDataSet.colors = colors
         pieDataSet.valueTextColor = Color.BLACK
         pieDataSet.valueTextSize = Constants.PIE.PIE_VALUE_TEXT_SIZE
@@ -322,7 +322,7 @@ class ChartViewModel(application: Application) : AndroidViewModel(application) {
         incomesRecurrence.add(PieEntry(incomesSeparateType[1], typeNames[1]))
         incomesRecurrence.add(PieEntry(incomesSeparateType[2], typeNames[2]))
 
-        val pieDataSet = PieDataSet(incomesRecurrence, mContext.getString(R.string.lbl_expenses_recurrence_month_pizza_chart))
+        val pieDataSet = PieDataSet(incomesRecurrence, "")
         pieDataSet.colors = colors
         pieDataSet.valueTextColor = Color.BLACK
         pieDataSet.valueTextSize = Constants.PIE.PIE_VALUE_TEXT_SIZE

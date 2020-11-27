@@ -142,6 +142,7 @@ class ChartFragment : Fragment(), View.OnClickListener {
         mMonthExpensesTypePieChart.description.isEnabled = false
         mMonthExpensesTypePieChart.setTouchEnabled(false)
         mMonthExpensesTypePieChart.setDrawEntryLabels(false)
+
     }
 
     private fun setStyleInMonthExpensesRecurrencePieChart() {
@@ -149,6 +150,7 @@ class ChartFragment : Fragment(), View.OnClickListener {
         mMonthExpensesRecurrenceChart.description.isEnabled = false
         mMonthExpensesRecurrenceChart.setTouchEnabled(false)
         mMonthExpensesRecurrenceChart.setDrawEntryLabels(false)
+
     }
 
     private fun setStyleInMonthIncomesRecurrencePieChart() {
@@ -156,6 +158,7 @@ class ChartFragment : Fragment(), View.OnClickListener {
         mMonthIncomesRecurrenceChart.description.isEnabled = false
         mMonthIncomesRecurrenceChart.setTouchEnabled(false)
         mMonthIncomesRecurrenceChart.setDrawEntryLabels(false)
+
     }
 
     fun updateChartInfo() {

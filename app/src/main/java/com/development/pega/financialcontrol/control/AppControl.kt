@@ -129,10 +129,6 @@ abstract class AppControl {
             Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
         }
 
-        fun getCurrencyAbbreviation(context: Context): String {
-            return getAppPrefs(context).currencySelectedValue
-        }
-
         fun orderIncomeList(incomeList: List<Income>): List<Income> {
             return incomeList.sortedBy { it.day }
         }

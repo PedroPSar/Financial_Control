@@ -46,7 +46,7 @@ class AddIncomeViewModel(application: Application): AndroidViewModel(application
         val mMonth = c.get(Calendar.MONTH)
         val mYear = c.get(Calendar.YEAR)
 
-        mDatePickerDialog.value = DatePickerDialog(context, { view, year, month, dayOfMonth ->
+        mDatePickerDialog.value = DatePickerDialog(context, { _, year, month, dayOfMonth ->
             val sdf = SimpleDateFormat(Constants.PATTERNS.DATE_PATTERN)
             c.set(year, month, dayOfMonth)
             mCurrentTime.value = sdf.format(c.time)

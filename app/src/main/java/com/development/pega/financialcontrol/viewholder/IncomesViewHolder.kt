@@ -61,7 +61,7 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
             R.id.delete_item -> {
                 val builder = AlertDialog.Builder(mContext)
                     .setMessage(R.string.confirm_delete_income_dialog_message)
-                    .setPositiveButton(R.string.confirm_delete_income_dialog_positive_button) { dialog, which ->
+                    .setPositiveButton(R.string.confirm_delete_income_dialog_positive_button) { _, _ ->
                         mItemListener.onDelete(mIncome)
                     }
                     .setNeutralButton(R.string.confirm_delete_income_dialog_neutral_button, null)
@@ -124,11 +124,22 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
         view.findViewById<TextView>(R.id.tv_txt_value).text = txtValue
         view.findViewById<TextView>(R.id.tv_txt_date).text = txtDate
         view.findViewById<TextView>(R.id.tv_txt_recurrence).text = mIncomeRecurrence
-        tvTxtNumber.text = mIncome.numInstallmentMonths.toString()
-        tvTxtEvery.text = mIncome.payFrequency.toString()
 
         // Installment == 1
         if(mIncomeRecurrence == mRecurrences[1]) {
+
+            tvTxtNumber.text = mIncome.numInstallmentMonths.toString()
+
+            val txtMonth = if(mIncome.payFrequency > 1) {
+                mContext.getString(R.string.months)
+            } else {
+                mContext.getString(R.string.month)
+            }
+
+            val txt = "${mIncome.payFrequency} $txtMonth"
+
+            tvTxtEvery.text = txt
+
             tvLblNumber.visibility = View.VISIBLE
             tvTxtNumber.visibility = View.VISIBLE
             tvLblEvery.visibility = View.VISIBLE
@@ -136,7 +147,7 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
         }
 
         builder.setView(view)
-        builder.setPositiveButton(mContext.getString(R.string.txt_ok)) { dialog, which -> dialog?.dismiss() }
+        builder.setPositiveButton(mContext.getString(R.string.txt_ok)) { dialog, _ -> dialog?.dismiss() }
 
         val detailsDialog = builder.create()
         detailsDialog.setOnShowListener { detailsDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK) }

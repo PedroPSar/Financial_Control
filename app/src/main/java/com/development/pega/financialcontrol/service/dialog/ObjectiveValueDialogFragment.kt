@@ -25,11 +25,11 @@ class ObjectiveValueDialogFragment: DialogFragment() {
             val editValue = view.findViewById<EditText>(R.id.edit_objective_value)
 
             builder.setView(view)
-                .setPositiveButton(R.string.btn_confirm, DialogInterface.OnClickListener { dialog, id ->
+                .setPositiveButton(R.string.btn_confirm, DialogInterface.OnClickListener { _, _ ->
                     listener.onObjValueDialogPositiveClick(this, editValue.text.toString())
                 })
 
-                .setNegativeButton(R.string.btn_cancel, DialogInterface.OnClickListener { dialog, id ->
+                .setNegativeButton(R.string.btn_cancel, DialogInterface.OnClickListener { _, _ ->
                     getDialog()?.cancel()
                 })
 

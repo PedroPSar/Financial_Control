@@ -56,7 +56,7 @@ class DepositOrWithdrawViewHolder(itemView: View, private val mItemListener: Sav
             R.id.delete_item -> {
                 val builder = AlertDialog.Builder(itemView.context)
                     .setMessage(R.string.confirm_delete_savings_dialog_message)
-                    .setPositiveButton(R.string.confirm_delete_income_dialog_positive_button) { dialog, which ->
+                    .setPositiveButton(R.string.confirm_delete_income_dialog_positive_button) { _, _ ->
                         mItemListener.onDelete(mSavingsMoney)
                     }
                     .setNeutralButton(R.string.confirm_delete_income_dialog_neutral_button, null)
@@ -100,7 +100,7 @@ class DepositOrWithdrawViewHolder(itemView: View, private val mItemListener: Sav
         view.findViewById<TextView>(R.id.tv_txt_description).text = description
 
         builder.setView(view)
-        builder.setPositiveButton(mContext.getString(R.string.txt_ok)) { dialog, which -> dialog?.dismiss() }
+        builder.setPositiveButton(mContext.getString(R.string.txt_ok)) { dialog, _ -> dialog?.dismiss() }
 
         val detailsDialog = builder.create()
         detailsDialog.setOnShowListener { detailsDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(

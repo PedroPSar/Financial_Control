@@ -215,11 +215,9 @@ class SavingsFragment : Fragment(), View.OnClickListener{
     private fun setColors() {
         lbl_deposits.setTextColor(mPrefs.incomesColor)
         btn_deposit.setColorFilter(mPrefs.incomesColor)
-        ll_total_deposits.setBackgroundColor(mPrefs.incomesColor)
 
         lbl_withdrawals.setTextColor(mPrefs.expensesColor)
         btn_withdraw.setColorFilter(mPrefs.expensesColor)
-        ll_total_withdrawals.setBackgroundColor(mPrefs.expensesColor)
     }
 
 }

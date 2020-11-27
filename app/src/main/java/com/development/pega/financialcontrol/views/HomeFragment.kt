@@ -128,14 +128,14 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
             R.id.btn_img_next -> mViewModel.btnNextClick()
 
-            R.id.img_calendar -> showMonthsDialog()
+            R.id.ll_lbl_months -> showMonthsDialog()
         }
     }
 
     private fun setOnClick() {
         btn_img_before.setOnClickListener(this)
         btn_img_next.setOnClickListener(this)
-        img_calendar.setOnClickListener(this)
+        ll_lbl_months.setOnClickListener(this)
     }
 
     private fun observer() {

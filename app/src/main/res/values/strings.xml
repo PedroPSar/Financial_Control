@@ -4,7 +4,7 @@
     <string name="settings_activity_menu_title">Settings</string>
     <string name="savings_page_title">Savings</string>
     <string name="home_page_title">Home</string>
-    <string name="graphics_page_title">Graphics</string>
+    <string name="graphics_page_title">Charts</string>
     <string name="lbl_expense">Expenses</string>
     <string name="lbl_incomes">Incomes</string>
     <string name="lbl_account_balance">Account balance</string>
@@ -20,7 +20,7 @@
 
     <!-- Shared Preferences -->
     <string name="objective_value_default">00.00</string>
-    <string name="objective_description_default">Nothing</string>
+    <string name="objective_description_default">None</string>
 
     <!-- Savings Fragment -->
     <string name="lbl_balance">Balance</string>
@@ -45,22 +45,22 @@
     <string name="edit_many_times_hint">2</string>
     <string name="lbl_number">Number</string>
     <string name="lbl_every">Every</string>
-    <string name="lbl_account_balance_year_months_chart">Account Balance</string>
+    <string name="lbl_account_balance_year_months_chart">Monthly balance</string>
     <string name="number_field_is_empty">The Number field is empty</string>
     <string name="minimum_number_installments">The minimum number of installments is 2</string>
 
     <!-- Chart Fragment -->
     <string name="lbl_expenses_type_month_pizza_chart">Expenses type</string>
     <string name="expenses_type_pie_chart_name">Expenses type</string>
-    <string name="lbl_expenses_recurrence_month_pizza_chart">Expenses recurrence</string>
-    <string name="lbl_incomes_recurrence_month_pizza_chart">Incomes recurrence</string>
+    <string name="lbl_expenses_recurrence_month_pizza_chart">Recurrence of expenses</string>
+    <string name="lbl_incomes_recurrence_month_pizza_chart">Recurrence of incomes</string>
 
     <!-- Savings Fragment -->
     <string name="lbl_savings">Savings</string>
     <string name="btn_deposit_txt">Deposit</string>
     <string name="btn_withdraw_txt">Withdraw</string>
     <string name="lbl_objective">Objective</string>
-    <string name="lbl_objective_description">Objective description</string>
+    <string name="lbl_objective_description">Description of the objective</string>
 
     <!-- DepositOrWithdraw Activity -->
     <string name="deposit_name">Savings Deposit</string>
@@ -68,7 +68,7 @@
 
     <!-- Dialog Objective Value -->
     <string name="lbl_dialog_objective_value">Enter your objective value</string>
-    <string name="dialog_value_hint">1200,00</string>
+    <string name="dialog_value_hint">1200.00</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_confirm">Confirm</string>
 
@@ -78,17 +78,14 @@
 
     <!-- Settings Activity -->
     <string name="settings_title">Settings</string>
-    <string name="currency_txt">Currency</string>
-    <string name="email">pegadevelopmententerprise@gmail.com</string>
-    <string name="currency_explication_text">Set the currency you want to use.</string>
-    <string name="currency_selected_default">$</string>
+    <string name="email" translatable="false">pegadevelopmententerprise@gmail.com</string>
     <string name="use_favorite_colors">Use your favorite colors</string>
 
     <string name="lbl_incomes_color">Incomes</string>
     <string name="lbl_expenses_color">Expenses</string>
     <string name="lbl_balance_color">Balance</string>
-    <string name="lbl_not_required_color">Not required</string>
-    <string name="lbl_required_color">Required</string>
+    <string name="lbl_not_required_color">Not necessary</string>
+    <string name="lbl_required_color">Necessary</string>
     <string name="investments_color">Investments</string>
     <string name="lbl_installment_expenses_color">Installment expenses</string>
     <string name="lbl_fixed_monthly_expenses_color">Fixed monthly expenses</string>
@@ -117,6 +114,8 @@
     <!-- Details Dialog -->
     <string name="details_dialog_title">Details</string>
     <string name="txt_ok">Ok</string>
+    <string name="month">month</string>
+    <string name="months">months</string>
 
     <!-- Default Colors Dialog -->
     <string name="yes">Yes</string>
@@ -133,9 +132,9 @@
 
     <!-- Licenses Dialog -->
     <string name="understand">Understand</string>
-    <string name="lbl_mp_android_chart">MPAndroidChart</string>
-    <string name="lbl_currency_edittext">Currency-Edittext</string>
-    <string name="lbl_color_picker_view">ColorPickerView</string>
+    <string name="lbl_mp_android_chart" translatable="false">MPAndroidChart</string>
+    <string name="lbl_currency_edittext" translatable="false">Currency-Edittext</string>
+    <string name="lbl_color_picker_view" translatable="false">ColorPickerView</string>
 
     <string name="copyright_mp_android_chart" translatable="false">Copyright 2020 Philipp Jahoda\n
         Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
@@ -165,8 +164,8 @@
     </string-array>
 
     <string-array name="spinner_type_options">
-        <item>Not Required</item>
-        <item>Required</item>
+        <item>Not necessary</item>
+        <item>Necessary</item>
         <item>Investment</item>
     </string-array>
 

@@ -22,11 +22,11 @@ class ObjectiveDescriptionDialogFragment: DialogFragment() {
             val editDescription = view.findViewById<EditText>(R.id.edit_objective_description)
 
             builder.setView(view)
-                .setPositiveButton(R.string.btn_confirm, DialogInterface.OnClickListener { dialog, id ->
+                .setPositiveButton(R.string.btn_confirm, DialogInterface.OnClickListener { _, _ ->
                     listener.onObjDescriptionDialogPositiveClick(this, editDescription.text.toString())
                 })
 
-                .setNegativeButton(R.string.btn_cancel, DialogInterface.OnClickListener { dialog, id ->
+                .setNegativeButton(R.string.btn_cancel, DialogInterface.OnClickListener { _, _ ->
                     getDialog()?.cancel()
                 })
 

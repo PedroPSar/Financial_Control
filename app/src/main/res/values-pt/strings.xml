@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Controle Financeiro</string>
+    <string name="action_add_expense_revenue_title">Adicionar</string>
+    <string name="settings_activity_menu_title">Configurações</string>
+    <string name="savings_page_title">Poupança</string>
+    <string name="home_page_title">Home</string>
+    <string name="graphics_page_title">Gráficos</string>
+    <string name="lbl_expense">Despesas</string>
+    <string name="lbl_incomes">Receitas</string>
+    <string name="lbl_account_balance">Saldo</string>
+    <string name="menu_main">Home</string>
+    <string name="menu_savings">Poupança</string>
+    <string name="menu_charts">Gráficos</string>
+    <string name="label_total">Total</string>
+    <string name="et_values_hints">0,00</string>
+    <string name="empty_required_field_toast_text">Existe um campo obrigatório vazio</string>
+    <string name="not_enough_money_toast_text">Não há dinheiro suficiente.</string>
+    <string name="objective_value_default">00,00</string>
+    <string name="objective_description_default">Nenhuma</string>
+    <string name="lbl_balance">Saldo</string>
+    <string name="lbl_deposits">Depósitos</string>
+    <string name="lbl_withdrawals">Saques</string>
+    <string name="add_income">Adicionar receita</string>
+    <string name="add_expense">Adicionar despesa</string>
+    <string name="lbl_description">Descrição</string>
+    <string name="lbl_value">Valor</string>
+    <string name="btn_change_date_txt">Alterar data</string>
+    <string name="lbl_date">Data</string>
+    <string name="lbl_recurrence">Recorrência</string>
+    <string name="lbl_type">Tipo</string>
+    <string name="btn_add_txt">Adicionar</string>
+    <string name="save_success_message">Salvo com sucesso</string>
+    <string name="save_failed_message">Erro \"Falha ao salvar\"</string>
+    <string name="lbl_name">Nome</string>
+    <string name="edit_many_times_hint">2</string>
+    <string name="lbl_number">Número</string>
+    <string name="lbl_every">A cada</string>
+    <string name="lbl_account_balance_year_months_chart">Saldo Mensal</string>
+    <string name="number_field_is_empty">O campo Número está vazio</string>
+    <string name="minimum_number_installments">O número mínimo de parcelas é 2</string>
+    <string name="lbl_expenses_type_month_pizza_chart">Tipos de despesas</string>
+    <string name="expenses_type_pie_chart_name">Tipos de despesas</string>
+    <string name="lbl_expenses_recurrence_month_pizza_chart">Recorrência das despesas</string>
+    <string name="lbl_incomes_recurrence_month_pizza_chart">Recorrência das receitas</string>
+    <string name="lbl_savings">Poupança</string>
+    <string name="btn_deposit_txt">Depósito</string>
+    <string name="btn_withdraw_txt">Saque</string>
+    <string name="lbl_objective_description">Descrição do objetivo</string>
+    <string name="lbl_objective">Objetivo</string>
+    <string name="deposit_name">Depósito na poupança</string>
+    <string name="withdraw_name">Saque da poupança</string>
+    <string name="lbl_dialog_objective_value">Insira o valor do seu objetivo</string>
+    <string name="dialog_value_hint">1200,00</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_confirm">Confirmar</string>
+    <string name="lbl_dialog_objective_description">Insira a descrição do seu objetivo</string>
+    <string name="dialog_description_hint">Sua descrição aqui</string>
+    <string name="settings_title">Configurações</string>
+    <string name="use_favorite_colors">Use suas cores favoritas</string>
+    <string name="lbl_incomes_color">Receitas</string>
+    <string name="lbl_expenses_color">Despesas</string>
+    <string name="lbl_balance_color">Saldo</string>
+    <string name="lbl_not_required_color">Não requerido</string>
+    <string name="lbl_required_color">Requerido</string>
+    <string name="investments_color">Investimentos</string>
+    <string name="lbl_installment_expenses_color">Despesas parceladas</string>
+    <string name="lbl_fixed_monthly_expenses_color">Despesas fixas mensais</string>
+    <string name="lbl_installment_incomes_color">Receitas parceladas</string>
+    <string name="lbl_fixed_monthly_incomes_color">Receitas fixas mensais</string>
+    <string name="btn_default_colors">Cores padrões</string>
+    <string name="edit_item_title_menu">Editar</string>
+    <string name="delete_item_title_menu">Deletar</string>
+    <string name="delete_item_details_menu">Detalhes</string>
+    <string name="confirm_delete_income_dialog_message">Tem certeza de que deseja excluir esta receita?</string>
+    <string name="confirm_delete_income_dialog_positive_button">Deletar</string>
+    <string name="confirm_delete_income_dialog_neutral_button">Cancelar</string>
+    <string name="confirm_delete_expense_dialog_message">Tem certeza de que deseja excluir esta despesa?</string>
+    <string name="confirm_delete_savings_dialog_message">Tem certeza de que deseja excluir?</string>
+    <string name="color_dialog_title">Selecione a cor</string>
+    <string name="color_dialog_positive_button">Selecione</string>
+    <string name="color_dialog_negative_button">Cancelar</string>
+    <string name="details_dialog_title">Detalhes</string>
+    <string name="txt_ok">Ok</string>
+    <string name="month">mês</string>
+    <string name="months">meses</string>
+    <string name="yes">Sim</string>
+    <string name="confirm_set_default_colors">Tem certeza de que deseja definir as cores padrões?</string>
+    <string name="months_dialog_title">Selecione um mês</string>
+    <string name="developed_by">Desenvolvido por</string>
+    <string name="about_title">Sobre</string>
+    <string name="about_version">Versão</string>
+    <string name="about_licenses">Licenças</string>
+    <string name="understand">Entendi</string>
+
+    <string-array name="spinner_recurrence_options">
+        <item>Nenhuma</item>
+        <item>Parcelado</item>
+        <item>Fixo mensal</item>
+    </string-array>
+
+    <string-array name="spinner_type_options">
+        <item>Não necessário</item>
+        <item>Necessário</item>
+        <item>Investimento</item>
+    </string-array>
+
+    <string-array name="months_array">
+        <item>Janeiro</item>
+        <item>Fevereiro</item>
+        <item>Março</item>
+        <item>Abril</item>
+        <item>Maio</item>
+        <item>Junho</item>
+        <item>Julho</item>
+        <item>Agosto</item>
+        <item>Setembro</item>
+        <item>Outubro</item>
+        <item>Novembro</item>
+        <item>Dezembro</item>
+    </string-array>
+
+    <string-array name="every_month_array">
+        <item>01 mês</item>
+        <item>02 meses</item>
+        <item>03 meses</item>
+        <item>04 meses</item>
+        <item>05 meses</item>
+        <item>06 meses</item>
+        <item>07 meses</item>
+        <item>08 meses</item>
+        <item>09 meses</item>
+        <item>10 meses</item>
+        <item>11 meses</item>
+        <item>12 meses</item>
+    </string-array>
+
+    <string-array name="month_abbreviations">
+        <item>jan</item>
+        <item>fev</item>
+        <item>mar</item>
+        <item>abr</item>
+        <item>maio</item>
+        <item>jun</item>
+        <item>jul</item>
+        <item>ago</item>
+        <item>set</item>
+        <item>out</item>
+        <item>nov</item>
+        <item>dez</item>
+    </string-array>
+</resources>

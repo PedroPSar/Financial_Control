@@ -42,7 +42,6 @@ class Prefs private constructor(context: Context) {
 
     private val objectiveValueDefault = context.getString(R.string.objective_value_default)
     private val objectiveDescriptionDefault = context.getString(R.string.objective_description_default)
-    private val currencySelectedDefault = context.getString(R.string.currency_selected_default)
     private val relationalIDDefault = 0
 
     private var incomesColorDefault = getResourceColor(R.color.colorIncomes)
@@ -63,10 +62,6 @@ class Prefs private constructor(context: Context) {
     var objectiveDescription: String
         get() = prefs.getString(OBJECTIVE_DESCRIPTION_KEY, objectiveDescriptionDefault).toString()
         set(value) = prefs.edit().putString(OBJECTIVE_DESCRIPTION_KEY, value).apply()
-
-    var currencySelectedValue: String
-        get() = prefs.getString(CURRENCY_SELECTED_KEY, currencySelectedDefault).toString()
-        set(value) = prefs.edit().putString(CURRENCY_SELECTED_KEY, value).apply()
 
     var relationalID: Int
         get() = prefs.getInt(RELATIONAL_ID_KEY, relationalIDDefault)
