@@ -400,6 +400,69 @@ abstract class AppControl {
             }
         }
 
+        fun getIncomeInstallmentNumber(id: Int, context: Context): String{
+            val income = IncomeRepository(context).get(id)
+            val minimumInstallment = 2
+            var incomeYear = income.year
+            var currentInstallmentNumber = 1
+
+            if(income.recurrence == Constants.RECURRENCE.INSTALLMENT) {
+
+                if(income.year == Data.selectedYear && income.month < Data.selectedMonth || income.year < Data.selectedYear) {
+
+                    var month = income.month
+                    for(i in minimumInstallment .. income.numInstallmentMonths) {
+                        month += income.payFrequency
+                        if(month > 12) {
+                            month-= 12
+                            incomeYear++
+                        }
+
+                        if(Data.selectedMonth == month && Data.selectedYear == incomeYear) {
+                            currentInstallmentNumber = i
+                            break
+                        }
+                    }
+
+                }
+
+            }
+            return "$currentInstallmentNumber/${income.numInstallmentMonths}"
+        }
+
+        fun getExpenseInstallmentNumber(id: Int, context: Context): String{
+            val expense = ExpenseRepository(context).get(id)
+
+            val minimumInstallment = 2
+            var expenseYear = expense.year
+            var currentInstallmentNumber = 1
+
+            if(expense.recurrence == Constants.RECURRENCE.INSTALLMENT) {
+
+                if(expense.year == Data.selectedYear && expense.month < Data.selectedMonth || expense.year < Data.selectedYear) {
+
+                    var month = expense.month
+                    for(i in minimumInstallment .. expense.numInstallmentMonths) {
+                        month += expense.payFrequency
+                        if(month > 12) {
+                            month-= 12
+                            expenseYear++
+                        }
+
+                        if(Data.selectedMonth == month && Data.selectedYear == expenseYear) {
+                            currentInstallmentNumber = i
+                            break
+                        }
+                    }
+
+                }
+
+            }
+
+            return "$currentInstallmentNumber/${expense.numInstallmentMonths}"
+        }
+
+
     }
 
 }

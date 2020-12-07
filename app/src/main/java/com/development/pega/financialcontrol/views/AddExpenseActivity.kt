@@ -13,13 +13,10 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
+import com.development.pega.financialcontrol.databinding.ActivityAddExpenseBinding
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.AddExpenseViewModel
-import kotlinx.android.synthetic.main.activity_add_expense.*
-import kotlinx.android.synthetic.main.activity_add_expense.btn_add
-import kotlinx.android.synthetic.main.activity_add_expense.btn_change_date
-import kotlinx.android.synthetic.main.activity_add_expense.edit_many_times
 import java.util.*
 
 class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -40,16 +37,20 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     private var mInitialValue = "0.00"
 
     private lateinit var calendar: Calendar
+    private lateinit var binding: ActivityAddExpenseBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_expense)
+        binding = ActivityAddExpenseBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
         mViewModel = ViewModelProvider(this, mViewModelFactory).get(AddExpenseViewModel::class.java)
 
         mViewModel.getCurrentDate()
 
+        setRequiredMarking()
         observers()
         setSpinners()
         setListeners()
@@ -62,7 +63,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
         } else if(v.id == R.id.btn_add) {
 
-            if(edit_expense_name.text.toString().isEmpty() || edit_expense_value.text.toString().isEmpty()) {
+            if(binding.editExpenseName.text.toString().isEmpty() || binding.editExpenseValue.text.toString().isEmpty()) {
                 AppControl.Validator.makeEmptyRequiredFieldToast(this)
             }else {
                 addExpense()
@@ -83,14 +84,14 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
                 transition.addTarget(R.id.cl_pay_installment_expense)
 
                 TransitionManager.beginDelayedTransition(parent, transition)
-                cl_pay_installment_expense.visibility = View.VISIBLE
+                binding.clPayInstallmentExpense.visibility = View.VISIBLE
             }else {
                 val transition: Transition = Fade()
                 transition.duration = 3000
                 transition.addTarget(R.id.cl_pay_installment_expense)
 
                 TransitionManager.beginDelayedTransition(parent, transition)
-                cl_pay_installment_expense.visibility = View.GONE
+                binding.clPayInstallmentExpense.visibility = View.GONE
             }
         }else if(parent.id == R.id.spinner_expense_every_months) {
             everyMonth = position + 1
@@ -102,12 +103,12 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     }
 
     private fun addExpense() {
-        calendar = AppControl.calendarSetTime(txt_expense_date.text.toString())
+        calendar = AppControl.calendarSetTime(binding.txtExpenseDate.text.toString())
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
 
-        val expenseValue = AppControl.Text.convertCurrencyTextToFloat( edit_expense_value.text.toString() )
+        val expenseValue = AppControl.Text.convertCurrencyTextToFloat( binding.editExpenseValue.text.toString() )
 
         if(mRelationalID == 0) {
             mRelationalID = AppControl.getNewRelationalID(this)
@@ -120,15 +121,16 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         expense.month = month
         expense.year = year
         expense.value = expenseValue
-        expense.name = edit_expense_name.text.toString()
-        expense.description = edit_expense_description.text.toString()
+        expense.name = binding.editExpenseName.text.toString()
+        expense.description = binding.editExpenseDescription.text.toString()
         expense.recurrence = recurrenceOptions
         expense.payFrequency = everyMonth
         expense.relationalID = mRelationalID
 
         if(recurrenceOptions == Constants.RECURRENCE.INSTALLMENT) {
-            if(edit_many_times.text.toString() != "") {
-                expense.numInstallmentMonths = edit_many_times.text.toString().toInt()
+
+            if(binding.editManyTimes.text.toString() != "") {
+                expense.numInstallmentMonths = binding.editManyTimes.text.toString().toInt()
 
                 if(expense.numInstallmentMonths < 2) {
                     AppControl.showToast(this, getString(R.string.minimum_number_installments))
@@ -141,8 +143,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         }
 
         if(expense.name == getString(R.string.deposit_name)) {
-
-            if( AppControl.checkIfHaveEnoughMoneyForDepositEdition(mInitialValue, edit_expense_value.text.toString(), this) ) {
+            if( AppControl.checkIfHaveEnoughMoneyForDepositEdition(mInitialValue, binding.editExpenseValue.text.toString(), this) ) {
                 mViewModel.saveExpense(expense)
             }else {
                 AppControl.Validator.makeNotEnoughMoneyToast(this)
@@ -154,8 +155,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     }
 
     private fun setListeners() {
-        btn_change_date.setOnClickListener(this)
-        btn_add.setOnClickListener(this)
+        binding.btnChangeDate.setOnClickListener(this)
+        binding.btnAdd.setOnClickListener(this)
         spinnerRecurrence.onItemSelectedListener = this
         spinnerType.onItemSelectedListener = this
         spinnerEveryMonth.onItemSelectedListener = this
@@ -186,7 +187,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
     private fun observers() {
         mViewModel.currentTime.observe(this, androidx.lifecycle.Observer {
-            txt_expense_date.text = it
+            binding.txtExpenseDate.text = it
         })
 
         mViewModel.datePickerDialog.observe(this, androidx.lifecycle.Observer {
@@ -207,28 +208,28 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         mViewModel.getExpense.observe(this, Observer {
 
             mRelationalID = it.relationalID
-            edit_expense_name.setText(it.name)
-            spinner_type.setSelection(it.type)
-            edit_expense_description.setText(it.description)
-            edit_expense_value.setText(AppControl.Text.convertValueForCurrencyEditText(it.value))
-            txt_expense_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
-            spinner_expense_recurrence.setSelection(it.recurrence)
+            binding.editExpenseName.setText(it.name)
+            binding.spinnerType.setSelection(it.type)
+            binding.editExpenseDescription.setText(it.description)
+            binding.editExpenseValue.setText(AppControl.Text.convertValueForCurrencyEditText(it.value))
+            binding.txtExpenseDate.text = AppControl.Text.setDateText(it.day, it.month, it.year)
+            binding.spinnerExpenseRecurrence.setSelection(it.recurrence)
 
             getExpenseValueForCheckIfMoneyEnough()
 
             if(it.recurrence == Constants.RECURRENCE.INSTALLMENT) {
-                cl_pay_installment_expense.visibility = View.VISIBLE
-                edit_many_times.setText(it.numInstallmentMonths.toString())
-                spinner_expense_every_months.setSelection(it.payFrequency - 1)
+                binding.clPayInstallmentExpense.visibility = View.VISIBLE
+                binding.editManyTimes.setText(it.numInstallmentMonths.toString())
+                binding.spinnerExpenseEveryMonths.setSelection(it.payFrequency - 1)
             }
 
             if(it.name == getString(R.string.deposit_name)) {
-                lbl_expense_name.visibility = View.GONE
-                edit_expense_name.visibility = View.GONE
-                lbl_type.visibility = View.GONE
-                spinner_type.visibility = View.GONE
-                lbl_recurrence.visibility = View.GONE
-                spinner_expense_recurrence.visibility = View.GONE
+                binding.lblExpenseName.visibility = View.GONE
+                binding.editExpenseName.visibility = View.GONE
+                binding.lblType.visibility = View.GONE
+                binding.spinnerType.visibility = View.GONE
+                binding.lblRecurrence.visibility = View.GONE
+                binding.spinnerExpenseRecurrence.visibility = View.GONE
             }
         })
     }
@@ -242,9 +243,23 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
     }
 
     private fun getExpenseValueForCheckIfMoneyEnough() {
-        if(edit_expense_value.text.toString().isNotEmpty()) {
-            mInitialValue = edit_expense_value.text.toString()
+        if(binding.editExpenseValue.text.toString().isNotEmpty()) {
+            mInitialValue = binding.editExpenseValue.text.toString()
         }
+    }
+
+    private fun setRequiredMarking() {
+        val lblName = "${binding.lblExpenseName.text} *"
+        val lblType = "${binding.lblType.text} *"
+        val lblValue = "${binding.lblValue.text} *"
+        val lblDate = "${binding.lblDate.text} *"
+        val lblRecurrence = "${binding.lblRecurrence.text} *"
+
+        binding.lblExpenseName.text = lblName
+        binding.lblType.text = lblType
+        binding.lblValue.text = lblValue
+        binding.lblDate.text = lblDate
+        binding.lblRecurrence.text = lblRecurrence
     }
 
 }

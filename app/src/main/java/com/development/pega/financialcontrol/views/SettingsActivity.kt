@@ -1,9 +1,7 @@
 package com.development.pega.financialcontrol.views
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
+import com.development.pega.financialcontrol.databinding.ActivitySettingsBinding
 import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.viewmodels.SettingsViewModel
 import com.skydoves.colorpickerview.ColorEnvelope
@@ -19,7 +18,6 @@ import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.flag.BubbleFlag
 import com.skydoves.colorpickerview.flag.FlagMode
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
-import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -27,10 +25,13 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private lateinit var mToolbar: Toolbar
     private lateinit var prefs: Prefs
+    private lateinit var binding : ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         prefs = AppControl.getAppPrefs(this)
 
@@ -42,34 +43,35 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id) {
-            R.id.view_incomes_color -> showColorDialog(view_incomes_color)
-            R.id.view_expenses_color -> showColorDialog(view_expenses_color)
-            R.id.view_balance_color -> showColorDialog(view_balance_color)
-            R.id.view_not_required_color -> showColorDialog(view_not_required_color)
-            R.id.view_required_color -> showColorDialog(view_required_color)
-            R.id.view_investment_color -> showColorDialog(view_investment_color)
-            R.id.view_expenses_installment_color -> showColorDialog(view_expenses_installment_color)
-            R.id.view_expenses_fixed_monthly_color -> showColorDialog(view_expenses_fixed_monthly_color)
-            R.id.view_incomes_installment_color -> showColorDialog(view_incomes_installment_color)
-            R.id.view_incomes_fixed_monthly_color -> showColorDialog(view_incomes_fixed_monthly_color)
+
+            R.id.view_incomes_color -> showColorDialog(binding.viewIncomesColor)
+            R.id.view_expenses_color -> showColorDialog(binding.viewExpensesColor)
+            R.id.view_balance_color -> showColorDialog(binding.viewBalanceColor)
+            R.id.view_not_required_color -> showColorDialog(binding.viewNotRequiredColor)
+            R.id.view_required_color -> showColorDialog(binding.viewRequiredColor)
+            R.id.view_investment_color -> showColorDialog(binding.viewInvestmentColor)
+            R.id.view_expenses_installment_color -> showColorDialog(binding.viewExpensesInstallmentColor)
+            R.id.view_expenses_fixed_monthly_color -> showColorDialog(binding.viewExpensesFixedMonthlyColor)
+            R.id.view_incomes_installment_color -> showColorDialog(binding.viewIncomesInstallmentColor)
+            R.id.view_incomes_fixed_monthly_color -> showColorDialog(binding.viewIncomesFixedMonthlyColor)
             R.id.tv_btn_default_colors -> showDefaultColorDialog()
             R.id.tv_about -> showAboutActivity()
         }
     }
 
     private fun setListeners() {
-        view_incomes_color.setOnClickListener(this)
-        view_expenses_color.setOnClickListener(this)
-        view_balance_color.setOnClickListener(this)
-        view_not_required_color.setOnClickListener(this)
-        view_required_color.setOnClickListener(this)
-        view_investment_color.setOnClickListener(this)
-        view_expenses_installment_color.setOnClickListener(this)
-        view_expenses_fixed_monthly_color.setOnClickListener(this)
-        view_incomes_installment_color.setOnClickListener(this)
-        view_incomes_fixed_monthly_color.setOnClickListener(this)
-        tv_btn_default_colors.setOnClickListener(this)
-        tv_about.setOnClickListener(this)
+        binding.viewIncomesColor.setOnClickListener(this)
+        binding.viewExpensesColor.setOnClickListener(this)
+        binding.viewBalanceColor.setOnClickListener(this)
+        binding.viewNotRequiredColor.setOnClickListener(this)
+        binding.viewRequiredColor.setOnClickListener(this)
+        binding.viewInvestmentColor.setOnClickListener(this)
+        binding.viewExpensesInstallmentColor.setOnClickListener(this)
+        binding.viewExpensesFixedMonthlyColor.setOnClickListener(this)
+        binding.viewIncomesInstallmentColor.setOnClickListener(this)
+        binding.viewIncomesFixedMonthlyColor.setOnClickListener(this)
+        binding.tvBtnDefaultColors.setOnClickListener(this)
+        binding.tvAbout.setOnClickListener(this)
     }
 
     private fun setViewModel() {
@@ -88,7 +90,6 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showColorDialog(view: View) {
-        val colorDrawable = view.background as ColorDrawable
 
         val bubbleFlag = BubbleFlag(this)
         bubbleFlag.flagMode = FlagMode.ALWAYS
@@ -105,12 +106,7 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
             })
-            .setNegativeButton(this.getString(R.string.color_dialog_negative_button), object:
-                DialogInterface.OnClickListener{
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    dialog?.dismiss()
-                }
-            })
+            .setNegativeButton(this.getString(R.string.color_dialog_negative_button)) { dialog, _ -> dialog?.dismiss() }
             .attachAlphaSlideBar(false)
             .attachBrightnessSlideBar(true)
             .setBottomSpace(12)
@@ -136,22 +132,22 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setColorsInViewColors() {
-        view_incomes_color.setBackgroundColor(prefs.incomesColor)
-        view_expenses_color.setBackgroundColor(prefs.expensesColor)
-        view_balance_color.setBackgroundColor(prefs.balanceColor)
-        view_not_required_color.setBackgroundColor(prefs.notRequiredColor)
-        view_required_color.setBackgroundColor(prefs.requiredColor)
-        view_investment_color.setBackgroundColor(prefs.investmentColor)
-        view_expenses_installment_color.setBackgroundColor(prefs.expensesInstallmentColor)
-        view_expenses_fixed_monthly_color.setBackgroundColor(prefs.expensesFixedMonthlyColor)
-        view_incomes_installment_color.setBackgroundColor(prefs.incomesInstallmentColor)
-        view_incomes_fixed_monthly_color.setBackgroundColor(prefs.incomesFixedMonthlyColor)
+        binding.viewIncomesColor.setBackgroundColor(prefs.incomesColor)
+        binding.viewExpensesColor.setBackgroundColor(prefs.expensesColor)
+        binding.viewBalanceColor.setBackgroundColor(prefs.balanceColor)
+        binding.viewNotRequiredColor.setBackgroundColor(prefs.notRequiredColor)
+        binding.viewRequiredColor.setBackgroundColor(prefs.requiredColor)
+        binding.viewInvestmentColor.setBackgroundColor(prefs.investmentColor)
+        binding.viewExpensesInstallmentColor.setBackgroundColor(prefs.expensesInstallmentColor)
+        binding.viewExpensesFixedMonthlyColor.setBackgroundColor(prefs.expensesFixedMonthlyColor)
+        binding.viewIncomesInstallmentColor.setBackgroundColor(prefs.incomesInstallmentColor)
+        binding.viewIncomesFixedMonthlyColor.setBackgroundColor(prefs.incomesFixedMonthlyColor)
     }
 
     private fun showDefaultColorDialog() {
         val builder = AlertDialog.Builder(this)
             .setMessage(R.string.confirm_set_default_colors)
-            .setPositiveButton(R.string.yes) { dialog, which ->
+            .setPositiveButton(R.string.yes) { _, _ ->
                 setDefaultColors()
             }
             .setNeutralButton(R.string.confirm_delete_income_dialog_neutral_button, null)

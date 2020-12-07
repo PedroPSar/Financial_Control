@@ -8,11 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
+import com.development.pega.financialcontrol.databinding.ActivityDepositOrWithdrawBinding
 import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
-import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.viewmodels.DepositOrWithdrawViewModel
-import kotlinx.android.synthetic.main.activity_deposit_or_withdraw.*
 import java.util.*
 
 class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
@@ -27,9 +26,13 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
     private var mRelationalID = 0
     private var mInitialValue = "0.00"
 
+    private lateinit var binding: ActivityDepositOrWithdrawBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_deposit_or_withdraw)
+        binding = ActivityDepositOrWithdrawBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -40,6 +43,7 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
 
         mViewModel.getCurrentDate()
 
+        setRequiredMarking()
         getInfoFromIntent()
         setListeners()
         observers()
@@ -50,14 +54,14 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         if(v.id == R.id.btn_deposit_or_withdraw) {
 
-            if(edit_description.text.toString().isEmpty() || edit_value.text.toString().isEmpty()) {
+            if(binding.editDescription.text.toString().isEmpty() || binding.editValue.text.toString().isEmpty()) {
                 AppControl.Validator.makeEmptyRequiredFieldToast(this)
 
             }else if(type == Constants.SAVINGS_MONEY.WITHDRAW) {
                 // if mItem id == 0 is not edition
                 if(mItemId == 0) {
 
-                    if( AppControl.checkIfHaveEnoughMoney(edit_value.text.toString(), this) ) {
+                    if( AppControl.checkIfHaveEnoughMoney(binding.editValue.text.toString(), this) ) {
                         saveDepositOrWithdraw()
                     }else {
                         AppControl.Validator.makeNotEnoughMoneyToast(this)
@@ -65,7 +69,7 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
 
                 } else {
 
-                    if( AppControl.checkIfHaveEnoughMoneyForWithdrawEdition(mInitialValue, edit_value.text.toString(), this) ) {
+                    if( AppControl.checkIfHaveEnoughMoneyForWithdrawEdition(mInitialValue, binding.editValue.text.toString(), this) ) {
                         saveDepositOrWithdraw()
                     } else {
                         AppControl.Validator.makeNotEnoughMoneyToast(this)
@@ -78,7 +82,7 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
                 if(mItemId == 0) {
                     saveDepositOrWithdraw()
                 } else {
-                    if( AppControl.checkIfHaveEnoughMoneyForDepositEdition(mInitialValue, edit_value.text.toString(), this)) {
+                    if( AppControl.checkIfHaveEnoughMoneyForDepositEdition(mInitialValue, binding.editValue.text.toString(), this)) {
                         saveDepositOrWithdraw()
                     } else {
                         AppControl.Validator.makeNotEnoughMoneyToast(this)
@@ -94,7 +98,7 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun observers() {
         mViewModel.currentTime.observe(this, Observer {
-            txt_date.text = it
+            binding.txtDate.text = it
         })
 
         mViewModel.datePickerDialog.observe(this, Observer {
@@ -114,9 +118,9 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
 
         mViewModel.getSavings.observe(this, Observer {
             mRelationalID = it.relationalID
-            edit_value.setText(AppControl.Text.convertValueForCurrencyEditText(it.money))
-            txt_date.text = AppControl.Text.setDateText(it.day, it.month, it.year)
-            edit_description.setText(it.description)
+            binding.editValue.setText(AppControl.Text.convertValueForCurrencyEditText(it.money))
+            binding.txtDate.text = AppControl.Text.setDateText(it.day, it.month, it.year)
+            binding.editDescription.setText(it.description)
             type = it.type
 
             mInitialValue = AppControl.Text.convertValueForCurrencyEditText(it.money)
@@ -124,8 +128,8 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setListeners() {
-        btn_deposit_or_withdraw.setOnClickListener(this)
-        btn_change_date.setOnClickListener(this)
+        binding.btnDepositOrWithdraw.setOnClickListener(this)
+        binding.btnChangeDate.setOnClickListener(this)
     }
 
     private fun getInfoFromIntent() {
@@ -136,13 +140,13 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
     private fun setInfo() {
         when(type) {
             Constants.SAVINGS_MONEY.DEPOSIT -> {
-                tv_deposit_or_withdraw.text = getString(R.string.btn_deposit_txt)
-                btn_deposit_or_withdraw.text = getString(R.string.btn_deposit_txt)
+                binding.tvDepositOrWithdraw.text = getString(R.string.btn_deposit_txt)
+                binding.btnDepositOrWithdraw.text = getString(R.string.btn_deposit_txt)
             }
 
             Constants.SAVINGS_MONEY.WITHDRAW -> {
-                tv_deposit_or_withdraw.text = getString(R.string.btn_withdraw_txt)
-                btn_deposit_or_withdraw.text = getString(R.string.btn_withdraw_txt)
+                binding.tvDepositOrWithdraw.text = getString(R.string.btn_withdraw_txt)
+                binding.btnDepositOrWithdraw.text = getString(R.string.btn_withdraw_txt)
             }
         }
     }
@@ -150,12 +154,12 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
     private fun saveDepositOrWithdraw() {
         val money = SavingsMoney()
 
-        calendar = AppControl.calendarSetTime(txt_date.text.toString())
+        calendar = AppControl.calendarSetTime(binding.txtDate.text.toString())
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH) + 1
         val year = calendar.get(Calendar.YEAR)
 
-        val moneyValue = AppControl.Text.convertCurrencyTextToFloat( edit_value.text.toString() )
+        val moneyValue = AppControl.Text.convertCurrencyTextToFloat( binding.editValue.text.toString() )
 
         if(mRelationalID == 0) {
             mRelationalID = AppControl.getNewRelationalID(this)
@@ -166,7 +170,7 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
         money.day = day
         money.month = month
         money.year = year
-        money.description = edit_description.text.toString()
+        money.description = binding.editDescription.text.toString()
         money.type = type
         money.relationalID = mRelationalID
 
@@ -185,5 +189,16 @@ class DepositOrWithdrawActivity : AppCompatActivity(), View.OnClickListener {
                 mViewModel.loadSavingsMoney(mItemId)
             }
         }
+
+    }
+
+    private fun setRequiredMarking() {
+        val lblValue = "${binding.lblDepositOrWithdrawValue.text} *"
+        val lblDate = "${binding.lblDate.text} *"
+        val lblDescription = "${binding.lblDescription.text} *"
+
+        binding.lblDepositOrWithdrawValue.text = lblValue
+        binding.lblDate.text = lblDate
+        binding.lblDescription.text = lblDescription
     }
 }

@@ -8,15 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.development.pega.financialcontrol.viewmodels.ChartViewModel
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
-import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.charts.PieChart
+import com.development.pega.financialcontrol.databinding.ChartFragmentBinding
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -30,14 +28,16 @@ class ChartFragment : Fragment(), View.OnClickListener {
     private lateinit var viewModel: ChartViewModel
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private lateinit var root: View
-    private lateinit var mYearMonthsLineChart: LineChart
-    private lateinit var mMonthExpensesTypePieChart: PieChart
-    private lateinit var mMonthExpensesRecurrenceChart: PieChart
-    private lateinit var mMonthIncomesRecurrenceChart: PieChart
-    private lateinit var mTvSelectedMonth: TextView
+
+
+    private var _binding: ChartFragmentBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        root = inflater.inflate(R.layout.chart_fragment, container, false)
+        _binding = ChartFragmentBinding.inflate(inflater, container, false)
+        root = binding.root
         return root
     }
 
@@ -47,13 +47,7 @@ class ChartFragment : Fragment(), View.OnClickListener {
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
         viewModel = ViewModelProvider(this).get(ChartViewModel::class.java)
 
-        mTvSelectedMonth = root.findViewById(R.id.tv_selected_month)
-        mYearMonthsLineChart = root.findViewById(R.id.line_chart_year_months)
-        mMonthExpensesTypePieChart = root.findViewById(R.id.pie_chart_month_expenses_type)
-        mMonthExpensesRecurrenceChart = root.findViewById(R.id.pie_chart_month_expenses_recurrence)
-        mMonthIncomesRecurrenceChart = root.findViewById(R.id.pie_chart_month_incomes_recurrence)
-
-        mTvSelectedMonth.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        binding.tvSelectedMonth.paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
         observers()
         setListeners()
@@ -64,6 +58,11 @@ class ChartFragment : Fragment(), View.OnClickListener {
         updateChartInfo()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.tv_selected_month -> showMonthsDialog()
@@ -71,93 +70,93 @@ class ChartFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setListeners() {
-        mTvSelectedMonth.setOnClickListener(this)
+        binding.tvSelectedMonth.setOnClickListener(this)
     }
 
     private fun observers() {
         viewModel.selectedMonth.observe(viewLifecycleOwner, Observer {
-            mTvSelectedMonth.text = resources.getStringArray(R.array.months_array)[it]
+            binding.tvSelectedMonth.text = resources.getStringArray(R.array.months_array)[it]
         })
 
         viewModel.yearMonthsChart.observe(viewLifecycleOwner, Observer {
-            mYearMonthsLineChart.data = it
+            binding.lineChartYearMonths.data = it
             setStyleInYearMonthsLineChart()
-            mYearMonthsLineChart.notifyDataSetChanged()
-            mYearMonthsLineChart.invalidate()
+            binding.lineChartYearMonths.notifyDataSetChanged()
+            binding.lineChartYearMonths.invalidate()
         })
 
         viewModel.expensesTypePieChart.observe(viewLifecycleOwner, Observer {
-            mMonthExpensesTypePieChart.data = it
+            binding.pieChartMonthExpensesType.data = it
             setStyleInMonthExpensesTypePieChart()
-            mMonthExpensesTypePieChart.notifyDataSetChanged()
-            mMonthExpensesTypePieChart.invalidate()
+            binding.pieChartMonthExpensesType.notifyDataSetChanged()
+            binding.pieChartMonthExpensesType.invalidate()
         })
 
         viewModel.expensesRecurrencePieChart.observe(viewLifecycleOwner, Observer {
-            mMonthExpensesRecurrenceChart.data = it
+            binding.pieChartMonthExpensesRecurrence.data = it
             setStyleInMonthExpensesRecurrencePieChart()
-            mMonthExpensesRecurrenceChart.notifyDataSetChanged()
-            mMonthExpensesRecurrenceChart.invalidate()
+            binding.pieChartMonthExpensesRecurrence.notifyDataSetChanged()
+            binding.pieChartMonthExpensesRecurrence.invalidate()
         })
 
         viewModel.incomesRecurrencePieChart.observe(viewLifecycleOwner, Observer {
-            mMonthIncomesRecurrenceChart.data = it
+            binding.pieChartMonthIncomesRecurrence.data = it
             setStyleInMonthIncomesRecurrencePieChart()
-            mMonthIncomesRecurrenceChart.notifyDataSetChanged()
-            mMonthIncomesRecurrenceChart.invalidate()
+            binding.pieChartMonthIncomesRecurrence.notifyDataSetChanged()
+            binding.pieChartMonthIncomesRecurrence.invalidate()
         })
     }
 
     private fun setStyleInYearMonthsLineChart() {
-        val description = mYearMonthsLineChart.description
+        val description = binding.lineChartYearMonths.description
         description.isEnabled = false
 
-        val yAxisRight = mYearMonthsLineChart.axisRight
+        val yAxisRight = binding.lineChartYearMonths.axisRight
         yAxisRight.isEnabled = false
         yAxisRight.setDrawGridLines(false)
 
-        val yAxisLeft = mYearMonthsLineChart.axisLeft
+        val yAxisLeft = binding.lineChartYearMonths.axisLeft
         yAxisLeft.setDrawZeroLine(true)
         yAxisLeft.setDrawGridLines(false)
 
-        val xAxis = mYearMonthsLineChart.xAxis
+        val xAxis = binding.lineChartYearMonths.xAxis
         xAxis.position = XAxis.XAxisPosition.TOP
         xAxis.setDrawGridLines(true)
         xAxis.textSize = 10f
 
         xAxis.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
-        mYearMonthsLineChart.measure(0, 0)
+        binding.lineChartYearMonths.measure(0, 0)
         xAxis.valueFormatter = MonthsNamesFormatter(context)
 
-        mYearMonthsLineChart.zoom(1.5f, 1f, 1f, 1f)
-        mYearMonthsLineChart.setPinchZoom(false)
-        mYearMonthsLineChart.setDrawBorders(true)
-        mYearMonthsLineChart.setDrawGridBackground(true)
-        mYearMonthsLineChart.setGridBackgroundColor(Color.WHITE)
+        binding.lineChartYearMonths.zoom(1.5f, 1f, 1f, 1f)
+        binding.lineChartYearMonths.setPinchZoom(false)
+        binding.lineChartYearMonths.setDrawBorders(true)
+        binding.lineChartYearMonths.setDrawGridBackground(true)
+        binding.lineChartYearMonths.setGridBackgroundColor(Color.WHITE)
     }
 
     private fun setStyleInMonthExpensesTypePieChart() {
-        mMonthExpensesTypePieChart.setEntryLabelColor(Color.BLACK)
-        mMonthExpensesTypePieChart.description.isEnabled = false
-        mMonthExpensesTypePieChart.setTouchEnabled(false)
-        mMonthExpensesTypePieChart.setDrawEntryLabels(false)
+        binding.pieChartMonthExpensesType.setEntryLabelColor(Color.BLACK)
+        binding.pieChartMonthExpensesType.description.isEnabled = false
+        binding.pieChartMonthExpensesType.setTouchEnabled(false)
+        binding.pieChartMonthExpensesType.setDrawEntryLabels(false)
 
     }
 
     private fun setStyleInMonthExpensesRecurrencePieChart() {
-        mMonthExpensesRecurrenceChart.setEntryLabelColor(Color.BLACK)
-        mMonthExpensesRecurrenceChart.description.isEnabled = false
-        mMonthExpensesRecurrenceChart.setTouchEnabled(false)
-        mMonthExpensesRecurrenceChart.setDrawEntryLabels(false)
+        binding.pieChartMonthExpensesRecurrence.setEntryLabelColor(Color.BLACK)
+        binding.pieChartMonthExpensesRecurrence.description.isEnabled = false
+        binding.pieChartMonthExpensesRecurrence.setTouchEnabled(false)
+        binding.pieChartMonthExpensesRecurrence.setDrawEntryLabels(false)
 
     }
 
     private fun setStyleInMonthIncomesRecurrencePieChart() {
-        mMonthIncomesRecurrenceChart.setEntryLabelColor(Color.BLACK)
-        mMonthIncomesRecurrenceChart.description.isEnabled = false
-        mMonthIncomesRecurrenceChart.setTouchEnabled(false)
-        mMonthIncomesRecurrenceChart.setDrawEntryLabels(false)
+        binding.pieChartMonthIncomesRecurrence.setEntryLabelColor(Color.BLACK)
+        binding.pieChartMonthIncomesRecurrence.description.isEnabled = false
+        binding.pieChartMonthIncomesRecurrence.setTouchEnabled(false)
+        binding.pieChartMonthIncomesRecurrence.setDrawEntryLabels(false)
 
     }
 

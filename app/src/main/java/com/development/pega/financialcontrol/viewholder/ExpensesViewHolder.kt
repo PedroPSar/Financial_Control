@@ -14,12 +14,12 @@ import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.listener.ExpenseItemListener
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.service.Constants
-import kotlinx.android.synthetic.main.income_recycler_view_row.view.*
 import java.util.*
 
 class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
-    lateinit var btnMenu: ImageView
+    private lateinit var btnMenu: ImageView
+    private lateinit var tvInstalmentNumber: TextView
     private lateinit var mExpense: Expense
     private val mContext = itemView.context
     private val mRecurrences = mContext.resources.getStringArray(R.array.spinner_recurrence_options)
@@ -41,11 +41,19 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
         mExpenseRecurrence = getExpenseRecurrence(mExpense.recurrence)
 
         btnMenu = itemView.findViewById(R.id.img_btn_item_menu)
+        tvInstalmentNumber = itemView.findViewById(R.id.tv_txt_installments)
         itemView.findViewById<TextView>(R.id.tv_txt_name).text = txtName
         itemView.findViewById<TextView>(R.id.tv_txt_date).text = txtDate
         itemView.findViewById<TextView>(R.id.tv_txt_value).text = txtValue
 
-        itemView.img_btn_item_menu.setOnClickListener(this)
+        itemView.findViewById<ImageView>(R.id.img_btn_item_menu).setOnClickListener(this)
+
+        if(mExpense.recurrence == Constants.RECURRENCE.INSTALLMENT) {
+            tvInstalmentNumber.visibility = View.VISIBLE
+            tvInstalmentNumber.text = AppControl.getExpenseInstallmentNumber(mExpense.id, itemView.context)
+        }else {
+            tvInstalmentNumber.visibility = View.GONE
+        }
     }
 
     override fun onClick(v: View?) {

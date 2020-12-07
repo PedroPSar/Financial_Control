@@ -16,6 +16,7 @@ import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.adapter.ExpensesRecyclerViewAdapter
 import com.development.pega.financialcontrol.adapter.IncomesRecyclerViewAdapter
 import com.development.pega.financialcontrol.control.AppControl
+import com.development.pega.financialcontrol.databinding.HomeFragmentBinding
 import com.development.pega.financialcontrol.listener.ExpenseItemListener
 import com.development.pega.financialcontrol.listener.IncomeItemListener
 import com.development.pega.financialcontrol.listener.MainListener
@@ -24,7 +25,6 @@ import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
-import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.math.roundToInt
 
 class HomeFragment() : Fragment(), View.OnClickListener{
@@ -46,6 +46,11 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
     private lateinit var mPrefs: Prefs
 
+    private var _binding: HomeFragmentBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
     companion object {
         private lateinit var mMainListener: MainListener
 
@@ -56,7 +61,8 @@ class HomeFragment() : Fragment(), View.OnClickListener{
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        root = inflater.inflate(R.layout.home_fragment, container, false)
+        _binding = HomeFragmentBinding.inflate(inflater, container, false)
+        root = binding.root
         return root
     }
 
@@ -122,6 +128,11 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         mViewModel.calcBalance()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onClick(v: View) {
         when(v.id) {
             R.id.btn_img_before -> mViewModel.btnBeforeClick()
@@ -133,9 +144,9 @@ class HomeFragment() : Fragment(), View.OnClickListener{
     }
 
     private fun setOnClick() {
-        btn_img_before.setOnClickListener(this)
-        btn_img_next.setOnClickListener(this)
-        ll_lbl_months.setOnClickListener(this)
+        binding.btnImgBefore.setOnClickListener(this)
+        binding.btnImgNext.setOnClickListener(this)
+        binding.llLblMonths.setOnClickListener(this)
     }
 
     private fun observer() {
@@ -163,7 +174,7 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
         mViewModel.balance.observe(viewLifecycleOwner, Observer {
             val balanceTxt = AppControl.Text.convertFloatToCurrencyText(it)
-            txt_account_balance.text = balanceTxt
+            binding.txtAccountBalance.text = balanceTxt
         })
 
         mViewModel.year.observe(viewLifecycleOwner, Observer {
@@ -203,20 +214,20 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         width = (width - (width * 0.10f) ).roundToInt()
         val maxWidth = width / 3
 
-        cl_incomes.maxWidth = maxWidth
-        cl_expenses.maxWidth = maxWidth
-        cl_account_balance.maxWidth = maxWidth
+        binding.clIncomes.maxWidth = maxWidth
+        binding.clExpenses.maxWidth = maxWidth
+        binding.clAccountBalance.maxWidth = maxWidth
 
     }
 
     private fun setColors() {
-        arrow_incomes.setColorFilter(mPrefs.incomesColor)
-        txt_incomes.setTextColor(mPrefs.incomesColor)
-        label_income.setTextColor(mPrefs.incomesColor)
+        binding.arrowIncomes.setColorFilter(mPrefs.incomesColor)
+        binding.txtIncomes.setTextColor(mPrefs.incomesColor)
+        binding.labelIncome.setTextColor(mPrefs.incomesColor)
 
-        arrow_expenses.setColorFilter(mPrefs.expensesColor)
-        txt_expenses.setTextColor(mPrefs.expensesColor)
-        label_expense.setTextColor(mPrefs.expensesColor)
+        binding.arrowExpenses.setColorFilter(mPrefs.expensesColor)
+        binding.txtExpenses.setTextColor(mPrefs.expensesColor)
+        binding.labelExpense.setTextColor(mPrefs.expensesColor)
     }
 
     fun updateHomeInfo() {

@@ -20,52 +20,48 @@
 
     <TextView
         android:id="@+id/tv_txt_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Compras"
         android:textSize="@dimen/lbl_main_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/tv_txt_installments"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="1"/>
 
-    <LinearLayout
-        android:id="@+id/ll_date"
+    <TextView
+        android:id="@+id/tv_txt_installments"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginStart="8dp"
+        android:text="1/7"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/tv_txt_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_txt_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="23/06/2019"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ll_value"
+        app:layout_constraintEnd_toStartOf="@id/tv_txt_value"
         app:layout_constraintTop_toBottomOf="@id/tv_txt_name"
-        app:layout_constraintHorizontal_weight="1">
+        app:layout_constraintHorizontal_weight="1" />
 
-        <TextView
-            android:id="@+id/tv_txt_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="23/06/2019"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_txt_name" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_value"
+    <TextView
+        android:id="@+id/tv_txt_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@id/ll_date"
+        android:layout_marginStart="8dp"
+        android:text="R$20,00"
+        app:layout_constraintStart_toEndOf="@id/tv_txt_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_txt_name"
-        app:layout_constraintHorizontal_weight="1">
-
-        <TextView
-            android:id="@+id/tv_txt_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="R$20,00" />
-
-    </LinearLayout>
+        app:layout_constraintHorizontal_weight="1"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

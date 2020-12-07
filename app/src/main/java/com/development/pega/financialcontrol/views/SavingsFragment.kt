@@ -1,23 +1,20 @@
 package com.development.pega.financialcontrol.views
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.adapter.DepositOrWithdrawRecyclerViewAdapter
 import com.development.pega.financialcontrol.control.AppControl
+import com.development.pega.financialcontrol.databinding.SavingsFragmentBinding
 import com.development.pega.financialcontrol.listener.SavingsMoneyItemListener
 import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.Constants
@@ -25,7 +22,6 @@ import com.development.pega.financialcontrol.service.dialog.ObjectiveDescription
 import com.development.pega.financialcontrol.service.dialog.ObjectiveValueDialogFragment
 import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.viewmodels.SavingsViewModel
-import kotlinx.android.synthetic.main.savings_fragment.*
 
 class SavingsFragment : Fragment(), View.OnClickListener{
 
@@ -37,9 +33,6 @@ class SavingsFragment : Fragment(), View.OnClickListener{
     private lateinit var mViewModelFactory: ViewModelProvider.AndroidViewModelFactory
     private lateinit var mPrefs: Prefs
 
-    private lateinit var mRoot: View
-    private lateinit var mBtnDeposit: ImageView
-    private lateinit var mBtnWithdraw: ImageView
     private val mDepositAdapter = DepositOrWithdrawRecyclerViewAdapter()
     private val mWithdrawalsAdapter = DepositOrWithdrawRecyclerViewAdapter()
 
@@ -47,9 +40,14 @@ class SavingsFragment : Fragment(), View.OnClickListener{
     private lateinit var mDescriptionDialogListener: ObjectiveDescriptionDialogFragment.ObjectiveDescriptionDialogListener
     private lateinit var mSavingsMoneyItemListener: SavingsMoneyItemListener
 
+    private var _binding: SavingsFragmentBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mRoot = inflater.inflate(R.layout.savings_fragment, container, false)
-        return mRoot
+        _binding = SavingsFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -58,8 +56,6 @@ class SavingsFragment : Fragment(), View.OnClickListener{
         mViewModelFactory = ViewModelProvider.AndroidViewModelFactory(application)
         mViewModel = ViewModelProvider(this).get(SavingsViewModel::class.java)
 
-        mBtnDeposit = mRoot.findViewById(R.id.btn_deposit)
-        mBtnWithdraw = mRoot.findViewById(R.id.btn_withdraw)
         mPrefs = AppControl.getAppPrefs(requireContext())
 
         setListeners()
@@ -89,10 +85,10 @@ class SavingsFragment : Fragment(), View.OnClickListener{
     }
 
     private fun setListeners() {
-        btn_deposit.setOnClickListener(this)
-        btn_withdraw.setOnClickListener(this)
-        btn_objective.setOnClickListener(this)
-        btn_objective_description.setOnClickListener(this)
+        binding.btnDeposit.setOnClickListener(this)
+        binding.btnWithdraw.setOnClickListener(this)
+        binding.btnObjective.setOnClickListener(this)
+        binding.btnObjectiveDescription.setOnClickListener(this)
 
         mValueDialogListener = object : ObjectiveValueDialogFragment.ObjectiveValueDialogListener {
             override fun onObjValueDialogPositiveClick(dialog: DialogFragment, value: String) {
@@ -153,17 +149,15 @@ class SavingsFragment : Fragment(), View.OnClickListener{
     }
 
     private fun setInfoInDepositRecyclerView() {
-        val depositRV = mRoot.findViewById<RecyclerView>(R.id.rv_deposits)
-        depositRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        depositRV.layoutManager = LinearLayoutManager(context)
-        depositRV.adapter = mDepositAdapter
+        binding.rvDeposits.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        binding.rvDeposits.layoutManager = LinearLayoutManager(context)
+        binding.rvDeposits.adapter = mDepositAdapter
     }
 
     private fun setInfoInWithdrawRecyclerView() {
-        val withdrawRV = mRoot.findViewById<RecyclerView>(R.id.rv_withdrawals)
-        withdrawRV.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        withdrawRV.layoutManager = LinearLayoutManager(context)
-        withdrawRV.adapter = mWithdrawalsAdapter
+        binding.rvWithdrawals.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        binding.rvWithdrawals.layoutManager = LinearLayoutManager(context)
+        binding.rvWithdrawals.adapter = mWithdrawalsAdapter
     }
 
     private fun editObjectiveValue() {
@@ -188,36 +182,36 @@ class SavingsFragment : Fragment(), View.OnClickListener{
         })
 
         mViewModel.depositsTotal.observe(viewLifecycleOwner, Observer {
-            num_total_deposits.text = AppControl.Text.convertFloatToCurrencyText(it)
+            binding.numTotalDeposits.text = AppControl.Text.convertFloatToCurrencyText(it)
         })
 
         mViewModel.withdrawalsTotal.observe(viewLifecycleOwner, Observer {
-            num_total_withdrawals.text = AppControl.Text.convertFloatToCurrencyText(it)
+            binding.numTotalWithdrawals.text = AppControl.Text.convertFloatToCurrencyText(it)
         })
 
         mViewModel.savingsAmount.observe(viewLifecycleOwner, Observer {
-            tv_savings_amount.text = it
+            binding.tvSavingsAmount.text = it
         })
 
         mViewModel.amountPercent.observe(viewLifecycleOwner, Observer {
-            tv_amount_percent.text = it
+            binding.tvAmountPercent.text = it
         })
 
         mViewModel.amountProgressBar.observe(viewLifecycleOwner, Observer {
-            progress_horizontal_savings_amount.progress = it
+            binding.progressHorizontalSavingsAmount.progress = it
         })
 
         mViewModel.objectiveDescription.observe(viewLifecycleOwner, Observer {
-            tv_objective_description.text = it
+            binding.tvObjectiveDescription.text = it
         })
     }
 
     private fun setColors() {
-        lbl_deposits.setTextColor(mPrefs.incomesColor)
-        btn_deposit.setColorFilter(mPrefs.incomesColor)
+        binding.lblDeposits.setTextColor(mPrefs.incomesColor)
+        binding.btnDeposit.setColorFilter(mPrefs.incomesColor)
 
-        lbl_withdrawals.setTextColor(mPrefs.expensesColor)
-        btn_withdraw.setColorFilter(mPrefs.expensesColor)
+        binding.lblWithdrawals.setTextColor(mPrefs.expensesColor)
+        binding.btnWithdraw.setColorFilter(mPrefs.expensesColor)
     }
 
 }

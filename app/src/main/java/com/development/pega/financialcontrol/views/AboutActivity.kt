@@ -7,18 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.development.pega.financialcontrol.R
-import kotlinx.android.synthetic.main.activity_about.*
+import com.development.pega.financialcontrol.databinding.ActivityAboutBinding
 
 class AboutActivity : AppCompatActivity(), View.OnClickListener {
+
+    private lateinit var binding: ActivityAboutBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val pInfo = packageManager.getPackageInfo(packageName, 0)
         val versionName = pInfo.versionName
-        tv_txt_app_version.text = versionName
+        binding.tvTxtAppVersion.text = versionName
 
-        tv_lbl_licenses.setOnClickListener(this)
+        binding.tvLblLicenses.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {

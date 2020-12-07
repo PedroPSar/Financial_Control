@@ -1,16 +1,12 @@
 package com.development.pega.financialcontrol.service.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.development.pega.financialcontrol.R
-import kotlinx.android.synthetic.main.dialog_objective_value.*
 
 class ObjectiveValueDialogFragment: DialogFragment() {
 

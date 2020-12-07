@@ -13,10 +13,10 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.development.pega.financialcontrol.R
+import com.development.pega.financialcontrol.databinding.ActivityMainBinding
 import com.development.pega.financialcontrol.listener.MainListener
 import com.development.pega.financialcontrol.service.Data
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var popupMenu: PopupMenu
-    private var popupMenuIsInflated = false;
+    private var popupMenuIsInflated = false
     private lateinit var tvYear: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var mMainListener: MainListener
@@ -34,9 +34,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private lateinit var savingsFragment: SavingsFragment
     private lateinit var chartFragment: ChartFragment
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -134,8 +138,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private fun setOnClicks() {
         popupMenu.setOnMenuItemClickListener(this)
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        image_btn_left_arrow.setOnClickListener(this)
-        image_btn_right_arrow.setOnClickListener(this)
+        binding.imageBtnLeftArrow.setOnClickListener(this)
+        binding.imageBtnRightArrow.setOnClickListener(this)
     }
 
     private fun setNavController() {

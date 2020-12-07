@@ -5,7 +5,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.model.Month
-import kotlinx.android.synthetic.main.month_recycler_view_row.view.*
 
 class MonthViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     fun bind(month: Month) {
