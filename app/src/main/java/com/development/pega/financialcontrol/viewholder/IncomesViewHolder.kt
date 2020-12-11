@@ -48,6 +48,8 @@ class IncomesViewHolder(itemView: View, private val mItemListener: IncomeItemLis
         if(income.recurrence == Constants.RECURRENCE.INSTALLMENT) {
             tvInstalmentNumber.visibility = View.VISIBLE
             tvInstalmentNumber.text = AppControl.getIncomeInstallmentNumber(income.id, itemView.context)
+        }else {
+            tvInstalmentNumber.visibility = View.GONE
         }
     }
 
