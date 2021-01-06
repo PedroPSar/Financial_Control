@@ -43,11 +43,16 @@
     <string name="save_failed_message">\"Save failed\" error</string>
     <string name="lbl_name">Name</string>
     <string name="edit_many_times_hint">2</string>
+    <string name="edit_num_paid_installments">0</string>
     <string name="lbl_number">Number</string>
     <string name="lbl_every">Every</string>
     <string name="lbl_account_balance_year_months_chart">Monthly balance</string>
     <string name="number_field_is_empty">The Number field is empty</string>
     <string name="minimum_number_installments">The minimum number of installments is 2</string>
+
+    <!-- Add expense -->
+    <string name="lbl_paid">Paid</string>
+    <string name="lbl_num_paid_installments">Number of paid installments</string>
 
     <!-- Chart Fragment -->
     <string name="lbl_expenses_type_month_pizza_chart">Expenses type</string>

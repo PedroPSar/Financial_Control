@@ -43,4 +43,9 @@ interface ExpenseDAO {
     @Query("SELECT * FROM Expenses WHERE relationalID = :relationalID")
     fun getByRelationalId(relationalID: Int): Expense
 
+    @Query("SELECT * FROM Expenses WHERE paid = 0")
+    fun getNotPaidExpenses(): List<Expense>
+
+    @Query("SELECT * FROM Expenses WHERE paid = 1")
+    fun getPaidExpenses(): List<Expense>
 }

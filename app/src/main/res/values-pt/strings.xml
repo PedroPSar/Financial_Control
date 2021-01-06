@@ -34,11 +34,14 @@
     <string name="save_failed_message">Erro \"Falha ao salvar\"</string>
     <string name="lbl_name">Nome</string>
     <string name="edit_many_times_hint">2</string>
+    <string name="edit_num_paid_installments">0</string>
     <string name="lbl_number">Número</string>
     <string name="lbl_every">A cada</string>
     <string name="lbl_account_balance_year_months_chart">Saldo Mensal</string>
     <string name="number_field_is_empty">O campo Número está vazio</string>
     <string name="minimum_number_installments">O número mínimo de parcelas é 2</string>
+    <string name="lbl_paid">Pago</string>
+    <string name="lbl_num_paid_installments">Número de parcelas pagas</string>
     <string name="lbl_expenses_type_month_pizza_chart">Tipos de despesas</string>
     <string name="expenses_type_pie_chart_name">Tipos de despesas</string>
     <string name="lbl_expenses_recurrence_month_pizza_chart">Recorrência das despesas</string>

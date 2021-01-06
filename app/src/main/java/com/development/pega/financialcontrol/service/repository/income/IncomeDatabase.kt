@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.development.pega.financialcontrol.model.Income
 
-@Database(entities = [Income::class], version = 1)
+@Database(entities = [Income::class], version = 1, exportSchema = false)
 abstract class IncomeDatabase: RoomDatabase() {
 
     abstract fun incomeDao(): IncomeDAO

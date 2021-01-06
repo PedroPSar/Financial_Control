@@ -8,7 +8,7 @@ import com.development.pega.financialcontrol.model.SavingsMoney
 import com.development.pega.financialcontrol.service.repository.income.IncomeDAO
 import com.development.pega.financialcontrol.service.repository.income.IncomeDatabase
 
-@Database(entities = [SavingsMoney::class], version = 1)
+@Database(entities = [SavingsMoney::class], version = 1, exportSchema = false)
 abstract class SavingsMoneyDatabase: RoomDatabase() {
 
     abstract fun savingsMoneyDao(): SavingsMoneyDAO

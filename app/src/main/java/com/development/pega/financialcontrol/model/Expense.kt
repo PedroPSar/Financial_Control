@@ -3,7 +3,6 @@ package com.development.pega.financialcontrol.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity(tableName = "Expenses")
 class Expense {
@@ -44,5 +43,11 @@ class Expense {
 
     @ColumnInfo(name = "relationalID")
     var relationalID = 0
+
+    @ColumnInfo(name = "paid")
+    var paid = 0
+
+    @ColumnInfo(name = "numPaidInstallments")
+    var numPaidInstallments = 0
 
 }

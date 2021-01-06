@@ -55,4 +55,12 @@ class ExpenseRepository(context: Context) {
         mDatabase.delete(expense)
     }
 
+    fun getNotPaidExpenses(): List<Expense> {
+        return mDatabase.getNotPaidExpenses()
+    }
+
+    fun getPaidExpenses(): List<Expense> {
+        return mDatabase.getPaidExpenses()
+    }
+
 }

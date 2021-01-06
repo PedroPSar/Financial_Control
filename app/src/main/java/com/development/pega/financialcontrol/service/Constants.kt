@@ -40,4 +40,9 @@ class Constants private constructor() {
         const val PIE_VALUE_TEXT_SIZE = 8f
     }
 
+    object IS_PAID {
+        const val YES = 1
+        const val NO = 0
+    }
+
 }

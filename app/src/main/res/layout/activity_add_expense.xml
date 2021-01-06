@@ -194,7 +194,48 @@
                     app:layout_constraintStart_toEndOf="@id/lbl_number"
                     app:layout_constraintTop_toBottomOf="@id/lbl_every" />
 
+                <TextView
+                    android:id="@+id/lbl_num_paid_installments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/lbl_num_paid_installments"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/add_activity_lbl_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edit_many_times" />
+
+                <EditText
+                    android:id="@+id/edit_num_paid_installments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:hint="@string/edit_num_paid_installments"
+                    android:inputType="number"
+                    android:minWidth="40dp"
+                    app:layout_constraintStart_toEndOf="@id/lbl_num_paid_installments"
+                    app:layout_constraintTop_toBottomOf="@id/edit_many_times" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/lbl_isPaid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lbl_paid"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/add_activity_lbl_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_pay_installment_expense" />
+
+            <CheckBox
+                android:id="@+id/checkbox_is_paid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                app:layout_constraintStart_toEndOf="@id/lbl_isPaid"
+                app:layout_constraintTop_toBottomOf="@id/cl_pay_installment_expense" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

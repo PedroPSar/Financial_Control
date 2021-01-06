@@ -2,6 +2,7 @@ package com.development.pega.financialcontrol.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -18,6 +19,7 @@ import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.viewmodels.AddExpenseViewModel
 import java.util.*
+import kotlin.math.exp
 
 class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -85,6 +87,9 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
                 TransitionManager.beginDelayedTransition(parent, transition)
                 binding.clPayInstallmentExpense.visibility = View.VISIBLE
+
+                binding.lblIsPaid.visibility = View.GONE
+                binding.checkboxIsPaid.visibility = View.GONE
             }else {
                 val transition: Transition = Fade()
                 transition.duration = 3000
@@ -92,6 +97,9 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
                 TransitionManager.beginDelayedTransition(parent, transition)
                 binding.clPayInstallmentExpense.visibility = View.GONE
+
+                binding.lblIsPaid.visibility = View.VISIBLE
+                binding.checkboxIsPaid.visibility = View.VISIBLE
             }
         }else if(parent.id == R.id.spinner_expense_every_months) {
             everyMonth = position + 1
@@ -114,6 +122,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             mRelationalID = AppControl.getNewRelationalID(this)
         }
 
+        val isPaid = if(binding.checkboxIsPaid.isChecked) Constants.IS_PAID.YES else Constants.IS_PAID.NO
+
         val expense = Expense()
         expense.id = mItemId
         expense.type = typeOptions
@@ -126,13 +136,23 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         expense.recurrence = recurrenceOptions
         expense.payFrequency = everyMonth
         expense.relationalID = mRelationalID
+        expense.paid = isPaid
 
         if(recurrenceOptions == Constants.RECURRENCE.INSTALLMENT) {
 
             if(binding.editManyTimes.text.toString() != "") {
-                expense.numInstallmentMonths = binding.editManyTimes.text.toString().toInt()
 
-                if(expense.numInstallmentMonths < 2) {
+                var numPaidInstallments = binding.editNumPaidInstallments.text.toString().toInt()
+                val numInstallmentMonths = binding.editManyTimes.text.toString().toInt()
+
+                if (numPaidInstallments > numInstallmentMonths) {
+                    numPaidInstallments = numInstallmentMonths
+                }
+
+                expense.numInstallmentMonths = numInstallmentMonths
+                expense.numPaidInstallments = numPaidInstallments
+
+                if(numInstallmentMonths < 2) {
                     AppControl.showToast(this, getString(R.string.minimum_number_installments))
                     return
                 }
@@ -141,6 +161,8 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
                 return
             }
         }
+
+        Log.d("teste", "numPaid: ${expense.numPaidInstallments}")
 
         if(expense.name == getString(R.string.deposit_name)) {
             if( AppControl.checkIfHaveEnoughMoneyForDepositEdition(mInitialValue, binding.editExpenseValue.text.toString(), this) ) {
