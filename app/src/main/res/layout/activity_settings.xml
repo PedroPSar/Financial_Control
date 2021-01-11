@@ -51,6 +51,66 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tv_lbl_paid_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/paid"
+                android:textColor="@color/colorRecyclerListLabel"
+                android:textSize="@dimen/label_options_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_use_favorite_colors" />
+
+            <View
+                android:id="@+id/view_paid_color"
+                android:layout_width="@dimen/color_view_width"
+                android:layout_height="@dimen/color_view_height"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPaid"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_use_favorite_colors" />
+
+            <TextView
+                android:id="@+id/tv_lbl_unpaid_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/unpaid"
+                android:textColor="@color/colorRecyclerListLabel"
+                android:textSize="@dimen/label_options_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_lbl_paid_color" />
+
+            <View
+                android:id="@+id/view_unpaid_color"
+                android:layout_width="@dimen/color_view_width"
+                android:layout_height="@dimen/color_view_height"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorUnPaid"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_lbl_paid_color" />
+
+            <TextView
+                android:id="@+id/tv_lbl_overdue_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/overdue"
+                android:textColor="@color/colorRecyclerListLabel"
+                android:textSize="@dimen/label_options_text_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_lbl_unpaid_color" />
+
+            <View
+                android:id="@+id/view_overdue_color"
+                android:layout_width="@dimen/color_view_width"
+                android:layout_height="@dimen/color_view_height"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorOverdue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_lbl_unpaid_color" />
+
+            <TextView
                 android:id="@+id/tv_lbl_incomes_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +119,7 @@
                 android:textColor="@color/colorRecyclerListLabel"
                 android:textSize="@dimen/label_options_text_size"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_use_favorite_colors" />
+                app:layout_constraintTop_toBottomOf="@id/tv_lbl_overdue_color" />
 
             <View
                 android:id="@+id/view_incomes_color"
@@ -68,7 +128,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/colorIncomes"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_use_favorite_colors" />
+                app:layout_constraintTop_toBottomOf="@id/tv_lbl_overdue_color" />
 
             <TextView
                 android:id="@+id/tv_lbl_expenses_color"

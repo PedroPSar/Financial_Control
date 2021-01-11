@@ -1,12 +1,16 @@
 package com.development.pega.financialcontrol.views
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.marginRight
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -25,7 +29,14 @@ import com.development.pega.financialcontrol.model.Income
 import com.development.pega.financialcontrol.service.Constants
 import com.development.pega.financialcontrol.service.repository.Prefs
 import com.development.pega.financialcontrol.viewmodels.HomeViewModel
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.Description
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlin.math.roundToInt
+
 
 class HomeFragment() : Fragment(), View.OnClickListener{
 
@@ -60,7 +71,11 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)
         root = binding.root
         return root
@@ -126,6 +141,7 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         mViewModel.setIncomesInRecyclerView()
         mViewModel.setExpensesInRecyclerView()
         mViewModel.calcBalance()
+        mViewModel.setDataInPayHorizontalChart()
     }
 
     override fun onDestroyView() {
@@ -179,6 +195,36 @@ class HomeFragment() : Fragment(), View.OnClickListener{
 
         mViewModel.year.observe(viewLifecycleOwner, Observer {
             mMainListener.onSetYear(it.toString())
+        })
+
+        mViewModel.payHorizontalChart.observe(viewLifecycleOwner, Observer {
+            binding.payInfoHorizontalChart.data = it
+            val description = Description()
+            description.text = ""
+            binding.payInfoHorizontalChart.description = description
+            binding.payInfoHorizontalChart.legend.isEnabled = false
+            binding.payInfoHorizontalChart.setPinchZoom(false)
+
+            val xAxis = binding.payInfoHorizontalChart.xAxis
+            xAxis.setDrawGridLines(false)
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.isEnabled = true
+            xAxis.setDrawAxisLine(false)
+            xAxis.labelCount = 3
+            xAxis.valueFormatter = PayInfoFormatter(requireContext())
+
+            val yLeft = binding.payInfoHorizontalChart.axisLeft
+            yLeft.isEnabled = false
+            yLeft.axisMinimum = 0f
+
+            val yRight = binding.payInfoHorizontalChart.axisRight
+            yRight.isEnabled = false
+            yRight.setDrawAxisLine(false)
+            yRight.setDrawGridLines(false)
+
+            binding.payInfoHorizontalChart.animateY(1000)
+            binding.payInfoHorizontalChart.setFitBars(true)
+            binding.payInfoHorizontalChart.invalidate()
         })
     }
 
@@ -239,13 +285,26 @@ class HomeFragment() : Fragment(), View.OnClickListener{
         builder.setTitle(getString(R.string.months_dialog_title))
 
         val months = resources.getStringArray(R.array.months_array)
-        builder.setItems(months) { dialog, which ->
+        builder.setItems(months) { _, which ->
             AppControl.setSelectedMonthStartingZero(which)
             updateHomeInfo()
         }
 
         val dialog = builder.create()
         dialog.show()
+    }
+
+    class PayInfoFormatter(context: Context) : ValueFormatter() {
+        private val xAxisLabels = arrayListOf(context.getString(R.string.paid), context.getString(R.string.unpaid), context.getString(R.string.overdue))
+
+        override fun getFormattedValue(value: Float): String {
+            return AppControl.Text.convertFloatToCurrencyText(value)
+        }
+
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            return xAxisLabels?.getOrNull(value.toInt()) ?: value.toString()
+        }
+
     }
 
 }

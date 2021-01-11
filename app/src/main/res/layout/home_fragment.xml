@@ -240,6 +240,30 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_months">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_pay_info"
+                    style="@style/ContainerStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/cl_incomes_info">
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/pay_info_horizontal_chart"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_incomes_info"
                     style="@style/ContainerStyle"
                     android:layout_width="match_parent"
@@ -250,7 +274,7 @@
                     app:layout_constraintBottom_toTopOf="@id/cl_expenses_info"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/cl_pay_info">
 
                     <TextView
                         android:id="@+id/label_income"

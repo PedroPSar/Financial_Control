@@ -14,6 +14,10 @@
     <string name="label_total">Total</string>
     <string name="et_values_hints">0.00</string>
 
+    <string name="paid">Paid</string>
+    <string name="unpaid">Unpaid</string>
+    <string name="overdue">Overdue</string>
+
     <!-- Toast Messages -->
     <string name="empty_required_field_toast_text">There is an empty required field</string>
     <string name="not_enough_money_toast_text">There is not enough money.</string>

@@ -43,7 +43,9 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v?.id) {
-
+            R.id.view_paid_color -> showColorDialog(binding.viewPaidColor)
+            R.id.view_unpaid_color -> showColorDialog(binding.viewUnpaidColor)
+            R.id.view_overdue_color -> showColorDialog(binding.viewOverdueColor)
             R.id.view_incomes_color -> showColorDialog(binding.viewIncomesColor)
             R.id.view_expenses_color -> showColorDialog(binding.viewExpensesColor)
             R.id.view_balance_color -> showColorDialog(binding.viewBalanceColor)
@@ -60,6 +62,9 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setListeners() {
+        binding.viewPaidColor.setOnClickListener(this)
+        binding.viewUnpaidColor.setOnClickListener(this)
+        binding.viewOverdueColor.setOnClickListener(this)
         binding.viewIncomesColor.setOnClickListener(this)
         binding.viewExpensesColor.setOnClickListener(this)
         binding.viewBalanceColor.setOnClickListener(this)
@@ -118,6 +123,9 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setSelectedColorInPrefs(selectedColor: Int, v: View) {
         when(v.id) {
+            R.id.view_paid_color -> prefs.paidColor = selectedColor
+            R.id.view_unpaid_color -> prefs.unPaidColor = selectedColor
+            R.id.view_overdue_color -> prefs.overdueColor = selectedColor
             R.id.view_incomes_color -> prefs.incomesColor = selectedColor
             R.id.view_expenses_color -> prefs.expensesColor = selectedColor
             R.id.view_balance_color -> prefs.balanceColor = selectedColor
@@ -132,6 +140,9 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setColorsInViewColors() {
+        binding.viewPaidColor.setBackgroundColor(prefs.paidColor)
+        binding.viewUnpaidColor.setBackgroundColor(prefs.unPaidColor)
+        binding.viewOverdueColor.setBackgroundColor(prefs.overdueColor)
         binding.viewIncomesColor.setBackgroundColor(prefs.incomesColor)
         binding.viewExpensesColor.setBackgroundColor(prefs.expensesColor)
         binding.viewBalanceColor.setBackgroundColor(prefs.balanceColor)
@@ -160,6 +171,9 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setDefaultColors() {
+        prefs.paidColor = getResourceColor(R.color.colorPaid)
+        prefs.unPaidColor = getResourceColor(R.color.colorUnPaid)
+        prefs.overdueColor = getResourceColor(R.color.colorOverdue)
         prefs.incomesColor = getResourceColor(R.color.colorIncomes)
         prefs.expensesColor = getResourceColor(R.color.colorExpenses)
         prefs.balanceColor = getResourceColor(R.color.colorBalance)

@@ -14,6 +14,10 @@
     <string name="menu_charts">Gráficos</string>
     <string name="label_total">Total</string>
     <string name="et_values_hints">0,00</string>
+    <string name="paid">Pago</string>
+    <string name="unpaid">Não pago</string>
+    <string name="overdue">Atrasado</string>
+
     <string name="empty_required_field_toast_text">Existe um campo obrigatório vazio</string>
     <string name="not_enough_money_toast_text">Não há dinheiro suficiente.</string>
     <string name="objective_value_default">00,00</string>
