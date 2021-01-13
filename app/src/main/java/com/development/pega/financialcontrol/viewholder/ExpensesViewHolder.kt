@@ -1,10 +1,12 @@
 package com.development.pega.financialcontrol.viewholder
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +16,7 @@ import com.development.pega.financialcontrol.control.AppControl
 import com.development.pega.financialcontrol.listener.ExpenseItemListener
 import com.development.pega.financialcontrol.model.Expense
 import com.development.pega.financialcontrol.service.Constants
+import com.development.pega.financialcontrol.service.repository.Prefs
 import java.util.*
 
 class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemListener): RecyclerView.ViewHolder(itemView), View.OnClickListener, PopupMenu.OnMenuItemClickListener {
@@ -29,7 +32,10 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
     private var txtValue = ""
     private var txtName = ""
 
+    private val mPrefs = AppControl.getAppPrefs(mContext)
+
     fun bind(expense: Expense) {
+
         mExpense = expense
         val day = checkAndChangeMaximumDayOfMonth(expense.year, expense.month, expense.day)
         val txtDay = putZeroIfNumberLessTen(day)
@@ -46,20 +52,23 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
         itemView.findViewById<TextView>(R.id.tv_txt_date).text = txtDate
         itemView.findViewById<TextView>(R.id.tv_txt_value).text = txtValue
 
-        itemView.findViewById<ImageView>(R.id.img_btn_item_menu).setOnClickListener(this)
-
         if(mExpense.recurrence == Constants.RECURRENCE.INSTALLMENT) {
             tvInstalmentNumber.visibility = View.VISIBLE
             tvInstalmentNumber.text = AppControl.getExpenseInstallmentNumber(mExpense.id, itemView.context)
-        }else {
+        } else {
             tvInstalmentNumber.visibility = View.GONE
         }
+
+        setPaymentTextsAndColors()
+        setOnClicks()
     }
 
     override fun onClick(v: View?) {
-        if(v?.id == R.id.img_btn_item_menu) {
-            showItemMenu()
+        when(v?.id) {
+            R.id.img_btn_item_menu -> showItemMenu()
+            R.id.ll_btn_pay -> payOrCancelPayment(mExpense)
         }
+
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
@@ -84,6 +93,11 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
             }
             else -> false
         }
+    }
+
+    private fun setOnClicks() {
+        itemView.findViewById<ImageView>(R.id.img_btn_item_menu).setOnClickListener(this)
+        itemView.findViewById<LinearLayout>(R.id.ll_btn_pay).setOnClickListener(this)
     }
 
     private fun showItemMenu() {
@@ -176,6 +190,46 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
             Constants.TYPE.INVESTMENT -> mTypes[2]
             else -> mTypes[0]
         }
+    }
+
+    private fun setPaymentTextsAndColors() {
+        val c = Calendar.getInstance()
+
+        itemView.findViewById<TextView>(R.id.tv_txt_paid).text = getExpensePayText(c)
+        setColorsInPayInfo(c)
+    }
+
+    private fun getExpensePayText(c: Calendar): String {
+
+        return if(mExpense.paid == Constants.IS_PAID.YES) {
+            mContext.getString(R.string.paid)
+        }else if(mExpense.paid == Constants.IS_PAID.NO && mExpense.day < c.get(Calendar.DAY_OF_MONTH)) {
+            mContext.getString(R.string.overdue)
+        }else {
+            mContext.getString(R.string.unpaid)
+        }
+    }
+
+    private fun setColorsInPayInfo(c: Calendar) {
+
+        if(mExpense.paid == Constants.IS_PAID.YES) {
+            itemView.findViewById<TextView>(R.id.tv_txt_paid).setBackgroundColor(mPrefs.paidColor)
+            itemView.findViewById<TextView>(R.id.txt_btn_pay).text = mContext.getString(R.string.cancel_payment)
+
+        }else if(mExpense.paid == Constants.IS_PAID.NO && mExpense.day < c.get(Calendar.DAY_OF_MONTH)) {
+            itemView.findViewById<TextView>(R.id.tv_txt_paid).setBackgroundColor(mPrefs.overdueColor)
+            itemView.findViewById<TextView>(R.id.txt_btn_pay).text = mContext.getString(R.string.pay)
+
+        }else {
+            itemView.findViewById<TextView>(R.id.tv_txt_paid).setBackgroundColor(mPrefs.unPaidColor)
+            itemView.findViewById<TextView>(R.id.txt_btn_pay).text = mContext.getString(R.string.pay)
+        }
+
+    }
+
+    private fun payOrCancelPayment(expense: Expense) {
+        Log.d("teste", "pay click")
+        mItemListener.onPay(expense)
     }
 
 }

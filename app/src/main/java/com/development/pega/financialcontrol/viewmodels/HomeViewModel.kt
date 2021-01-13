@@ -2,6 +2,8 @@ package com.development.pega.financialcontrol.viewmodels
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.*
 import com.development.pega.financialcontrol.R
 import com.development.pega.financialcontrol.control.AppControl
@@ -223,6 +225,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         val payInfoBarDataSet = BarDataSet(barEntry, "")
         payInfoBarDataSet.colors = arrayListOf(mPrefs.paidColor, mPrefs.unPaidColor, mPrefs.overdueColor)
         payInfoBarDataSet.setDrawValues(true)
+        payInfoBarDataSet.valueTextSize = 12f
+        payInfoBarDataSet.valueTextColor = Color.DKGRAY
         payInfoBarDataSet.valueFormatter = PayInfoFormatter(mContext)
 
         dataSets.add(payInfoBarDataSet)
@@ -284,6 +288,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         return sum
+    }
+
+    fun payOrCancelExpensePayment(expense: Expense) {
+        Log.d("teste", "viewModel pay expense paid: ${expense.paid}")
+        if(expense.paid == Constants.IS_PAID.YES) {
+            expense.paid = Constants.IS_PAID.NO
+        } else {
+            expense.paid = Constants.IS_PAID.YES
+        }
+
+        mExpenseRepository.update(expense)
     }
 
     class PayInfoFormatter(context: Context) : ValueFormatter() {

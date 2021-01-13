@@ -2,6 +2,7 @@ package com.development.pega.financialcontrol.views
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.marginBottom
 import androidx.core.view.marginRight
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -124,6 +126,11 @@ class HomeFragment() : Fragment(), View.OnClickListener{
                 mViewModel.deleteExpense(expense)
                 mViewModel.setExpensesInRecyclerView()
             }
+
+            override fun onPay(expense: Expense) {
+                mViewModel.payOrCancelExpensePayment(expense)
+                updateHomeInfo()
+            }
         }
 
         setMaxWidthInLayout()
@@ -204,6 +211,7 @@ class HomeFragment() : Fragment(), View.OnClickListener{
             binding.payInfoHorizontalChart.description = description
             binding.payInfoHorizontalChart.legend.isEnabled = false
             binding.payInfoHorizontalChart.setPinchZoom(false)
+            binding.payInfoHorizontalChart.setDrawValueAboveBar(false)
 
             val xAxis = binding.payInfoHorizontalChart.xAxis
             xAxis.setDrawGridLines(false)
@@ -212,6 +220,8 @@ class HomeFragment() : Fragment(), View.OnClickListener{
             xAxis.setDrawAxisLine(false)
             xAxis.labelCount = 3
             xAxis.valueFormatter = PayInfoFormatter(requireContext())
+            xAxis.textSize = 12f
+            xAxis.textColor = Color.GRAY
 
             val yLeft = binding.payInfoHorizontalChart.axisLeft
             yLeft.isEnabled = false

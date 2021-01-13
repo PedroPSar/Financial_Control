@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp"
+    android:layout_marginBottom="@dimen/margin_bottom_card_view_row"
+    android:background="@drawable/rv_card_view_shape"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/img_btn_item_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_more_vert_24"
+        android:paddingVertical="10dp"
+        android:paddingLeft="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_txt_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Compras"
+        android:textSize="@dimen/lbl_main_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_txt_installments"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_txt_installments"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="1/7"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/tv_txt_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_txt_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="23/06/2019"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_txt_value"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_name"
+        app:layout_constraintHorizontal_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_txt_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="R$20,00"
+        app:layout_constraintStart_toEndOf="@id/tv_txt_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_name"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_txt_paid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/paid"
+        android:textColor="@android:color/white"
+        android:background="@color/colorExpenses"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ll_btn_pay"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_date"
+        app:layout_constraintHorizontal_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/ll_btn_pay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/tv_txt_paid"
+        app:layout_constraintTop_toBottomOf="@id/tv_txt_date">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_savings_page_icon_24" />
+
+        <TextView
+            android:id="@+id/txt_btn_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pay"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="2dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

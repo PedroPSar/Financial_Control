@@ -113,6 +113,7 @@ class DepositOrWithdrawViewModel(application: Application): AndroidViewModel(app
         expense.description = savingsMoney.description
         expense.recurrence = Constants.RECURRENCE.NONE
         expense.relationalID = savingsMoney.relationalID
+        expense.paid = Constants.IS_PAID.YES
 
        return expense
     }

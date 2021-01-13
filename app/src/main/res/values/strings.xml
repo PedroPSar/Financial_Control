@@ -17,6 +17,8 @@
     <string name="paid">Paid</string>
     <string name="unpaid">Unpaid</string>
     <string name="overdue">Overdue</string>
+    <string name="pay">Pay</string>
+    <string name="cancel_payment">Cancel</string>
 
     <!-- Toast Messages -->
     <string name="empty_required_field_toast_text">There is an empty required field</string>

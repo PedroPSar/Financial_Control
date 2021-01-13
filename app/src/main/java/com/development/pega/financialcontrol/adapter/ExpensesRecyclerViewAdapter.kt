@@ -15,7 +15,7 @@ class ExpensesRecyclerViewAdapter(): RecyclerView.Adapter<ExpensesViewHolder>() 
     private lateinit var mItemListener: ExpenseItemListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpensesViewHolder {
-        val item = LayoutInflater.from(parent.context).inflate(R.layout.income_recycler_view_row, parent, false)
+        val item = LayoutInflater.from(parent.context).inflate(R.layout.expense_recycler_view_row, parent, false)
         return ExpensesViewHolder(item, mItemListener)
     }
 

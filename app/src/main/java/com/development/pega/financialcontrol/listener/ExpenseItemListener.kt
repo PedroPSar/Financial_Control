@@ -5,4 +5,5 @@ import com.development.pega.financialcontrol.model.Expense
 interface ExpenseItemListener {
     fun onEdit(id: Int)
     fun onDelete(expense: Expense)
+    fun onPay(expense: Expense)
 }

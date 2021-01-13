@@ -252,13 +252,25 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/cl_incomes_info">
 
+                    <TextView
+                        android:id="@+id/lbl_pay_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_expense"
+                        android:textColor="@color/colorExpenses"
+                        android:textSize="@dimen/lbl_main_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
                     <com.github.mikephil.charting.charts.HorizontalBarChart
                         android:id="@+id/pay_info_horizontal_chart"
                         android:layout_width="0dp"
-                        android:layout_height="120dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="100dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/lbl_pay_info" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
