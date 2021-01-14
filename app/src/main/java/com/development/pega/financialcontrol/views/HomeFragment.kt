@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -209,9 +210,9 @@ class HomeFragment() : Fragment(), View.OnClickListener{
             val description = Description()
             description.text = ""
             binding.payInfoHorizontalChart.description = description
-            binding.payInfoHorizontalChart.legend.isEnabled = false
+            binding.payInfoHorizontalChart.legend.isEnabled = true
             binding.payInfoHorizontalChart.setPinchZoom(false)
-            binding.payInfoHorizontalChart.setDrawValueAboveBar(false)
+            binding.payInfoHorizontalChart.setDrawValueAboveBar(true)
 
             val xAxis = binding.payInfoHorizontalChart.xAxis
             xAxis.setDrawGridLines(false)
@@ -222,6 +223,7 @@ class HomeFragment() : Fragment(), View.OnClickListener{
             xAxis.valueFormatter = PayInfoFormatter(requireContext())
             xAxis.textSize = 12f
             xAxis.textColor = Color.GRAY
+
 
             val yLeft = binding.payInfoHorizontalChart.axisLeft
             yLeft.isEnabled = false
@@ -305,7 +307,8 @@ class HomeFragment() : Fragment(), View.OnClickListener{
     }
 
     class PayInfoFormatter(context: Context) : ValueFormatter() {
-        private val xAxisLabels = arrayListOf(context.getString(R.string.paid), context.getString(R.string.unpaid), context.getString(R.string.overdue))
+        //private val xAxisLabels = arrayListOf(context.getString(R.string.paid), context.getString(R.string.unpaid), context.getString(R.string.overdue))
+        private val xAxisLabels = arrayListOf("", "", "")
 
         override fun getFormattedValue(value: Float): String {
             return AppControl.Text.convertFloatToCurrencyText(value)

@@ -2,6 +2,7 @@ package com.development.pega.financialcontrol.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -140,13 +141,23 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
         if(recurrenceOptions == Constants.RECURRENCE.INSTALLMENT) {
 
-            if(binding.editManyTimes.text.toString() != "") {
+            val edManyTimesTxt = binding.editManyTimes.text.toString()
+            var edNumPaidInstallments = binding.editNumPaidInstallments.text.toString()
 
-                var numPaidInstallments = binding.editNumPaidInstallments.text.toString().toInt()
-                val numInstallmentMonths = binding.editManyTimes.text.toString().toInt()
+            if(edManyTimesTxt.isNotEmpty()) {
 
-                if (numPaidInstallments > numInstallmentMonths) {
+                if(edNumPaidInstallments == "") edNumPaidInstallments = "0"
+
+                var numPaidInstallments = edNumPaidInstallments.toInt()
+                val numInstallmentMonths = edManyTimesTxt.toInt()
+
+                if (numPaidInstallments >= numInstallmentMonths) {
                     numPaidInstallments = numInstallmentMonths
+                    binding.checkboxIsPaid.isChecked = true
+                    expense.paid = Constants.IS_PAID.YES
+                } else {
+                    binding.checkboxIsPaid.isChecked = false
+                    expense.paid = Constants.IS_PAID.NO
                 }
 
                 expense.numInstallmentMonths = numInstallmentMonths
@@ -236,6 +247,11 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
             binding.editExpenseValue.setText(AppControl.Text.convertValueForCurrencyEditText(it.value))
             binding.txtExpenseDate.text = AppControl.Text.setDateText(it.day, it.month, it.year)
             binding.spinnerExpenseRecurrence.setSelection(it.recurrence)
+            binding.checkboxIsPaid.isChecked = it.paid == Constants.IS_PAID.YES // 1 is paid, 0 unpaid
+
+            binding.editNumPaidInstallments.text = Editable.Factory.getInstance().newEditable(it.numPaidInstallments.toString())
+
+            if(it.paid == Constants.IS_PAID.YES) binding.editNumPaidInstallments.text = Editable.Factory.getInstance().newEditable(it.numInstallmentMonths.toString())
 
             getExpenseValueForCheckIfMoneyEnough()
 
@@ -276,12 +292,14 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         val lblValue = "${binding.lblValue.text} *"
         val lblDate = "${binding.lblDate.text} *"
         val lblRecurrence = "${binding.lblRecurrence.text} *"
+        val lblNumber = "${binding.lblNumber.text} *"
 
         binding.lblExpenseName.text = lblName
         binding.lblType.text = lblType
         binding.lblValue.text = lblValue
         binding.lblDate.text = lblDate
         binding.lblRecurrence.text = lblRecurrence
+        binding.lblNumber.text = lblNumber
     }
 
 }

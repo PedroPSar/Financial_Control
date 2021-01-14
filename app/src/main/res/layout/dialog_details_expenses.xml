@@ -142,8 +142,8 @@
 
     <TextView
         android:id="@+id/tv_lbl_every"
-        android:layout_width="48dp"
-        android:layout_height="27dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/lbl_every"
         android:textColor="@color/colorPrimary"
@@ -161,6 +161,36 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/tv_lbl_every"
         app:layout_constraintTop_toBottomOf="@id/tv_lbl_number"/>
+
+    <TextView
+        android:id="@+id/tv_lbl_paid_instalments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/lbl_num_paid_installments"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/details_lbl_size"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_txt_every" />
+
+    <TextView
+        android:id="@+id/tv_txt_paid_instalments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_every"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lbl_paid_instalments"/>
+
+    <TextView
+        android:id="@+id/tv_txt_paid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/details_lbl_size"
+        android:textStyle="bold|italic"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

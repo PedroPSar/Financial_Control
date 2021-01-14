@@ -137,6 +137,8 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
         val tvTxtNumber = view.findViewById<TextView>(R.id.tv_txt_number)
         val tvLblEvery = view.findViewById<TextView>(R.id.tv_lbl_every)
         val tvTxtEvery = view.findViewById<TextView>(R.id.tv_txt_every)
+        val tvLblPaidInstallments = view.findViewById<TextView>(R.id.tv_lbl_paid_instalments)
+        val tvTxtPaidInstallments = view.findViewById<TextView>(R.id.tv_txt_paid_instalments)
 
         view.findViewById<TextView>(R.id.tv_txt_name).text = mExpense.name
         view.findViewById<TextView>(R.id.tv_txt_type).text = getExpenseType(mExpense.type)
@@ -149,6 +151,14 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
         if(mExpenseRecurrence == mRecurrences[1]) {
 
             tvTxtNumber.text = mExpense.numInstallmentMonths.toString()
+
+            val txtPaidInstallments = if(mExpense.paid == Constants.IS_PAID.NO) {
+                "${mExpense.numPaidInstallments}/${mExpense.numInstallmentMonths}"
+            } else {
+                "${mExpense.numInstallmentMonths}/${mExpense.numInstallmentMonths}"
+            }
+
+            tvTxtPaidInstallments.text = txtPaidInstallments
 
             val txtMonth = if(mExpense.payFrequency > 1) {
                 mContext.getString(R.string.months)
@@ -163,6 +173,24 @@ class ExpensesViewHolder(itemView: View, private val mItemListener: ExpenseItemL
             tvTxtNumber.visibility = View.VISIBLE
             tvLblEvery.visibility = View.VISIBLE
             tvTxtEvery.visibility = View.VISIBLE
+            tvLblPaidInstallments.visibility = View.VISIBLE
+            tvTxtPaidInstallments.visibility = View.VISIBLE
+
+        }
+
+        val c = Calendar.getInstance()
+
+        if(mExpense.paid == Constants.IS_PAID.YES) {
+            view.findViewById<TextView>(R.id.tv_txt_paid).setTextColor(mPrefs.paidColor)
+            view.findViewById<TextView>(R.id.tv_txt_paid).text = mContext.getString(R.string.paid)
+
+        }else if(mExpense.paid == Constants.IS_PAID.NO && mExpense.day < c.get(Calendar.DAY_OF_MONTH)) {
+            view.findViewById<TextView>(R.id.tv_txt_paid).setTextColor(mPrefs.overdueColor)
+            view.findViewById<TextView>(R.id.tv_txt_paid).text = mContext.getString(R.string.overdue)
+
+        }else {
+            view.findViewById<TextView>(R.id.tv_txt_paid).setTextColor(mPrefs.unPaidColor)
+            view.findViewById<TextView>(R.id.tv_txt_paid).text = mContext.getString(R.string.unpaid)
         }
 
         builder.setView(view)

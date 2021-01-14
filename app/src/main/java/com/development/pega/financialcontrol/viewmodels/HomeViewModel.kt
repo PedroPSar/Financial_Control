@@ -210,28 +210,42 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setDataInPayHorizontalChart() {
 
-        var barEntry = arrayListOf<BarEntry>()
+        var barEntryPaid = arrayListOf<BarEntry>()
+        var barEntryUnPaid = arrayListOf<BarEntry>()
+        var barEntryOverdue = arrayListOf<BarEntry>()
 
         val paidExpensesSum = getPaidExpensesSum()
         val overdueExpensesSum = getOverdueExpensesSum()
         val unPaidExpensesSum = getUnPaidExpensesSum() - overdueExpensesSum
 
-        barEntry.add(BarEntry(0f, paidExpensesSum))
-        barEntry.add(BarEntry(1f, unPaidExpensesSum))
-        barEntry.add(BarEntry(2f, overdueExpensesSum))
+        barEntryPaid.add(BarEntry(0f, paidExpensesSum))
+        barEntryUnPaid.add(BarEntry(1f, unPaidExpensesSum))
+        barEntryOverdue.add(BarEntry(2f, overdueExpensesSum))
 
         var dataSets = arrayListOf<IBarDataSet>()
 
-        val payInfoBarDataSet = BarDataSet(barEntry, "")
-        payInfoBarDataSet.colors = arrayListOf(mPrefs.paidColor, mPrefs.unPaidColor, mPrefs.overdueColor)
-        payInfoBarDataSet.setDrawValues(true)
-        payInfoBarDataSet.valueTextSize = 12f
-        payInfoBarDataSet.valueTextColor = Color.DKGRAY
-        payInfoBarDataSet.valueFormatter = PayInfoFormatter(mContext)
+        val dataSetPaid = BarDataSet(barEntryPaid, mContext.getString(R.string.paid))
+        dataSetPaid.color = mPrefs.paidColor
+        dataSetPaid.setDrawValues(true)
+        dataSetPaid.valueTextSize = 12f
+        dataSetPaid.valueTextColor = Color.DKGRAY
+        dataSetPaid.valueFormatter = NumberFormatter(mContext)
 
-        dataSets.add(payInfoBarDataSet)
+        val dataSetUnpaid = BarDataSet(barEntryUnPaid, mContext.getString(R.string.unpaid))
+        dataSetUnpaid.color = mPrefs.unPaidColor
+        dataSetUnpaid.setDrawValues(true)
+        dataSetUnpaid.valueTextSize = 12f
+        dataSetUnpaid.valueTextColor = Color.DKGRAY
+        dataSetUnpaid.valueFormatter = NumberFormatter(mContext)
 
-        mPayHorizontalChart.value = BarData(dataSets)
+        val dataSetOverdue = BarDataSet(barEntryOverdue, mContext.getString(R.string.overdue))
+        dataSetOverdue.color = mPrefs.overdueColor
+        dataSetOverdue.setDrawValues(true)
+        dataSetOverdue.valueTextSize = 12f
+        dataSetOverdue.valueTextColor = Color.DKGRAY
+        dataSetOverdue.valueFormatter = NumberFormatter(mContext)
+
+        mPayHorizontalChart.value = BarData(dataSetPaid, dataSetUnpaid, dataSetOverdue)
     }
 
     private fun getPaidExpensesSum(): Float {
@@ -301,11 +315,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         mExpenseRepository.update(expense)
     }
 
-    class PayInfoFormatter(context: Context) : ValueFormatter() {
+    class NumberFormatter(context: Context) : ValueFormatter() {
         private val xAxisLabels = arrayListOf(context.getString(R.string.paid), context.getString(R.string.unpaid), context.getString(R.string.overdue))
+        private val regex = "[^0-9,.]".toRegex()
 
         override fun getFormattedValue(value: Float): String {
-            return AppControl.Text.convertFloatToCurrencyText(value)
+            return AppControl.Text.convertFloatToCurrencyText(value).replace(regex, "")
         }
 
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {

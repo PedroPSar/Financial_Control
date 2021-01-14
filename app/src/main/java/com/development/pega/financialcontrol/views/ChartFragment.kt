@@ -81,6 +81,7 @@ class ChartFragment : Fragment(), View.OnClickListener {
         viewModel.yearMonthsChart.observe(viewLifecycleOwner, Observer {
             binding.lineChartYearMonths.data = it
             setStyleInYearMonthsLineChart()
+            binding.lineChartYearMonths.animateY(1000)
             binding.lineChartYearMonths.notifyDataSetChanged()
             binding.lineChartYearMonths.invalidate()
         })
