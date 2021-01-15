@@ -103,6 +103,11 @@
     <string name="about_licenses">Licenças</string>
     <string name="understand">Entendi</string>
 
+    <string name="lbl_start_date">Data de início</string>
+    <string name="lbl_end_date">Data final</string>
+    <string name="month_hint">Mês</string>
+    <string name="year_hint">Ano</string>
+
     <string-array name="spinner_recurrence_options">
         <item>Nenhuma</item>
         <item>Parcelado</item>

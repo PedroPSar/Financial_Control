@@ -50,4 +50,19 @@ class Expense {
     @ColumnInfo(name = "numPaidInstallments")
     var numPaidInstallments = 0
 
+    @ColumnInfo(name = "startMonth")
+    var startMonth = ""
+
+    @ColumnInfo(name = "startYear")
+    var startYear = ""
+
+    @ColumnInfo(name = "endMonth")
+    var endMonth = ""
+
+    @ColumnInfo(name = "endYear")
+    var endYear = ""
+
+    @ColumnInfo(name = "paidMonths")
+    var paidMonths = ""
+
 }

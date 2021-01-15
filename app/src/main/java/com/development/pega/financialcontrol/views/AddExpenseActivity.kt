@@ -3,10 +3,12 @@ package com.development.pega.financialcontrol.views
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -58,6 +60,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         setSpinners()
         setListeners()
         loadData()
+        setTextWatcherInEditTexts()
     }
 
     override fun onClick(v: View) {
@@ -91,7 +94,14 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
                 binding.lblIsPaid.visibility = View.GONE
                 binding.checkboxIsPaid.visibility = View.GONE
-            }else {
+                binding.clDatesFixedMonthExpense.visibility = View.GONE
+
+            } else if(recurrenceOptions == Constants.RECURRENCE.FIXED_MONTHLY) {
+                binding.lblIsPaid.visibility = View.GONE
+                binding.checkboxIsPaid.visibility = View.GONE
+                binding.clDatesFixedMonthExpense.visibility = View.VISIBLE
+
+            } else {
                 val transition: Transition = Fade()
                 transition.duration = 3000
                 transition.addTarget(R.id.cl_pay_installment_expense)
@@ -101,6 +111,7 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
 
                 binding.lblIsPaid.visibility = View.VISIBLE
                 binding.checkboxIsPaid.visibility = View.VISIBLE
+                binding.clDatesFixedMonthExpense.visibility = View.GONE
             }
         }else if(parent.id == R.id.spinner_expense_every_months) {
             everyMonth = position + 1
@@ -300,6 +311,53 @@ class AddExpenseActivity : AppCompatActivity(), View.OnClickListener, AdapterVie
         binding.lblDate.text = lblDate
         binding.lblRecurrence.text = lblRecurrence
         binding.lblNumber.text = lblNumber
+    }
+
+    private fun setTextWatcherInEditTexts() {
+        setTextWatcherInEditStartMonth()
+        setTextWatcherInEditEndMonth()
+    }
+
+    private fun setTextWatcherInEditStartMonth() {
+        binding.editStartMonth.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    setMonthLimit(binding.editStartMonth, s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+    }
+
+    private fun setTextWatcherInEditEndMonth() {
+        binding.editEndMonth.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                setMonthLimit(binding.editEndMonth, s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+    }
+
+    private fun setMonthLimit(editText: EditText, s: String) {
+        if(s.isNotEmpty()) {
+            if(s.toInt() > 12) {
+                editText.setText("12")
+            }
+        }
     }
 
 }

@@ -40,4 +40,13 @@ class Income() {
 
     @ColumnInfo(name = "relationalID")
     var relationalID = 0
+
+    @ColumnInfo(name = "startDate")
+    var startDate = ""
+
+    @ColumnInfo(name = "endDate")
+    var endDate = ""
+
+    @ColumnInfo(name = "paidMonths")
+    var paidMonths = ""
 }
